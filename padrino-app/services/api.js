@@ -1,9 +1,8 @@
-// Este archivo se comunica con el BACKEND (trae y envÃ­a datos)
+// Este archivo se comunica con el BACKEND (trae y envia datos)
 
-//  USAR VARIABLE DE ENTORNO en lugar de localhost hardcoded
 const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:5050/api';
 
-// FunciÃ³n helper para hacer peticiones
+// Funcion helper para hacer peticiones
 async function fetchAPI(endpoint, options = {}) {
   try {
     const response = await fetch(`${API_URL}${endpoint}`, {
@@ -20,7 +19,7 @@ async function fetchAPI(endpoint, options = {}) {
 
     return await response.json();
   } catch (error) {
-    console.error('Error en la peticiÃ³n:', error);
+    console.error('Error en la peticion:', error);
     throw error;
   }
 }
@@ -32,7 +31,7 @@ function getAllDogs() {
   return fetchAPI('/dogs');
 }
 
-// Traer un perro especÃ­fico
+// Traer un perro especifico
 function getDogById(id) {
   return fetchAPI(`/dogs/${id}`);
 }
@@ -69,12 +68,12 @@ function getAllAccessories() {
   return fetchAPI('/accessories');
 }
 
-// Traer un accesorio especÃ­fico
+// Traer un accesorio especifico
 function getAccessoryById(id) {
   return fetchAPI(`/accessories/${id}`);
 }
 
-// Crear una compra de accesorio (NUEVO)
+// Crear una compra de accesorio
 function createAccessoryPurchase(accessoryData) {
   return fetchAPI('/accessories', {
     method: 'POST',
@@ -84,7 +83,7 @@ function createAccessoryPurchase(accessoryData) {
 
 // DONACIONES (Donations)
 
-// Crear una donaciÃ³n
+// Crear una donacion
 function createDonation(donationData) {
   return fetchAPI('/donations', {
     method: 'POST',
@@ -104,23 +103,42 @@ function getNeedsByDog(dogId) {
   return fetchAPI(`/needs/dog/${dogId}`);
 }
 
-// Traer una necesidad especÃ­fica
+// Traer una necesidad especifica
 function getNeedById(id) {
   return fetchAPI(`/needs/${id}`);
 }
 
-// Traer estadÃ­sticas de un perro
+// Traer estadisticas de un perro
 function getDogStatistics(dogId) {
   return fetchAPI(`/statistics/${dogId}`);
 }
 
-// IA - STABILITY AI (NUEVO)
+// IA - STABILITY AI (CORREGIDO)
 
 // Generar imagen de perro con accesorio usando IA
 function generateAIImage(dogData, accessoryData) {
+  // Formato correcto con objetos anidados
+  const requestData = {
+    dogData: {
+      id: dogData.id,
+      name: dogData.name,
+      breed: dogData.breed || 'dog',
+      size: dogData.size || 'medium',
+      age: dogData.age || 'adult',
+      color: dogData.color || 'brown'
+    },
+    accessoryData: {
+      category: accessoryData.category,
+      name: accessoryData.name,
+      description: accessoryData.description || accessoryData.name
+    }
+  };
+  
+  console.log('Enviando a la API de IA:', requestData);
+  
   return fetchAPI('/ai/generate-dog-with-accessory', {
     method: 'POST',
-    body: JSON.stringify({ dogData, accessoryData }),
+    body: JSON.stringify(requestData),
   });
 }
 
@@ -134,11 +152,11 @@ export {
   getAppointmentsByPadrino,
   getAllAccessories,
   getAccessoryById,
-  createAccessoryPurchase,  // NUEVO
+  createAccessoryPurchase,
   createDonation,
   getDonationsByDog,
   getNeedsByDog,
   getNeedById,
   getDogStatistics,
-  generateAIImage  // NUEVO
+  generateAIImage
 };
