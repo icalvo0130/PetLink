@@ -1,6 +1,0 @@
-{
-  "buildCommand": "npm run build:admin",
-  "outputDirectory": "dist/admin-app",
-  "framework": null,
-  "installCommand": "npm install"
-}

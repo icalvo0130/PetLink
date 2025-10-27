@@ -1,6 +1,0 @@
-{
-  "buildCommand": "npm run build:padrino",
-  "outputDirectory": "dist/padrino-app",
-  "framework": null,
-  "installCommand": "npm install"
-}
