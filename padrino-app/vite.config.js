@@ -8,5 +8,9 @@ export default defineConfig({
   server: {
     port: 5173,
     open: true
+  },
+  build: {
+    outDir: path.resolve(process.cwd(), 'dist/padrino-app'),
+    emptyOutDir: true
   }
 })

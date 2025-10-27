@@ -1,10 +1,9 @@
-// Este archivo se comunica con el BACKEND (trae y envía datos)
+// Este archivo se comunica con el BACKEND (trae y envÃ­a datos)
 
 //  USAR VARIABLE DE ENTORNO en lugar de localhost hardcoded
 const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:5050/api';
-console.log('🔍 API_URL:', API_URL); // ← AGREGA ESTA LÍNEA
 
-// Función helper para hacer peticiones
+// FunciÃ³n helper para hacer peticiones
 async function fetchAPI(endpoint, options = {}) {
   try {
     const response = await fetch(`${API_URL}${endpoint}`, {
@@ -21,7 +20,7 @@ async function fetchAPI(endpoint, options = {}) {
 
     return await response.json();
   } catch (error) {
-    console.error('Error en la petición:', error);
+    console.error('Error en la peticiÃ³n:', error);
     throw error;
   }
 }
@@ -33,7 +32,7 @@ function getAllDogs() {
   return fetchAPI('/dogs');
 }
 
-// Traer un perro específico
+// Traer un perro especÃ­fico
 function getDogById(id) {
   return fetchAPI(`/dogs/${id}`);
 }
@@ -70,7 +69,7 @@ function getAllAccessories() {
   return fetchAPI('/accessories');
 }
 
-// Traer un accesorio específico
+// Traer un accesorio especÃ­fico
 function getAccessoryById(id) {
   return fetchAPI(`/accessories/${id}`);
 }
@@ -85,7 +84,7 @@ function createAccessoryPurchase(accessoryData) {
 
 // DONACIONES (Donations)
 
-// Crear una donación
+// Crear una donaciÃ³n
 function createDonation(donationData) {
   return fetchAPI('/donations', {
     method: 'POST',
@@ -105,12 +104,12 @@ function getNeedsByDog(dogId) {
   return fetchAPI(`/needs/dog/${dogId}`);
 }
 
-// Traer una necesidad específica
+// Traer una necesidad especÃ­fica
 function getNeedById(id) {
   return fetchAPI(`/needs/${id}`);
 }
 
-// Traer estadísticas de un perro
+// Traer estadÃ­sticas de un perro
 function getDogStatistics(dogId) {
   return fetchAPI(`/statistics/${dogId}`);
 }
