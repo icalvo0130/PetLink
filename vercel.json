@@ -1,0 +1,26 @@
+{
+  "version": 2,
+  "builds": [
+    {
+      "src": "package.json",
+      "use": "@vercel/static-build",
+      "config": {
+        "distDir": "dist"
+      }
+    }
+  ],
+  "routes": [
+    {
+      "src": "/admin-app/(.*)",
+      "dest": "/admin-app/$1"
+    },
+    {
+      "src": "/padrino-app/(.*)",
+      "dest": "/padrino-app/$1"
+    },
+    {
+      "handle": "filesystem"
+    }
+  ]
+}
+

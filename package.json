@@ -14,7 +14,8 @@
     "preview:padrino": "vite preview --config padrino-app/vite.config.js",
     "dev:admin": "vite --config admin-app/vite.config.js",
     "build:admin": "vite build --config admin-app/vite.config.js",
-    "preview:admin": "vite preview --config admin-app/vite.config.js"
+    "preview:admin": "vite preview --config admin-app/vite.config.js",
+    "build": "npm run build:admin && npm run build:padrino"
   },
   "keywords": [],
   "author": "",

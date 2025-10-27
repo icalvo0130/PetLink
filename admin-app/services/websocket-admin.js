@@ -1,6 +1,8 @@
 // Servicio de WebSocket para comunicación en tiempo real con el backend
 // Usa Socket.IO para eventos en tiempo real
 
+const WS_URL = import.meta.env.VITE_WS_URL || 'http://localhost:5050';
+
 let socket = null;
 let isConnected = false;
 let eventListeners = {};
@@ -19,7 +21,7 @@ export function initWebSocket() {
 
   try {
     // Usar io global desde el CDN cargado en index.html
-    socket = window.io('http://localhost:5050', {
+    socket = window.io(WS_URL, {
       transports: ['websocket', 'polling'],
       reconnection: true,
       reconnectionDelay: 1000,

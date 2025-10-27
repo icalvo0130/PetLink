@@ -46,7 +46,7 @@ app.use(cors({
       'http://localhost:5174',
     ];
     
-    // Permitir cualquier dominio de Vercel
+    // Permitir cualquier dominio de Vercel y solicitudes sin origen (herramientas de desarrollo)
     if (!origin || allowedOrigins.includes(origin) || origin.includes('.vercel.app')) {
       callback(null, true);
     } else {
