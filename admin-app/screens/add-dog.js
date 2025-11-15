@@ -4,6 +4,71 @@ import router from '../utils/router.js';
 import { createDog } from '../services/admin-api.js';
 import { checkAuth } from './admin-login.js';
 
+// IMPORTANTE: Reemplaza con tus credenciales de Supabase
+const SUPABASE_URL = 'https://wnqbazvzarypvgirqnef.supabase.co';
+const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InducWJhenZ6YXJ5cHZnaXJxbmVmIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTg4NzYyOTMsImV4cCI6MjA3NDQ1MjI5M30.QhZj1SAPP5nB5DZ8aBKLPHrT7DiWXzTzjGgWQsWb-w4';
+
+let supabaseClient = null;
+
+// Inicializar Supabase Client
+async function initSupabase() {
+  if (!supabaseClient) {
+    const { createClient } = await import('https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/+esm');
+    supabaseClient = createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+  }
+  return supabaseClient;
+}
+
+// Función para subir imagen de perro a Storage
+async function uploadDogImage(file) {
+  try {
+    console.log('📤 Subiendo imagen de perro...', file.name);
+    
+    const supabase = await initSupabase();
+    
+    // Generar nombre único
+    const timestamp = Date.now();
+    const randomId = Math.random().toString(36).substring(7);
+    const extension = file.name.split('.').pop();
+    const fileName = `dog-${timestamp}-${randomId}.${extension}`;
+    
+    // Subir a Storage
+    const { data, error } = await supabase.storage
+      .from('dog-images')
+      .upload(fileName, file, {
+        cacheControl: '3600',
+        upsert: false
+      });
+    
+    if (error) {
+      console.error('❌ Error al subir:', error);
+      throw error;
+    }
+    
+    console.log('✅ Imagen subida:', data.path);
+    
+    // Obtener URL pública
+    const { data: urlData } = supabase.storage
+      .from('dog-images')
+      .getPublicUrl(data.path);
+    
+    console.log('🔗 URL pública:', urlData.publicUrl);
+    
+    return {
+      success: true,
+      publicUrl: urlData.publicUrl,
+      path: data.path
+    };
+    
+  } catch (error) {
+    console.error('❌ Error en uploadDogImage:', error);
+    return {
+      success: false,
+      error: error.message
+    };
+  }
+}
+
 export default async function renderAddDog() {
   const auth = await checkAuth();
   if (!auth.isAuthenticated) {
@@ -101,6 +166,7 @@ export default async function renderAddDog() {
                 accept="image/*"
                 placeholder="Selecciona una imagen"
               />
+              <small id="imageStatus" style="display: block; margin-top: 5px; color: #666;"></small>
             </div>
           </div>
           
@@ -222,6 +288,7 @@ async function handleSubmit(event) {
   event.preventDefault();
   
   const submitBtn = document.getElementById('submitBtn');
+  const imageStatus = document.getElementById('imageStatus');
   
   // Datos del formulario
   const name = document.getElementById('name').value.trim();
@@ -254,13 +321,36 @@ async function handleSubmit(event) {
   const wellness = parseInt(document.getElementById('wellness').value) || 0;
   const love = parseInt(document.getElementById('love').value) || 0;
   
-  console.log('Estadísticas:', { health, food, wellness, love });
-  
   submitBtn.disabled = true;
-  submitBtn.textContent = 'Agregando perro...';
+  submitBtn.textContent = 'Procesando...';
   hideMessages();
   
   try {
+    let imageUrl = null;
+    
+    // Si hay imagen, subirla PRIMERO a Storage
+    if (imageFile) {
+      imageStatus.textContent = '📤 Subiendo imagen...';
+      imageStatus.style.color = '#0066cc';
+      
+      const uploadResult = await uploadDogImage(imageFile);
+      
+      if (uploadResult.success) {
+        imageUrl = uploadResult.publicUrl;
+        imageStatus.textContent = '✅ Imagen subida exitosamente';
+        imageStatus.style.color = '#00aa00';
+        console.log('Imagen subida:', imageUrl);
+      } else {
+        imageStatus.textContent = '❌ Error al subir imagen';
+        imageStatus.style.color = '#cc0000';
+        showError('Error al subir la imagen: ' + uploadResult.error);
+        submitBtn.disabled = false;
+        submitBtn.textContent = 'Confirmar y Seguir';
+        return;
+      }
+    }
+    
+    // Preparar datos del perro (SIN base64, solo la URL)
     const dogData = {
       name: name,
       age: age,
@@ -274,10 +364,9 @@ async function handleSubmit(event) {
       affection_level: love
     };
     
-    if (imageFile) {
-      const base64Image = await convertFileToBase64(imageFile);
-      dogData.image = base64Image;
-      dogData.image_name = imageFile.name;
+    // Agregar la URL de la imagen si existe
+    if (imageUrl) {
+      dogData.image = imageUrl;
     }
     
     const token = localStorage.getItem('adminToken');
@@ -287,11 +376,14 @@ async function handleSubmit(event) {
       return;
     }
     
-    // Usar el servicio API centralizado
+    submitBtn.textContent = 'Guardando perro...';
+    
+    // Crear el perro en la base de datos
     const response = await createDog(dogData);
     
     if (response && response.id) {
       showSuccess('¡Perro agregado exitosamente! Redirigiendo...');
+      imageStatus.textContent = '';
       
       setTimeout(() => {
         // Guardar contexto en sessionStorage y navegar
@@ -306,49 +398,17 @@ async function handleSubmit(event) {
   } catch (error) {
     console.error('Error al agregar perro:', error);
     showError('Error de conexión. Verifica que el servidor esté funcionando');
+    imageStatus.textContent = '';
   } finally {
     submitBtn.disabled = false;
     submitBtn.textContent = 'Confirmar y Seguir';
   }
 }
 
-// Convertir archivo a base64
-function convertFileToBase64(file) {
-  return new Promise((resolve, reject) => {
-    const reader = new FileReader();
-    reader.readAsDataURL(file);
-    reader.onload = () => resolve(reader.result);
-    reader.onerror = error => reject(error);
-  });
-}
-
-// Nota: makeRequestWithAuth ya no es necesario, usamos el servicio API centralizado
-
-/*
-async function makeRequestWithAuth(url, method, body, token) {
-  const BASE_URL = "http://localhost:5050";
-  
-  const response = await fetch(`${BASE_URL}${url}`, {
-    method: method,
-    headers: {
-      "Content-Type": "application/json",
-      "Authorization": `Bearer ${token}`
-    },
-    body: JSON.stringify(body)
-  });
-  
-  if (!response.ok) {
-    const errorData = await response.json();
-    throw new Error(errorData.error || 'Error en la petición');
-  }
-  
-  return await response.json();
-}
-*/
-
 // Limpiar formulario
 function clearForm() {
   document.getElementById('dogForm').reset();
+  document.getElementById('imageStatus').textContent = '';
   
   const sliders = document.querySelectorAll('.stat-slider');
   sliders.forEach(slider => {

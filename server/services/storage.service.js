@@ -5,30 +5,42 @@ import { v4 as uuidv4 } from 'uuid';
 
 /**
  * Subir imagen en base64 a Supabase Storage
- * @param {string} base64Image - Imagen en formato base64 (sin el prefijo data:image/...)
- * @param {string} fileName - Nombre del archivo (opcional, se genera automático si no se envía)
- * @param {string} bucket - Nombre del bucket (por defecto: 'ai-generated-images')
+ * @param {string} base64Image - Imagen en formato base64 (data:image/jpeg;base64,... o solo el base64)
+ * @param {string} fileName - Nombre del archivo (opcional)
+ * @param {string} bucket - Nombre del bucket
  * @returns {object} { success, publicUrl, path, error }
  */
-const uploadBase64Image = async (base64Image, fileName = null, bucket = 'ai-generated-images') => {
+const uploadBase64Image = async (base64Image, fileName = null, bucket = 'dog-images') => {
   try {
     console.log('📤 Subiendo imagen a Supabase Storage...');
+    
+    // Limpiar el base64 si viene con el prefijo data:image/...
+    let cleanBase64 = base64Image;
+    if (base64Image.includes(',')) {
+      cleanBase64 = base64Image.split(',')[1];
+    }
     
     // Generar nombre único si no se proporciona
     if (!fileName) {
       const timestamp = Date.now();
       const uniqueId = uuidv4().slice(0, 8);
-      fileName = `dog-accessory-${timestamp}-${uniqueId}.jpg`;
+      fileName = `image-${timestamp}-${uniqueId}.jpg`;
     }
     
+    // Asegurar que el nombre de archivo sea único agregando timestamp
+    const fileNameParts = fileName.split('.');
+    const extension = fileNameParts.pop();
+    const baseName = fileNameParts.join('.');
+    const uniqueFileName = `${baseName}-${Date.now()}.${extension}`;
+    
     // Convertir base64 a Buffer
-    const imageBuffer = Buffer.from(base64Image, 'base64');
+    const imageBuffer = Buffer.from(cleanBase64, 'base64');
     
     // Subir a Supabase Storage
     const { data, error } = await supabase
       .storage
       .from(bucket)
-      .upload(fileName, imageBuffer, {
+      .upload(uniqueFileName, imageBuffer, {
         contentType: 'image/jpeg',
         cacheControl: '3600',
         upsert: false
@@ -54,7 +66,7 @@ const uploadBase64Image = async (base64Image, fileName = null, bucket = 'ai-gene
       publicUrl: publicUrlData.publicUrl,
       path: data.path,
       bucket: bucket,
-      fileName: fileName
+      fileName: uniqueFileName
     };
     
   } catch (error) {
@@ -67,11 +79,41 @@ const uploadBase64Image = async (base64Image, fileName = null, bucket = 'ai-gene
 };
 
 /**
+ * Subir imagen de perro a Storage
+ * @param {string} base64Image - Imagen en base64
+ * @param {string} fileName - Nombre original del archivo
+ * @returns {object} { success, publicUrl, path, error }
+ */
+const uploadDogImage = async (base64Image, fileName = null) => {
+  return uploadBase64Image(base64Image, fileName, 'dog-images');
+};
+
+/**
+ * Subir imagen de necesidad a Storage
+ * @param {string} base64Image - Imagen en base64
+ * @param {string} fileName - Nombre original del archivo
+ * @returns {object} { success, publicUrl, path, error }
+ */
+const uploadNeedImage = async (base64Image, fileName = null) => {
+  return uploadBase64Image(base64Image, fileName, 'needs');
+};
+
+/**
+ * Subir imagen de accesorio (generada por IA) a Storage
+ * @param {string} base64Image - Imagen en base64
+ * @param {string} fileName - Nombre del archivo
+ * @returns {object} { success, publicUrl, path, error }
+ */
+const uploadAccessoryImage = async (base64Image, fileName = null) => {
+  return uploadBase64Image(base64Image, fileName, 'ai-generated-images');
+};
+
+/**
  * Eliminar imagen de Supabase Storage
  * @param {string} path - Ruta del archivo en Storage
  * @param {string} bucket - Nombre del bucket
  */
-const deleteImage = async (path, bucket = 'ai-generated-images') => {
+const deleteImage = async (path, bucket = 'dog-images') => {
   try {
     console.log('🗑️ Eliminando imagen:', path);
     
@@ -106,7 +148,7 @@ const deleteImage = async (path, bucket = 'ai-generated-images') => {
  * @param {string} bucket - Nombre del bucket
  * @param {string} folder - Carpeta específica (opcional)
  */
-const listImages = async (bucket = 'ai-generated-images', folder = '') => {
+const listImages = async (bucket = 'dog-images', folder = '') => {
   try {
     console.log('📋 Listando imágenes del bucket:', bucket);
     
@@ -146,7 +188,7 @@ const listImages = async (bucket = 'ai-generated-images', folder = '') => {
  * @param {string} path - Ruta del archivo
  * @param {string} bucket - Nombre del bucket
  */
-const getPublicUrl = (path, bucket = 'ai-generated-images') => {
+const getPublicUrl = (path, bucket = 'dog-images') => {
   try {
     const { data } = supabase
       .storage
@@ -169,6 +211,9 @@ const getPublicUrl = (path, bucket = 'ai-generated-images') => {
 
 export default {
   uploadBase64Image,
+  uploadDogImage,
+  uploadNeedImage,
+  uploadAccessoryImage,
   deleteImage,
   listImages,
   getPublicUrl

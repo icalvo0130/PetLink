@@ -4,6 +4,71 @@ import router from '../utils/router.js';
 import { createNeed } from '../services/admin-api.js';
 import { checkAuth } from './admin-login.js';
 
+// IMPORTANTE: Reemplaza con tus credenciales de Supabase
+const SUPABASE_URL = 'https://wnqbazvzarypvgirqnef.supabase.co';
+const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InducWJhenZ6YXJ5cHZnaXJxbmVmIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTg4NzYyOTMsImV4cCI6MjA3NDQ1MjI5M30.QhZj1SAPP5nB5DZ8aBKLPHrT7DiWXzTzjGgWQsWb-w4';
+
+let supabaseClient = null;
+
+// Inicializar Supabase Client
+async function initSupabase() {
+  if (!supabaseClient) {
+    const { createClient } = await import('https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/+esm');
+    supabaseClient = createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+  }
+  return supabaseClient;
+}
+
+// Función para subir imagen de necesidad a Storage
+async function uploadNeedImage(file) {
+  try {
+    console.log('📤 Subiendo imagen de necesidad...', file.name);
+    
+    const supabase = await initSupabase();
+    
+    // Generar nombre único
+    const timestamp = Date.now();
+    const randomId = Math.random().toString(36).substring(7);
+    const extension = file.name.split('.').pop();
+    const fileName = `need-${timestamp}-${randomId}.${extension}`;
+    
+    // Subir a Storage
+    const { data, error } = await supabase.storage
+      .from('needs')
+      .upload(fileName, file, {
+        cacheControl: '3600',
+        upsert: false
+      });
+    
+    if (error) {
+      console.error('❌ Error al subir:', error);
+      throw error;
+    }
+    
+    console.log('✅ Imagen subida:', data.path);
+    
+    // Obtener URL pública
+    const { data: urlData } = supabase.storage
+      .from('needs')
+      .getPublicUrl(data.path);
+    
+    console.log('🔗 URL pública:', urlData.publicUrl);
+    
+    return {
+      success: true,
+      publicUrl: urlData.publicUrl,
+      path: data.path
+    };
+    
+  } catch (error) {
+    console.error('❌ Error en uploadNeedImage:', error);
+    return {
+      success: false,
+      error: error.message
+    };
+  }
+}
+
 export default async function renderProductsManage(params = {}) {
   // Verificar autenticación
   const auth = await checkAuth();
@@ -12,7 +77,7 @@ export default async function renderProductsManage(params = {}) {
     return;
   }
 
-  // Detectar origen desde sessionStorage (igual que padrino-app usa context)
+  // Detectar origen desde sessionStorage
   const origin = sessionStorage.getItem('productsManageOrigin') || params.from || '';
   const dogId = sessionStorage.getItem('productsManageDogId') || params.dogId || '';
   
@@ -97,6 +162,7 @@ export default async function renderProductsManage(params = {}) {
                 accept="image/*"
                 placeholder="Selecciona una imagen"
               />
+              <small id="imageStatus" style="display: block; margin-top: 5px; color: #666;"></small>
             </div>
             
             <div class="form-actions">
@@ -149,7 +215,7 @@ async function handleSubmit(event) {
   event.preventDefault();
   
   const submitBtn = document.getElementById('submitBtn');
-  const formData = new FormData();
+  const imageStatus = document.getElementById('imageStatus');
   
   // Datos para el formulario
   const name = document.getElementById('name').value.trim();
@@ -170,10 +236,35 @@ async function handleSubmit(event) {
   }
   
   submitBtn.disabled = true;
-  submitBtn.textContent = 'Agregando...';
+  submitBtn.textContent = 'Procesando...';
   hideMessages();
   
   try {
+    let imageUrl = null;
+    
+    // Si hay imagen, subirla PRIMERO a Storage
+    if (imageFile) {
+      imageStatus.textContent = '📤 Subiendo imagen...';
+      imageStatus.style.color = '#0066cc';
+      
+      const uploadResult = await uploadNeedImage(imageFile);
+      
+      if (uploadResult.success) {
+        imageUrl = uploadResult.publicUrl;
+        imageStatus.textContent = '✅ Imagen subida exitosamente';
+        imageStatus.style.color = '#00aa00';
+        console.log('Imagen subida:', imageUrl);
+      } else {
+        imageStatus.textContent = '❌ Error al subir imagen';
+        imageStatus.style.color = '#cc0000';
+        showError('Error al subir la imagen: ' + uploadResult.error);
+        submitBtn.disabled = false;
+        submitBtn.textContent = 'Agregar y Finalizar';
+        return;
+      }
+    }
+    
+    // Preparar datos de la necesidad (SIN base64, solo la URL)
     const needData = {
       name: name,
       description: description,
@@ -182,10 +273,9 @@ async function handleSubmit(event) {
       estado: state
     };
     
-    if (imageFile) {
-      const base64Image = await convertFileToBase64(imageFile);
-      needData.image = base64Image;
-      needData.image_name = imageFile.name;
+    // Agregar la URL de la imagen si existe
+    if (imageUrl) {
+      needData.image = imageUrl;
     }
     
     const token = localStorage.getItem('adminToken');
@@ -195,11 +285,14 @@ async function handleSubmit(event) {
       return;
     }
     
-    // Usar el servicio API centralizado
+    submitBtn.textContent = 'Guardando necesidad...';
+    
+    // Crear la necesidad en la base de datos
     const response = await createNeed(needData);
     
     if (response && response.id) {
       showSuccess('¡Necesidad agregada exitosamente!');
+      imageStatus.textContent = '';
       
       // Limpiar contexto después de agregar
       sessionStorage.removeItem('productsManageOrigin');
@@ -213,26 +306,16 @@ async function handleSubmit(event) {
   } catch (error) {
     console.error('Error al agregar necesidad:', error);
     showError('Error de conexión. Verifica que el servidor esté funcionando');
+    imageStatus.textContent = '';
   } finally {
     submitBtn.disabled = false;
     submitBtn.textContent = 'Agregar y Finalizar';
   }
 }
 
-// Convertir archivo a base64
-function convertFileToBase64(file) {
-  return new Promise((resolve, reject) => {
-    const reader = new FileReader();
-    reader.readAsDataURL(file);
-    reader.onload = () => resolve(reader.result);
-    reader.onerror = error => reject(error);
-  });
-}
-
-// Nota: makeRequestWithAuth ya no es necesario, usamos el servicio API centralizado
-
 function clearForm() {
   document.getElementById('productForm').reset();
+  document.getElementById('imageStatus').textContent = '';
   hideMessages();
 }
 

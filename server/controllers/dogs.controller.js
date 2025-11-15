@@ -1,6 +1,5 @@
 // Este archivo RECIBE las peticiones y llama al servicio
 
-// CORRECCIÓN: La ruta correcta desde controllers hacia db
 import dogsService from '../db/dogs.db.js';
 
 //  GET - Traer todos los perritos
