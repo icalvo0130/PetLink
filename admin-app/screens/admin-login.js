@@ -1,7 +1,8 @@
 // Pantalla de login para administradores
 // Maneja la autenticación y redirección
 
-import { navigateTo, makeRequest } from '../app.js';
+import router from '../utils/router.js';
+import { loginAdmin, verifyToken, logoutAdmin } from '../services/admin-api.js';
 
 // Renderizar la pantalla de login
 export default function renderAdminLogin() {
@@ -81,8 +82,8 @@ async function handleLogin(event) {
   hideError();
   
   try {
-    // Realizar petición al backend
-    const response = await makeRequest('/api/auth/login', 'POST', {
+    // Realizar petición al backend usando el servicio API
+    const response = await loginAdmin({
       username: username,
       password: password 
     });
@@ -96,8 +97,8 @@ async function handleLogin(event) {
         
         console.log('Login exitoso:', response.user);
         
-        // Redirigir al dashboard
-        navigateTo('/dashboard', { user: response.user });
+        // Redirigir al dashboard usando el router (igual que padrino-app)
+        router.navigateTo('/dashboard');
       } else {
         showError('No tienes permisos de administrador');
       }
@@ -117,9 +118,9 @@ async function handleLogin(event) {
   }
 }
 
-// Redirección a registro
+// Redirección a registro (igual que padrino-app)
 function handleSignup() {
-  navigateTo('/admin-signup', {});
+  router.navigateTo('/admin-signup');
 }
 
 function showError(message) {
@@ -145,8 +146,8 @@ export async function checkAuth() {
   try {
     const userData = JSON.parse(user);
     
-    // Verificar token con el backend
-    const response = await makeRequest('/api/auth/verify', 'POST', { token });
+    // Verificar token con el backend usando el servicio API
+    const response = await verifyToken(token);
     
     if (response.success && response.user) {
       // Verificar que sea un administrador
@@ -185,7 +186,7 @@ export async function logout() {
   try {
   
     if (token) {
-      await makeRequest('/api/auth/logout', 'POST', { token });
+      await logoutAdmin(token);
     }
   } catch (error) {
     console.error('Error al cerrar sesión en el servidor:', error);
@@ -193,6 +194,6 @@ export async function logout() {
   } finally {
 
     clearSession();
-    navigateTo('/admin-login', {});
+    router.navigateTo('/admin-login');
   }
 }

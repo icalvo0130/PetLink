@@ -1,7 +1,7 @@
 // Pantalla inicial de selección entre Login y Sign Up para administradores
 // Primera pantalla que se muestra al ingresar a la app
 
-import { navigateTo } from '../app.js';
+import router from '../utils/router.js';
 
 // Renderizar la pantalla de selección Login/Sign Up
 export default function renderAdminLoginSignup() {
@@ -55,14 +55,14 @@ function setupEventListeners() {
   const loginBtn = document.getElementById('loginBtn');
   const signupBtn = document.getElementById('signupBtn');
   
-  // Navegar a la pantalla de login
+  // Navegar a la pantalla de login (igual que padrino-app)
   loginBtn.addEventListener('click', () => {
-    navigateTo('/admin-login', {});
+    router.navigateTo('/admin-login');
   });
   
-  // Navegar a la pantalla de registro
+  // Navegar a la pantalla de registro (igual que padrino-app)
   signupBtn.addEventListener('click', () => {
-    navigateTo('/admin-signup', {});
+    router.navigateTo('/admin-signup');
   });
 }
 
@@ -73,7 +73,7 @@ export function checkExistingSession() {
   
   if (token && adminUser) {
     // Si hay una sesión activa, redirigir al dashboard
-    navigateTo('/dashboard', {});
+    router.navigateTo('/dashboard');
     return true;
   }
   
@@ -84,5 +84,5 @@ export function checkExistingSession() {
 export function clearSession() {
   localStorage.removeItem('adminToken');
   localStorage.removeItem('adminUser');
-  navigateTo('/admin-login-signup', {});
+  router.navigateTo('/admin-login-signup');
 }

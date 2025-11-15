@@ -1,24 +1,30 @@
 // Pantalla de perfil individual del perro
 
-import { navigateTo, makeRequest } from '../app.js';
+import router from '../utils/router.js';
+import { getDogById, getNeedsByDog, deleteNeed, deleteDog } from '../services/admin-api.js';
 import { checkAuth } from './admin-login.js';
+import { addEventListener, removeEventListener } from '../services/websocket-admin.js';
 
 let dogData = null;
 let needsData = [];
 let dogId = null;
 
-export default async function renderDogProfile(data) {
+// Referencias a los listeners para poder limpiarlos
+let needCreatedListener = null;
+let donationCreatedListener = null;
+
+export default async function renderDogProfile(id) {
   const auth = await checkAuth();
   if (!auth.isAuthenticated) {
-    navigateTo('/admin-login', {});
+    router.navigateTo('/admin-login');
     return;
   }
 
-  dogId = data.dogId;
+  dogId = id;
   
   if (!dogId) {
     showError('ID del perro no proporcionado');
-    navigateTo('/dog-management', {});
+    router.navigateTo('/dog-management');
     return;
   }
 
@@ -116,6 +122,37 @@ export default async function renderDogProfile(data) {
   setupEventListeners();
   await loadDogData();
   await loadNeedsData();
+  setupRealtimeListeners();
+}
+
+/**
+ * Configurar listeners en tiempo real para el perfil del perro
+ */
+function setupRealtimeListeners() {
+  // Limpiar listeners previos si existen
+  if (needCreatedListener) {
+    removeEventListener('need-created', needCreatedListener);
+  }
+  if (donationCreatedListener) {
+    removeEventListener('donation-created', donationCreatedListener);
+  }
+  
+  needCreatedListener = async (data) => {
+    if (data.need && data.need.id_dog === parseInt(dogId)) {
+      await loadNeedsData();
+      showSuccess('Nueva necesidad agregada a este perro');
+    }
+  };
+  
+  donationCreatedListener = async (data) => {
+    if (data.donation && data.donation.id_dog === parseInt(dogId)) {
+      await loadDogData();
+      showSuccess('Nueva donación recibida para este perro');
+    }
+  };
+  
+  addEventListener('need-created', needCreatedListener);
+  addEventListener('donation-created', donationCreatedListener);
 }
 
 function setupEventListeners() {
@@ -124,11 +161,16 @@ function setupEventListeners() {
   const statisticsBtn = document.getElementById('statisticsBtn');
   const deleteDogBtn = document.getElementById('deleteDogBtn');
   
-  backBtn.addEventListener('click', () => navigateTo('/dog-management', {}));
+  backBtn.addEventListener('click', () => router.navigateTo('/dog-management'));
   
-  addNeedBtn.addEventListener('click', () => navigateTo('/products-manage', { fromDogProfile: true, dogId: dogId }));
+  addNeedBtn.addEventListener('click', () => {
+    // Guardar contexto en sessionStorage
+    sessionStorage.setItem('productsManageOrigin', 'dog-profile');
+    sessionStorage.setItem('productsManageDogId', dogId);
+    router.navigateTo('/products-manage');
+  });
   
-  statisticsBtn.addEventListener('click', () => navigateTo('/dog-estadistics', { dogId: dogId }));
+  statisticsBtn.addEventListener('click', () => router.navigateTo(`/dog-estadistics/${dogId}`));
   
   deleteDogBtn.addEventListener('click', handleDeleteDog);
 }
@@ -138,11 +180,12 @@ async function loadDogData() {
     const token = localStorage.getItem('adminToken');
     if (!token) {
       showError('Sesión expirada. Por favor inicia sesión nuevamente');
-      navigateTo('/admin-login', {});
+      router.navigateTo('/admin-login', {});
       return;
     }
     
-    const response = await makeRequestWithAuth(`/api/dogs/${dogId}`, 'GET', null, token);
+    // Usar el servicio API centralizado
+    const response = await getDogById(dogId);
     
     if (response && response.id) {
       dogData = response;
@@ -162,11 +205,12 @@ async function loadNeedsData() {
     const token = localStorage.getItem('adminToken');
     if (!token) {
       showError('Sesión expirada. Por favor inicia sesión nuevamente');
-      navigateTo('/admin-login', {});
+      router.navigateTo('/admin-login', {});
       return;
     }
     
-    const response = await makeRequestWithAuth(`/api/needs/dog/${dogId}`, 'GET', null, token);
+    // Usar el servicio API centralizado
+    const response = await getNeedsByDog(dogId);
     
     if (Array.isArray(response)) {
       needsData = response;
@@ -270,7 +314,7 @@ function renderNeedsList() {
       <div class="card-actions">
         <button 
           class="action-btn delete-need-btn" 
-          onclick="deleteNeed(${need.id})"
+          onclick="handleDeleteNeed(${need.id})"
         >
           Eliminar
         </button>
@@ -280,7 +324,7 @@ function renderNeedsList() {
 }
 
 // Eliminar necesidad
-async function deleteNeed(needId) {
+async function handleDeleteNeed(needId) {
   try {
     if (!confirm('¿Estás seguro de que quieres eliminar esta necesidad?')) {
       return;
@@ -289,11 +333,12 @@ async function deleteNeed(needId) {
     const token = localStorage.getItem('adminToken');
     if (!token) {
       showError('Sesión expirada. Por favor inicia sesión nuevamente');
-      navigateTo('/admin-login', {});
+      router.navigateTo('/admin-login', {});
       return;
     }
     
-    const response = await makeRequestWithAuth(`/api/needs/${needId}`, 'DELETE', null, token);
+    // Usar el servicio API centralizado
+    const response = await deleteNeed(needId);
     
     if (response && response.message) {
       showSuccess('Necesidad eliminada exitosamente');
@@ -320,7 +365,7 @@ async function handleDeleteDog() {
     const token = localStorage.getItem('adminToken');
     if (!token) {
       showError('Sesión expirada. Por favor inicia sesión nuevamente');
-      navigateTo('/admin-login', {});
+      router.navigateTo('/admin-login');
       return;
     }
     
@@ -328,13 +373,13 @@ async function handleDeleteDog() {
     deleteBtn.disabled = true;
     deleteBtn.textContent = 'Eliminando...';
     
-    const response = await makeRequestWithAuth(`/api/dogs/${dogId}`, 'DELETE', null, token);
+    const response = await deleteDog(dogId);
     
     if (response && response.message) {
       showSuccess('Perro eliminado exitosamente');
       
       setTimeout(() => {
-        navigateTo('/dog-management', {});
+        router.navigateTo('/dog-management');
       }, 2000);
     } else {
       showError('Error al eliminar el perro');
@@ -397,6 +442,9 @@ function formatAmount(amount) {
   return new Intl.NumberFormat('es-CO').format(numAmount);
 }
 
+// Nota: makeRequestWithAuth ya no es necesario, usamos el servicio API centralizado
+
+/*
 async function makeRequestWithAuth(url, method, body, token) {
   const BASE_URL = "http://localhost:5050";
   
@@ -416,6 +464,7 @@ async function makeRequestWithAuth(url, method, body, token) {
   
   return await response.json();
 }
+*/
 
 function showSuccess(message) {
   const successMessage = document.getElementById('successMessage');
@@ -437,4 +486,4 @@ function showError(message) {
   }, 7000);
 }
 
-window.deleteNeed = deleteNeed;
+window.handleDeleteNeed = handleDeleteNeed;

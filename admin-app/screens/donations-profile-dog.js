@@ -1,24 +1,29 @@
 // Pantalla de perfil de donaciones de un perro específico
 
-import { navigateTo, makeRequest } from '../app.js';
+import router from '../utils/router.js';
+import { getDogById, getDonationsByDog } from '../services/admin-api.js';
 import { checkAuth } from './admin-login.js';
+import { addEventListener, removeEventListener } from '../services/websocket-admin.js';
 
 let dogData = null;
 let donationsData = [];
 let dogId = null;
 
-export default async function renderDonationsProfileDog(data) {
+// Referencias a los listeners para poder limpiarlos
+let donationCreatedListener = null;
+
+export default async function renderDonationsProfileDog(id) {
   const auth = await checkAuth();
   if (!auth.isAuthenticated) {
-    navigateTo('/admin-login', {});
+    router.navigateTo('/admin-login');
     return;
   }
 
-  dogId = data.dogId;
+  dogId = id;
   
   if (!dogId) {
     showError('ID del perro no proporcionado');
-    navigateTo('/donations', {});
+    router.navigateTo('/donations');
     return;
   }
 
@@ -76,12 +81,32 @@ export default async function renderDonationsProfileDog(data) {
   setupEventListeners();
   await loadDogData();
   await loadDonationsData();
+  setupRealtimeListeners();
+}
+
+/**
+ * Configurar listeners en tiempo real para las donaciones del perro
+ */
+function setupRealtimeListeners() {
+  // Limpiar listeners previos si existen
+  if (donationCreatedListener) {
+    removeEventListener('donation-created', donationCreatedListener);
+  }
+  
+  donationCreatedListener = async (data) => {
+    if (data.donation && data.donation.id_dog === parseInt(dogId)) {
+      await loadDonationsData();
+      showSuccess('Nueva donación recibida para este perro - Vista actualizada');
+    }
+  };
+  
+  addEventListener('donation-created', donationCreatedListener);
 }
 
 function setupEventListeners() {
   const backBtn = document.getElementById('backBtn');
   
-  backBtn.addEventListener('click', () => navigateTo('/donations', {}));
+  backBtn.addEventListener('click', () => router.navigateTo('/donations'));
 }
 
 async function loadDogData() {
@@ -89,11 +114,12 @@ async function loadDogData() {
     const token = localStorage.getItem('adminToken');
     if (!token) {
       showError('Sesión expirada. Por favor inicia sesión nuevamente');
-      navigateTo('/admin-login', {});
+      router.navigateTo('/admin-login');
       return;
     }
     
-    const response = await makeRequestWithAuth(`/api/dogs/${dogId}`, 'GET', null, token);
+    // Usar el servicio API centralizado
+    const response = await getDogById(dogId);
     
     if (response && response.id) {
       dogData = response;
@@ -113,11 +139,12 @@ async function loadDonationsData() {
     const token = localStorage.getItem('adminToken');
     if (!token) {
       showError('Sesión expirada. Por favor inicia sesión nuevamente');
-      navigateTo('/admin-login', {});
+      router.navigateTo('/admin-login');
       return;
     }
     
-    const response = await makeRequestWithAuth(`/api/donations/dog/${dogId}`, 'GET', null, token);
+    // Usar el servicio API centralizado
+    const response = await getDonationsByDog(dogId);
     
     if (Array.isArray(response)) {
       donationsData = response;
@@ -176,54 +203,17 @@ function renderDonationsList() {
   
   donationsList.innerHTML = donationsData.map(donation => `
     <div class="donation-card" data-donation-id="${donation.id}">
-      <div class="card-header">
-        <div class="donation-info">
-          <h4>Donación #${donation.id}</h4>
-          <p class="donation-date">${formatDate(donation.created_at || donation.date)}</p>
-        </div>
-        <div class="donation-status">
-          <span class="status-badge ${donation.status || 'completed'}">${getStatusText(donation.status)}</span>
-        </div>
-      </div>
-      
-      <div class="card-body">
-        <div class="donation-details">
-          <div class="detail-item">
-            <span class="label">Padrino:</span>
-            <span class="value">${donation.padrino_name || donation.user_name || 'Anónimo'}</span>
-          </div>
-          <div class="detail-item">
-            <span class="label">Monto:</span>
-            <span class="value">$${formatAmount(donation.amount)}</span>
-          </div>
-          ${donation.product_name ? `
-            <div class="detail-item">
-              <span class="label">Producto:</span>
-              <span class="value">${donation.product_name}</span>
-            </div>
-          ` : ''}
-          ${donation.description ? `
-            <div class="detail-item">
-              <span class="label">Descripción:</span>
-              <span class="value">${donation.description}</span>
-            </div>
-          ` : ''}
-          ${donation.payment_method ? `
-            <div class="detail-item">
-              <span class="label">Método de pago:</span>
-              <span class="value">${donation.payment_method}</span>
-            </div>
-          ` : ''}
-        </div>
-        
-        <div class="donation-message">
-          <p><strong>${donation.padrino_name || donation.user_name || 'Un padrino'}</strong> ha donado <strong>$${formatAmount(donation.amount)}</strong>${donation.product_name ? ` en ${donation.product_name}` : ''}</p>
-        </div>
+      <div class="donation-message">
+        <p class="donation-date">${formatDate(donation.created_at || donation.date)}</p>
+        <p><strong>${donation.padrino_name || donation.user_name || 'Padrino Anónimo'}</strong> ha donado <strong>$${formatAmount(donation.price || donation.amount || 0)}</strong>${donation.need_name ? ` en ${donation.need_name}` : ''}</p>
       </div>
     </div>
   `).join('');
 }
 
+// Nota: makeRequestWithAuth ya no es necesario, usamos el servicio API centralizado
+
+/*
 async function makeRequestWithAuth(url, method, body, token) {
   const BASE_URL = "http://localhost:5050";
   
@@ -243,6 +233,7 @@ async function makeRequestWithAuth(url, method, body, token) {
   
   return await response.json();
 }
+*/
 
 function formatDate(dateString) {
   if (!dateString) return 'No especificada';

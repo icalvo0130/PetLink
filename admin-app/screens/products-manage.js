@@ -1,20 +1,23 @@
 // Pantalla para agregar necesidades para los perros
 
-import { navigateTo, makeRequest } from '../app.js';
+import router from '../utils/router.js';
+import { createNeed } from '../services/admin-api.js';
 import { checkAuth } from './admin-login.js';
 
-export default async function renderProductsManage(data) {
+export default async function renderProductsManage(params = {}) {
   // Verificar autenticación
   const auth = await checkAuth();
   if (!auth.isAuthenticated) {
-    navigateTo('/admin-login', {});
+    router.navigateTo('/admin-login');
     return;
   }
 
-  // Detectar si viene de dog-profile o add-dog
-  const fromDogProfile = data && data.fromDogProfile;
-  const fromAddDog = data && data.fromAddDog;
-  const dogId = data && data.dogId;
+  // Detectar origen desde sessionStorage (igual que padrino-app usa context)
+  const origin = sessionStorage.getItem('productsManageOrigin') || params.from || '';
+  const dogId = sessionStorage.getItem('productsManageDogId') || params.dogId || '';
+  
+  const fromDogProfile = origin === 'dog-profile';
+  const fromAddDog = origin === 'add-pet';
 
   const app = document.getElementById('app');
   
@@ -65,16 +68,13 @@ export default async function renderProductsManage(data) {
               />
             </div>
             
-            <div class="form-group">
-              <label for="dogId">ID del Perro:</label>
+            <div class="form-group" style="display: none;">
               <input 
-                type="number" 
+                type="hidden" 
                 id="dogId" 
                 name="dogId" 
                 required 
-                min="1"
-                placeholder="Ingresa el ID del perro"
-                ${(fromAddDog || fromDogProfile) && dogId ? `value="${dogId}" readonly` : ''}
+                ${(fromAddDog || fromDogProfile) && dogId ? `value="${dogId}"` : ''}
               />
             </div>
             
@@ -128,14 +128,18 @@ function setupEventListeners(fromDogProfile, fromAddDog, dogId) {
   // Limpiar formulario
   clearBtn.addEventListener('click', clearForm);
   
-  // Volver según el origen
+  // Volver según el origen (limpiar sessionStorage)
   backBtn.addEventListener('click', () => {
+    // Limpiar contexto
+    sessionStorage.removeItem('productsManageOrigin');
+    sessionStorage.removeItem('productsManageDogId');
+    
     if (fromDogProfile && dogId) {
-      navigateTo('/dog-profile', { dogId: dogId });
+      router.navigateTo(`/dog-profile/${dogId}`);
     } else if (fromAddDog) {
-      navigateTo('/add-pet', {});
+      router.navigateTo('/add-pet');
     } else {
-      navigateTo('/dashboard', {});
+      router.navigateTo('/dashboard');
     }
   });
 }
@@ -187,14 +191,20 @@ async function handleSubmit(event) {
     const token = localStorage.getItem('adminToken');
     if (!token) {
       showError('Sesión expirada. Por favor inicia sesión nuevamente');
-      navigateTo('/admin-login', {});
+      router.navigateTo('/admin-login');
       return;
     }
     
-    const response = await makeRequestWithAuth('/api/needs', 'POST', needData, token);
+    // Usar el servicio API centralizado
+    const response = await createNeed(needData);
     
     if (response && response.id) {
       showSuccess('¡Necesidad agregada exitosamente!');
+      
+      // Limpiar contexto después de agregar
+      sessionStorage.removeItem('productsManageOrigin');
+      sessionStorage.removeItem('productsManageDogId');
+      
       clearForm();
     } else {
       showError('Error al agregar la necesidad. Inténtalo nuevamente');
@@ -219,26 +229,7 @@ function convertFileToBase64(file) {
   });
 }
 
-// Petición con autenticación
-async function makeRequestWithAuth(url, method, body, token) {
-  const BASE_URL = "http://localhost:5050";
-  
-  const response = await fetch(`${BASE_URL}${url}`, {
-    method: method,
-    headers: {
-      "Content-Type": "application/json",
-      "Authorization": `Bearer ${token}`
-    },
-    body: JSON.stringify(body)
-  });
-  
-  if (!response.ok) {
-    const errorData = await response.json();
-    throw new Error(errorData.error || 'Error en la petición');
-  }
-  
-  return await response.json();
-}
+// Nota: makeRequestWithAuth ya no es necesario, usamos el servicio API centralizado
 
 function clearForm() {
   document.getElementById('productForm').reset();

@@ -1,17 +1,22 @@
 // Pantalla de las donaciones
 
-import { navigateTo, makeRequest } from '../app.js';
+import router from '../utils/router.js';
+import { getAllDogs, getAllDonations, searchDogsByName } from '../services/admin-api.js';
 import { checkAuth } from './admin-login.js';
+import { addEventListener, removeEventListener } from '../services/websocket-admin.js';
 
 let allDogs = [];
 let filteredDogs = [];
 let allDonations = [];
 let currentFilter = 'all';
 
+// Referencias a los listeners para poder limpiarlos
+let donationCreatedListener = null;
+
 export default async function renderDonationsView() {
   const auth = await checkAuth();
   if (!auth.isAuthenticated) {
-    navigateTo('/admin-login', {});
+    router.navigateTo('/admin-login');
     return;
   }
 
@@ -72,6 +77,33 @@ export default async function renderDonationsView() {
   
   setupEventListeners();
   await loadInitialData();
+  setupRealtimeListeners();
+}
+
+/**
+ * Configurar listeners en tiempo real
+ */
+function setupRealtimeListeners() {
+  // Limpiar listeners previos si existen
+  if (donationCreatedListener) {
+    removeEventListener('donation-created', donationCreatedListener);
+  }
+  
+  donationCreatedListener = async () => {
+    try {
+      const donationsResponse = await getAllDonations();
+      if (Array.isArray(donationsResponse)) {
+        allDonations = donationsResponse;
+        renderDogsList();
+        updateDogsCount();
+        showSuccess('Nueva donación recibida - Vista actualizada');
+      }
+    } catch (error) {
+      console.error('Error al actualizar donaciones:', error);
+    }
+  };
+  
+  addEventListener('donation-created', donationCreatedListener);
 }
 
 function setupEventListeners() {
@@ -86,7 +118,7 @@ function setupEventListeners() {
   
   clearSearchBtn.addEventListener('click', clearSearch);
   
-  backBtn.addEventListener('click', () => navigateTo('/dashboard', {}));
+  backBtn.addEventListener('click', () => router.navigateTo('/dashboard'));
   
   filterAll.addEventListener('click', () => applyFilter('all'));
   filterPuppies.addEventListener('click', () => applyFilter('puppies'));
@@ -98,13 +130,14 @@ async function loadInitialData() {
     const token = localStorage.getItem('adminToken');
     if (!token) {
       showError('Sesión expirada. Por favor inicia sesión nuevamente');
-      navigateTo('/admin-login', {});
+      router.navigateTo('/admin-login');
       return;
     }
     
+    // Usar el servicio API centralizado
     const [dogsResponse, donationsResponse] = await Promise.allSettled([
-      makeRequestWithAuth('/api/dogs', 'GET', null, token),
-      makeRequestWithAuth('/api/donations', 'GET', null, token)
+      getAllDogs(),
+      getAllDonations()
     ]);
     
     if (dogsResponse.status === 'fulfilled' && Array.isArray(dogsResponse.value)) {
@@ -142,11 +175,12 @@ async function handleSearch(event) {
       const token = localStorage.getItem('adminToken');
       if (!token) {
         showError('Sesión expirada. Por favor inicia sesión nuevamente');
-        navigateTo('/admin-login', {});
+        router.navigateTo('/admin-login');
         return;
       }
       
-      const response = await makeRequestWithAuth(`/api/dogs/search/${encodeURIComponent(searchTerm)}`, 'GET', null, token);
+      // Usar el servicio API centralizado
+      const response = await searchDogsByName(searchTerm);
       
       if (Array.isArray(response)) {
         // Actualizar la lista base con los resultados de búsqueda
@@ -230,31 +264,7 @@ function renderDogsList() {
           </div>
           <div class="dog-info">
             <h3>${dog.name || 'Sin nombre'}</h3>
-            <p class="dog-age">Edad: ${dog.age || 'No especificada'} años</p>
-            <p class="donation-count">Donaciones: ${donationCount}</p>
-          </div>
-        </div>
-        
-        <div class="card-body">
-          <div class="dog-details">
-            <div class="detail-item">
-              <span class="label">Tamaño:</span>
-              <span class="value">${dog.size || 'No especificado'}</span>
-            </div>
-            <div class="detail-item">
-              <span class="label">Peso:</span>
-              <span class="value">${dog.weight || 'No especificado'} kg</span>
-            </div>
-            <div class="detail-item">
-              <span class="label">Disponibilidad:</span>
-              <span class="value">${dog.availability === 'disponible' ? 'Disponible' : 'No disponible'}</span>
-            </div>
-            ${dog.description ? `
-              <div class="detail-item">
-                <span class="label">Descripción:</span>
-                <span class="value">${dog.description.substring(0, 100)}${dog.description.length > 100 ? '...' : ''}</span>
-              </div>
-            ` : ''}
+            <p class="dog-age">${dog.age || 'No especificada'} años</p>
           </div>
         </div>
         
@@ -279,11 +289,12 @@ async function clearSearch() {
     const token = localStorage.getItem('adminToken');
     if (!token) {
       showError('Sesión expirada. Por favor inicia sesión nuevamente');
-      navigateTo('/admin-login', {});
+      router.navigateTo('/admin-login');
       return;
     }
     
-    const response = await makeRequestWithAuth('/api/dogs', 'GET', null, token);
+    // Usar el servicio API centralizado
+    const response = await getAllDogs();
     
     if (Array.isArray(response)) {
       allDogs = response;
@@ -304,30 +315,12 @@ async function clearSearch() {
   updateDogsCount();
 }
 
-// Ver donaciones de un perro específico
+// Ver donaciones de un perro específico (pasar dogId en URL)
 function viewDogDonations(dogId) {
-  navigateTo('/donations-profile-dog', { dogId: dogId });
+  router.navigateTo(`/donations-profile-dog/${dogId}`);
 }
 
-async function makeRequestWithAuth(url, method, body, token) {
-  const BASE_URL = "http://localhost:5050";
-  
-  const response = await fetch(`${BASE_URL}${url}`, {
-    method: method,
-    headers: {
-      "Content-Type": "application/json",
-      "Authorization": `Bearer ${token}`
-    },
-    body: body ? JSON.stringify(body) : undefined
-  });
-  
-  if (!response.ok) {
-    const errorData = await response.json();
-    throw new Error(errorData.error || 'Error en la petición');
-  }
-  
-  return await response.json();
-}
+// Nota: makeRequestWithAuth ya no es necesario, usamos el servicio API centralizado
 
 function updateDogsCount() {
   const countElement = document.getElementById('dogsCount');

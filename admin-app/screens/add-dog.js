@@ -1,12 +1,13 @@
 // Permite agregar nueva mascota 
 
-import { navigateTo, makeRequest } from '../app.js';
+import router from '../utils/router.js';
+import { createDog } from '../services/admin-api.js';
 import { checkAuth } from './admin-login.js';
 
 export default async function renderAddDog() {
   const auth = await checkAuth();
   if (!auth.isAuthenticated) {
-    navigateTo('/admin-login', {});
+    router.navigateTo('/admin-login');
     return;
   }
 
@@ -200,7 +201,7 @@ function setupEventListeners() {
   
   clearBtn.addEventListener('click', clearForm);
   
-  backBtn.addEventListener('click', () => navigateTo('/dashboard', {}));
+  backBtn.addEventListener('click', () => router.navigateTo('/dashboard'));
   
   setupStatSliders();
 }
@@ -282,17 +283,21 @@ async function handleSubmit(event) {
     const token = localStorage.getItem('adminToken');
     if (!token) {
       showError('Sesión expirada. Por favor inicia sesión nuevamente');
-      navigateTo('/admin-login', {});
+      router.navigateTo('/admin-login');
       return;
     }
     
-    const response = await makeRequestWithAuth('/api/dogs', 'POST', dogData, token);
+    // Usar el servicio API centralizado
+    const response = await createDog(dogData);
     
     if (response && response.id) {
       showSuccess('¡Perro agregado exitosamente! Redirigiendo...');
       
       setTimeout(() => {
-        navigateTo('/products-manage', { fromAddDog: true, dogId: response.id });
+        // Guardar contexto en sessionStorage y navegar
+        sessionStorage.setItem('productsManageOrigin', 'add-pet');
+        sessionStorage.setItem('productsManageDogId', response.id);
+        router.navigateTo('/products-manage');
       }, 2000);
     } else {
       showError('Error al agregar el perro. Inténtalo nuevamente');
@@ -317,6 +322,9 @@ function convertFileToBase64(file) {
   });
 }
 
+// Nota: makeRequestWithAuth ya no es necesario, usamos el servicio API centralizado
+
+/*
 async function makeRequestWithAuth(url, method, body, token) {
   const BASE_URL = "http://localhost:5050";
   
@@ -336,6 +344,7 @@ async function makeRequestWithAuth(url, method, body, token) {
   
   return await response.json();
 }
+*/
 
 // Limpiar formulario
 function clearForm() {

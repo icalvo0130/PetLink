@@ -1,25 +1,32 @@
 // Dashboard del administrador, tras iniciar sesión muestra (citas, donaciones, agergar mascotas y editar catalogo)
 
-import { navigateTo, makeRequest } from '../app.js';
+import router from '../utils/router.js';
+import { getAllDogs, getAllDonations, getAllAppointments, getAllAccessories } from '../services/admin-api.js';
 import { checkAuth, logout } from './admin-login.js';
+import { addEventListener, removeEventListener } from '../services/websocket-admin.js';
 
-export default async function renderDashboard(data) {
+// Referencias a los listeners para poder limpiarlos
+let donationCreatedListener = null;
+let appointmentCreatedListener = null;
+let needCreatedListener = null;
+let purchaseListener = null;
+let urgentNeedListener = null;
+
+export default async function renderDashboard() {
   const auth = await checkAuth();
   if (!auth.isAuthenticated) {
-    console.log('Usuario no autenticado, redirigiendo al login');
-    navigateTo('/admin-login', {});
+    router.navigateTo('/admin-login');
     return;
   }
   
   if (!verifySession()) {
-    console.log('Sesión inválida, redirigiendo al login');
     localStorage.removeItem('adminToken');
     localStorage.removeItem('adminUser');
-    navigateTo('/admin-login', {});
+    router.navigateTo('/admin-login');
     return;
   }
   
-  const user = auth.user || data.user;
+  const user = auth.user;
   const app = document.getElementById('app');
   
   app.innerHTML = `
@@ -51,25 +58,6 @@ export default async function renderDashboard(data) {
       </header>
       
       <main class="dashboard-content">
-        <div class="dashboard-stats">
-          <div class="stat-card">
-            <h3>Mascotas Registradas</h3>
-            <span class="stat-number">${dashboardData.petsCount || 0}</span>
-          </div>
-          <div class="stat-card">
-            <h3>Donaciones Recibidas</h3>
-            <span class="stat-number">${dashboardData.donationsCount || 0}</span>
-          </div>
-          <div class="stat-card">
-            <h3>Citas Pendientes</h3>
-            <span class="stat-number">${dashboardData.appointmentsCount || 0}</span>
-          </div>
-          <div class="stat-card">
-            <h3>Productos en Catálogo</h3>
-            <span class="stat-number">${dashboardData.productsCount || 0}</span>
-          </div>
-        </div>
-        
         <div class="dashboard-menu">
           <h2>Menú Principal</h2>
           <div class="menu-grid">
@@ -103,9 +91,58 @@ export default async function renderDashboard(data) {
   `;
   
   setupEventListeners();
+  setupRealtimeListeners();
   
   // Actualización automática de datos cada 30 segundos
   setupAutoRefresh();
+}
+
+/**
+ * Configurar listeners en tiempo real para el dashboard
+ */
+function setupRealtimeListeners() {
+  // Limpiar listeners previos si existen
+  if (donationCreatedListener) {
+    removeEventListener('donation-created', donationCreatedListener);
+  }
+  if (appointmentCreatedListener) {
+    removeEventListener('appointment-created', appointmentCreatedListener);
+  }
+  if (needCreatedListener) {
+    removeEventListener('need-created', needCreatedListener);
+  }
+  if (purchaseListener) {
+    removeEventListener('purchase-notification', purchaseListener);
+  }
+  if (urgentNeedListener) {
+    removeEventListener('urgent-need-alert', urgentNeedListener);
+  }
+  
+  donationCreatedListener = async () => {
+    await refreshDashboardData();
+  };
+  
+  appointmentCreatedListener = async () => {
+    await refreshDashboardData();
+  };
+  
+  needCreatedListener = async () => {
+    await refreshDashboardData();
+  };
+  
+  purchaseListener = async () => {
+    await refreshDashboardData();
+  };
+  
+  urgentNeedListener = async () => {
+    await refreshDashboardData();
+  };
+  
+  addEventListener('donation-created', donationCreatedListener);
+  addEventListener('appointment-created', appointmentCreatedListener);
+  addEventListener('need-created', needCreatedListener);
+  addEventListener('purchase-notification', purchaseListener);
+  addEventListener('urgent-need-alert', urgentNeedListener);
 }
 
 function setupAutoRefresh() {
@@ -128,11 +165,11 @@ function setupEventListeners() {
   // Cerrar sesión
   logoutBtn.addEventListener('click', handleLogout);
   
-  // Navegación a otras pantallas
-  editCatalogBtn.addEventListener('click', () => navigateTo('/dog-management', {}));
-  addPetBtn.addEventListener('click', () => navigateTo('/add-pet', {}));
-  donationsBtn.addEventListener('click', () => navigateTo('/donations', {}));
-  appointmentsBtn.addEventListener('click', () => navigateTo('/appointments', {}));
+  // Navegación a otras pantallas (igual que padrino-app)
+  editCatalogBtn.addEventListener('click', () => router.navigateTo('/dog-management'));
+  addPetBtn.addEventListener('click', () => router.navigateTo('/add-pet'));
+  donationsBtn.addEventListener('click', () => router.navigateTo('/donations'));
+  appointmentsBtn.addEventListener('click', () => router.navigateTo('/appointments'));
 }
 
 // Cargar datos
@@ -143,12 +180,12 @@ async function loadDashboardData() {
       return { petsCount: 0, donationsCount: 0, appointmentsCount: 0, productsCount: 0 };
     }
 
-    // Obtener datos
+    // Obtener datos usando el servicio API centralizado
     const [petsData, donationsData, appointmentsData, productsData] = await Promise.allSettled([
-      makeRequest('/api/dogs', 'GET'),
-      makeRequest('/api/donations', 'GET'),
-      makeRequest('/api/appointments', 'GET'),
-      makeRequest('/api/products', 'GET')
+      getAllDogs(),
+      getAllDonations(),
+      getAllAppointments(),
+      getAllAccessories()
     ]);
 
     return {
@@ -191,7 +228,7 @@ async function handleLogout() {
       console.error('Error al cerrar sesión:', error);
       localStorage.removeItem('adminToken');
       localStorage.removeItem('adminUser');
-      navigateTo('/admin-login', {});
+      router.navigateTo('/admin-login');
     }
   }
 }

@@ -1,17 +1,23 @@
 // Catálogo de perros para edición
 
-import { navigateTo, makeRequest } from '../app.js';
+import router from '../utils/router.js';
+import { getAllDogs, getAllDonations, searchDogsByName } from '../services/admin-api.js';
 import { checkAuth } from './admin-login.js';
+import { addEventListener, removeEventListener } from '../services/websocket-admin.js';
 
 let allDogs = [];
 let filteredDogs = [];
 let allDonations = [];
 let currentFilter = 'all';
 
+// Referencias a los listeners para poder limpiarlos
+let donationCreatedListener = null;
+let needCreatedListener = null;
+
 export default async function renderDogManagement() {
   const auth = await checkAuth();
   if (!auth.isAuthenticated) {
-    navigateTo('/admin-login', {});
+    router.navigateTo('/admin-login');
     return;
   }
 
@@ -72,6 +78,52 @@ export default async function renderDogManagement() {
   
   setupEventListeners();
   await loadInitialData();
+  setupRealtimeListeners();
+}
+
+/**
+ * Configurar listeners en tiempo real
+ */
+function setupRealtimeListeners() {
+  // Limpiar listeners previos si existen
+  if (donationCreatedListener) {
+    removeEventListener('donation-created', donationCreatedListener);
+  }
+  if (needCreatedListener) {
+    removeEventListener('need-created', needCreatedListener);
+  }
+  
+  donationCreatedListener = async () => {
+    try {
+      const donationsResponse = await getAllDonations();
+      if (Array.isArray(donationsResponse)) {
+        allDonations = donationsResponse;
+        renderDogsList();
+        updateDogsCount();
+        showSuccess('Nueva donación recibida - Vista actualizada');
+      }
+    } catch (error) {
+      console.error('Error al actualizar donaciones:', error);
+    }
+  };
+  
+  needCreatedListener = async () => {
+    try {
+      const dogsResponse = await getAllDogs();
+      if (Array.isArray(dogsResponse)) {
+        allDogs = dogsResponse;
+        applyCurrentFilter();
+        renderDogsList();
+        updateDogsCount();
+        showSuccess('Nueva necesidad registrada - Vista actualizada');
+      }
+    } catch (error) {
+      console.error('Error al actualizar perros:', error);
+    }
+  };
+  
+  addEventListener('donation-created', donationCreatedListener);
+  addEventListener('need-created', needCreatedListener);
 }
 
 function setupEventListeners() {
@@ -86,7 +138,7 @@ function setupEventListeners() {
   
   clearSearchBtn.addEventListener('click', clearSearch);
   
-  backBtn.addEventListener('click', () => navigateTo('/dashboard', {}));
+  backBtn.addEventListener('click', () => router.navigateTo('/dashboard'));
   
   filterAll.addEventListener('click', () => applyFilter('all'));
   filterPuppies.addEventListener('click', () => applyFilter('puppies'));
@@ -98,13 +150,14 @@ async function loadInitialData() {
     const token = localStorage.getItem('adminToken');
     if (!token) {
       showError('Sesión expirada. Por favor inicia sesión nuevamente');
-      navigateTo('/admin-login', {});
+      router.navigateTo('/admin-login');
       return;
     }
     
+    // Usar el servicio API centralizado
     const [dogsResponse, donationsResponse] = await Promise.allSettled([
-      makeRequestWithAuth('/api/dogs', 'GET', null, token),
-      makeRequestWithAuth('/api/donations', 'GET', null, token)
+      getAllDogs(),
+      getAllDonations()
     ]);
     
     if (dogsResponse.status === 'fulfilled' && Array.isArray(dogsResponse.value)) {
@@ -141,11 +194,12 @@ async function handleSearch(event) {
       const token = localStorage.getItem('adminToken');
       if (!token) {
         showError('Sesión expirada. Por favor inicia sesión nuevamente');
-        navigateTo('/admin-login', {});
+        router.navigateTo('/admin-login', {});
         return;
       }
       
-      const response = await makeRequestWithAuth(`/api/dogs/search/${encodeURIComponent(searchTerm)}`, 'GET', null, token);
+      // Usar el servicio API centralizado
+      const response = await searchDogsByName(searchTerm);
       
       if (Array.isArray(response)) {
         filteredDogs = response;
@@ -282,9 +336,9 @@ function clearSearch() {
   updateDogsCount();
 }
 
-// Editar perro
+// Editar perro (navegar con parámetro en URL como padrino-app)
 function editDog(dogId) {
-  navigateTo('/dog-profile', { dogId: dogId });
+  router.navigateTo(`/dog-profile/${dogId}`);
 }
 
 function getAvailabilityText(availability) {
@@ -298,25 +352,7 @@ function getAvailabilityText(availability) {
   return availabilityMap[availability] || 'Desconocido';
 }
 
-async function makeRequestWithAuth(url, method, body, token) {
-  const BASE_URL = "http://localhost:5050";
-  
-  const response = await fetch(`${BASE_URL}${url}`, {
-    method: method,
-    headers: {
-      "Content-Type": "application/json",
-      "Authorization": `Bearer ${token}`
-    },
-    body: body ? JSON.stringify(body) : undefined
-  });
-  
-  if (!response.ok) {
-    const errorData = await response.json();
-    throw new Error(errorData.error || 'Error en la petición');
-  }
-  
-  return await response.json();
-}
+// Nota: makeRequestWithAuth ya no es necesario, usamos el servicio API centralizado
 
 function updateDogsCount() {
   const countElement = document.getElementById('dogsCount');

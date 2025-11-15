@@ -1,288 +1,266 @@
 // Pantalla de estadísticas detalladas de un perro específico
+// Usa la misma lógica que padrino-app con actualización en tiempo real
 
-import { navigateTo, makeRequest } from '../app.js';
+import router from '../utils/router.js';
+import { getDogById } from '../services/admin-api.js';
 import { checkAuth } from './admin-login.js';
+import { addEventListener, removeEventListener } from '../services/websocket-admin.js';
 
 let dogData = null;
 let dogId = null;
+let statsUpdatedListener = null;
 
-export default async function renderDogEstadistics(data) {
+export default async function renderDogEstadistics(id) {
   const auth = await checkAuth();
   if (!auth.isAuthenticated) {
-    navigateTo('/admin-login', {});
+    router.navigateTo('/admin-login');
     return;
   }
 
-  // Obtener ID del perro
-  dogId = data.dogId;
+  // Obtener ID del perro desde parámetro de URL
+  dogId = id;
   
   if (!dogId) {
     showError('ID del perro no proporcionado');
-    navigateTo('/dashboard', {});
+    router.navigateTo('/dashboard');
     return;
   }
 
   const app = document.getElementById('app');
   
+  // Mostrar loading mientras se cargan los datos
   app.innerHTML = `
-    <div class="dog-estadistics-container">
-      <header class="page-header">
-        <button id="backBtn" class="back-btn">← Volver</button>
-        <h1>Estadísticas del Perro</h1>
-      </header>
-      
-      <main class="estadistics-content">
-        <div id="loadingSection" class="loading-section">
-          <div class="loading-message">Cargando información del perro...</div>
-        </div>
-        
-        <div id="dogProfileSection" class="dog-profile-section" style="display: none;">
-          <div class="dog-header">
-            <div class="dog-image">
-              <div id="dogImage" class="dog-image-placeholder">🐕</div>
-            </div>
-            <div class="dog-info">
-              <h2 id="dogName">Cargando...</h2>
-              <p id="foundationName">Fundación: Cargando...</p>
-            </div>
-          </div>
-        </div>
-        
-        <div id="dogDetailsSection" class="dog-details-section" style="display: none;">
-          <h3>Información Principal</h3>
-          <div class="details-grid">
-            <div class="detail-item">
-              <span class="label">Peso:</span>
-              <span id="dogWeight" class="value">Cargando...</span>
-            </div>
-            <div class="detail-item">
-              <span class="label">Edad:</span>
-              <span id="dogAge" class="value">Cargando...</span>
-            </div>
-            <div class="detail-item">
-              <span class="label">Tamaño:</span>
-              <span id="dogSize" class="value">Cargando...</span>
-            </div>
-            <div class="detail-item">
-              <span class="label">Disponibilidad:</span>
-              <span id="dogAvailability" class="value">Cargando...</span>
-            </div>
-          </div>
-        </div>
-        
-        <div id="estadisticsSection" class="estadistics-section" style="display: none;">
-          <h3>Estadísticas del Perro</h3>
-          <div class="stats-grid">
-            <div class="stat-item">
-              <div class="stat-header">
-                <span class="stat-label">Comida</span>
-                <span id="foodValue" class="stat-value">0/10</span>
-              </div>
-              <div class="progress-bar">
-                <div id="foodProgress" class="progress-fill" style="width: 0%"></div>
-              </div>
-            </div>
-            
-            <div class="stat-item">
-              <div class="stat-header">
-                <span class="stat-label">Salud</span>
-                <span id="healthValue" class="stat-value">0/10</span>
-              </div>
-              <div class="progress-bar">
-                <div id="healthProgress" class="progress-fill" style="width: 0%"></div>
-              </div>
-            </div>
-            
-            <div class="stat-item">
-              <div class="stat-header">
-                <span class="stat-label">Bienestar / Accesorios</span>
-                <span id="wellnessValue" class="stat-value">0/10</span>
-              </div>
-              <div class="progress-bar">
-                <div id="wellnessProgress" class="progress-fill" style="width: 0%"></div>
-              </div>
-            </div>
-            
-            <div class="stat-item">
-              <div class="stat-header">
-                <span class="stat-label">Cariño / Atención</span>
-                <span id="loveValue" class="stat-value">0/10</span>
-              </div>
-              <div class="progress-bar">
-                <div id="loveProgress" class="progress-fill" style="width: 0%"></div>
-              </div>
-            </div>
-          </div>
-        </div>
-        
-        
-        <div class="messages-section">
-          <div id="successMessage" class="success-message" style="display: none;"></div>
-          <div id="errorMessage" class="error-message" style="display: none;"></div>
-        </div>
-      </main>
+    <div class="statistics-container">
+      <p class="loading">Cargando estadísticas...</p>
     </div>
   `;
   
-  setupEventListeners();
-  await loadDogData();
+  // Cargar las estadísticas
+  await loadStatistics(dogId);
+  setupRealtimeListeners();
 }
 
-function setupEventListeners() {
-  const backBtn = document.getElementById('backBtn');
+/**
+ * Configurar listeners en tiempo real para estadísticas
+ */
+function setupRealtimeListeners() {
+  // Limpiar listener previo si existe
+  if (statsUpdatedListener) {
+    removeEventListener('stats-updated', statsUpdatedListener);
+  }
   
-  // Volver al perfil del perro
-  backBtn.addEventListener('click', () => navigateTo('/dog-profile', { dogId: dogId }));
+  // Listener para estadísticas actualizadas
+  statsUpdatedListener = (data) => {
+    // Solo actualizar si es el perro que estamos viendo
+    if (data.dogId === parseInt(dogId)) {
+      updateStatisticsInRealTime(data.stats, data.changes);
+    }
+  };
+  
+  addEventListener('stats-updated', statsUpdatedListener);
 }
 
-// Cargar datos del perro
-async function loadDogData() {
+/**
+ * Cargar las estadísticas del perro
+ */
+async function loadStatistics(dogId) {
   try {
     const token = localStorage.getItem('adminToken');
     if (!token) {
       showError('Sesión expirada. Por favor inicia sesión nuevamente');
-      navigateTo('/admin-login', {});
+      router.navigateTo('/admin-login');
       return;
     }
     
-    // Cargar datos del perro
-    const dogResponse = await makeRequestWithAuth(`/api/dogs/${dogId}`, 'GET', null, token);
+    // Cargar datos del perro (incluye food_level, health_level, wellbeing_level, affection_level)
+    const stats = await getDogById(dogId);
     
-    if (dogResponse && dogResponse.id) {
-      dogData = dogResponse;
-      
-      // Usar la fundación original del perro (del creador)
-      // Si el perro no tiene foundation_name, usar la del usuario logueado como fallback
-      if (!dogData.foundation_name) {
-        const adminUser = JSON.parse(localStorage.getItem('adminUser') || '{}');
-        dogData.foundation_name = adminUser.foundation_name || adminUser.username || adminUser.name || 'Fundación no especificada';
-      }
-      
-      renderDogProfile();
-      renderDogDetails();
-      renderEstadistics();
+    if (stats && stats.id) {
+      dogData = stats;
+      displayStatistics(stats, dogId);
     } else {
       showError('No se pudo cargar la información del perro');
     }
-    
   } catch (error) {
-    console.error('Error al cargar datos del perro:', error);
-    showError('Error al cargar la información del perro');
+    console.error('Error al cargar estadísticas:', error);
+    const app = document.getElementById('app');
+    app.innerHTML = `
+      <div class="statistics-container">
+        <p class="error">Error al cargar las estadísticas</p>
+        <button onclick="window.history.back()" class="btn-back">Volver</button>
+      </div>
+    `;
   }
 }
 
-function renderDogProfile() {
-  if (!dogData) return;
+/**
+ * Mostrar las estadísticas
+ */
+function displayStatistics(stats, dogId) {
+  const app = document.getElementById('app');
   
-  const dogProfileSection = document.getElementById('dogProfileSection');
-  const loadingSection = document.getElementById('loadingSection');
+  app.innerHTML = `
+    <div class="statistics-container">
+      <button class="btn-back" id="btn-back">← Volver</button>
+      
+      <h1 class="statistics-title">Estadísticas de ${stats.name}</h1>
+      
+      <div class="realtime-indicator">
+        <span class="realtime-dot"></span>
+        <span class="realtime-text">Actualización en tiempo real</span>
+      </div>
+      
+      <div class="statistics-bars">
+        <div class="stat-item" data-stat="food">
+          <div class="stat-header">
+            <span class="stat-label">Comida</span>
+            <span class="stat-value" id="food-value">${stats.food_level || 0}/10</span>
+          </div>
+          <div class="stat-bar-container">
+            <div class="stat-bar stat-bar-food" id="food-bar" style="width: ${(stats.food_level || 0) * 10}%"></div>
+          </div>
+        </div>
+        
+        <div class="stat-item" data-stat="health">
+          <div class="stat-header">
+            <span class="stat-label">Salud</span>
+            <span class="stat-value" id="health-value">${stats.health_level || 0}/10</span>
+          </div>
+          <div class="stat-bar-container">
+            <div class="stat-bar stat-bar-health" id="health-bar" style="width: ${(stats.health_level || 0) * 10}%"></div>
+          </div>
+        </div>
+        
+        <div class="stat-item" data-stat="wellbeing">
+          <div class="stat-header">
+            <span class="stat-label">Bienestar / Accesorios</span>
+            <span class="stat-value" id="wellbeing-value">${stats.wellbeing_level || 0}/10</span>
+          </div>
+          <div class="stat-bar-container">
+            <div class="stat-bar stat-bar-wellbeing" id="wellbeing-bar" style="width: ${(stats.wellbeing_level || 0) * 10}%"></div>
+          </div>
+        </div>
+        
+        <div class="stat-item" data-stat="affection">
+          <div class="stat-header">
+            <span class="stat-label">Cariño / Atención</span>
+            <span class="stat-value" id="affection-value">${stats.affection_level || 0}/10</span>
+          </div>
+          <div class="stat-bar-container">
+            <div class="stat-bar stat-bar-affection" id="affection-bar" style="width: ${(stats.affection_level || 0) * 10}%"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  `;
   
-  loadingSection.style.display = 'none';
-  dogProfileSection.style.display = 'block';
- 
-  document.getElementById('dogName').textContent = dogData.name || 'Sin nombre';
-  document.getElementById('foundationName').textContent = `Fundación: ${dogData.foundation_name || 'No especificada'}`;
-  
-  const dogImage = document.getElementById('dogImage');
-  if (dogData.image) {
-    dogImage.innerHTML = `<img src="${dogData.image}" alt="${dogData.name}" />`;
-  } else {
-    dogImage.innerHTML = '🐕';
-  }
-}
-
-function renderDogDetails() {
-  if (!dogData) return;
-  
-  const dogDetailsSection = document.getElementById('dogDetailsSection');
-  dogDetailsSection.style.display = 'block';
-  
-  document.getElementById('dogWeight').textContent = `${dogData.weight || 'No especificado'} kg`;
-  document.getElementById('dogAge').textContent = `${dogData.age || 'No especificada'} años`;
-  document.getElementById('dogSize').textContent = dogData.size || 'No especificado';
-  document.getElementById('dogAvailability').textContent = getAvailabilityText(dogData.availability);
-}
-
-function renderEstadistics() {
-  if (!dogData) return;
-  
-  const estadisticsSection = document.getElementById('estadisticsSection');
-  estadisticsSection.style.display = 'block';
-  
-  // Usar las columnas individuales en lugar del objeto stats
-  updateStatBar('food', dogData.food_level || 0);
-  updateStatBar('health', dogData.health_level || 0);
-  updateStatBar('wellness', dogData.wellbeing_level || 0);
-  updateStatBar('love', dogData.affection_level || 0);
-}
-
-// Actualizar barra de progreso 
-function updateStatBar(statName, value) {
-  const valueElement = document.getElementById(`${statName}Value`);
-  const progressElement = document.getElementById(`${statName}Progress`);
-  
-  if (valueElement && progressElement) {
-    valueElement.textContent = `${value}/10`;
-    progressElement.style.width = `${(value / 10) * 100}%`;
-  }
-}
-
-
-function getAvailabilityText(availability) {
-  // Manejar valores booleanos
-  if (typeof availability === 'boolean') {
-    return availability ? 'Disponible' : 'No disponible';
-  }
-  
-  // Manejar valores de texto
-  const availabilityMap = {
-    'disponible': 'Disponible',
-    'no_disponible': 'No disponible',
-    'adoptado': 'Adoptado',
-    'en_proceso': 'En proceso de adopción',
-    'true': 'Disponible',
-    'false': 'No disponible'
-  };
-  
-  return availabilityMap[availability] || 'Desconocido';
-}
-
-async function makeRequestWithAuth(url, method, body, token) {
-  const BASE_URL = "http://localhost:5050";
-  
-  const response = await fetch(`${BASE_URL}${url}`, {
-    method: method,
-    headers: {
-      "Content-Type": "application/json",
-      "Authorization": `Bearer ${token}`
-    },
-    body: body ? JSON.stringify(body) : undefined
+  // Configurar evento del botón volver
+  document.getElementById('btn-back').addEventListener('click', () => {
+    // Limpiar listener antes de salir
+    if (statsUpdatedListener) {
+      removeEventListener('stats-updated', statsUpdatedListener);
+      statsUpdatedListener = null;
+    }
+    router.navigateTo(`/dog-profile/${dogId}`);
   });
-  
-  if (!response.ok) {
-    const errorData = await response.json();
-    throw new Error(errorData.error || 'Error en la petición');
-  }
-  
-  return await response.json();
 }
 
-function showSuccess(message) {
-  const successMessage = document.getElementById('successMessage');
-  successMessage.textContent = message;
-  successMessage.style.display = 'block';
+/**
+ * Actualizar estadísticas en tiempo real (con animación)
+ */
+function updateStatisticsInRealTime(newStats, changes) {
+  // Actualizar cada estadística que cambió
+  if (changes.food_level !== undefined) {
+    updateStatBar('food', newStats.food_level);
+  }
   
+  if (changes.health_level !== undefined) {
+    updateStatBar('health', newStats.health_level);
+  }
+  
+  if (changes.wellbeing_level !== undefined) {
+    updateStatBar('wellbeing', newStats.wellbeing_level);
+  }
+  
+  if (changes.affection_level !== undefined) {
+    updateStatBar('affection', newStats.affection_level);
+  }
+  
+  // Mostrar notificación temporal
+  showUpdateNotification(changes);
+}
+
+/**
+ * Actualizar una barra de estadística con animación
+ */
+function updateStatBar(statName, newValue) {
+  const valueElement = document.getElementById(`${statName}-value`);
+  const barElement = document.getElementById(`${statName}-bar`);
+  const statItem = document.querySelector(`[data-stat="${statName}"]`);
+  
+  if (!valueElement || !barElement || !statItem) return;
+  
+  // Animar el valor
+  valueElement.textContent = `${newValue}/10`;
+  
+  // Animar la barra
+  barElement.style.width = `${newValue * 10}%`;
+  
+  // Agregar efecto de pulso
+  statItem.classList.add('stat-updated');
+  
+  // Quitar efecto después de 1 segundo
   setTimeout(() => {
-    successMessage.style.display = 'none';
-  }, 5000);
+    statItem.classList.remove('stat-updated');
+  }, 1000);
+}
+
+/**
+ * Mostrar notificación de actualización
+ */
+function showUpdateNotification(changes) {
+  // Crear elemento de notificación
+  const notification = document.createElement('div');
+  notification.className = 'stats-notification';
+  
+  // Determinar qué cambió
+  let message = 'Estadísticas actualizadas';
+  
+  if (changes.health_level !== undefined) {
+    message = 'Salud actualizada +1';
+  } else if (changes.food_level !== undefined) {
+    message = 'Alimentación actualizada +1';
+  } else if (changes.wellbeing_level !== undefined) {
+    message = 'Bienestar actualizado +1';
+  } else if (changes.affection_level !== undefined) {
+    message = 'Cariño actualizado +1';
+  }
+  
+  notification.textContent = message;
+  
+  // Agregar al DOM
+  document.body.appendChild(notification);
+  
+  // Animar entrada
+  setTimeout(() => {
+    notification.classList.add('show');
+  }, 10);
+  
+  // Quitar después de 3 segundos
+  setTimeout(() => {
+    notification.classList.remove('show');
+    setTimeout(() => {
+      notification.remove();
+    }, 300);
+  }, 3000);
 }
 
 function showError(message) {
-  const errorMessage = document.getElementById('errorMessage');
-  errorMessage.textContent = message;
-  errorMessage.style.display = 'block';
-  
-  setTimeout(() => {
-    errorMessage.style.display = 'none';
-  }, 7000);
+  const app = document.getElementById('app');
+  app.innerHTML = `
+    <div class="statistics-container">
+      <p class="error">${message}</p>
+      <button onclick="window.history.back()" class="btn-back">Volver</button>
+    </div>
+  `;
 }

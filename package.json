@@ -7,10 +7,14 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "node server/index.js",
-    "dev": "nodemon server/index.js",
-    "dev:client": "vite --config padrino-app/vite.config.js",
-    "build:client": "vite build --config padrino-app/vite.config.js",
-    "preview:client": "vite preview --config padrino-app/vite.config.js"
+    "dev": "vite --config admin-app/vite.config.js",
+    "dev:backend": "nodemon server/index.js",
+    "dev:padrino": "vite --config padrino-app/vite.config.js",
+    "build:padrino": "vite build --config padrino-app/vite.config.js",
+    "preview:padrino": "vite preview --config padrino-app/vite.config.js",
+    "dev:admin": "vite --config admin-app/vite.config.js",
+    "build:admin": "vite build --config admin-app/vite.config.js",
+    "preview:admin": "vite preview --config admin-app/vite.config.js"
   },
   "keywords": [],
   "author": "",

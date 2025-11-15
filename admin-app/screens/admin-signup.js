@@ -1,6 +1,7 @@
 // Pantalla de registro para administradores
 
-import { navigateTo, makeRequest } from '../app.js';
+import router from '../utils/router.js';
+import { signupAdmin } from '../services/admin-api.js';
 
 // Renderizar la pantalla de registro
 export default function renderAdminSignup() {
@@ -163,7 +164,7 @@ async function handleSignup(event) {
       rol: 'admin' 
     };
     
-    const response = await makeRequest('/api/auth/register', 'POST', userData);
+    const response = await signupAdmin(userData);
     
     if (response.success && response.token) {
 
@@ -176,7 +177,7 @@ async function handleSignup(event) {
         showSuccess('¡Registro exitoso! Bienvenido a PetLink Admin. Redirigiendo al dashboard...');
         
         setTimeout(() => {
-          navigateTo('/dashboard', { user: response.user });
+          router.navigateTo('/dashboard');
         }, 3000);
       } else {
         showError('Error: No se pudo asignar el rol de administrador');
@@ -209,9 +210,9 @@ async function handleSignup(event) {
   }
 }
 
-// Redirección a login
+// Redirección a login (igual que padrino-app)
 function handleLogin() {
-  navigateTo('/admin-login', {});
+  router.navigateTo('/admin-login');
 }
 
 function showError(message) {

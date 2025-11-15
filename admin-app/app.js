@@ -1,3 +1,10 @@
+// Este es el CEREBRO de la aplicación admin-app
+// Conecta todas las pantallas y servicios
+
+import router from './utils/router.js';
+import { initWebSocket } from './services/websocket-admin.js';
+
+// Importar todas las pantallas
 import renderAdminLoginSignup from "./screens/admin-login-signup.js";
 import renderAdminLogin from "./screens/admin-login.js";
 import renderAdminSignup from "./screens/admin-signup.js";
@@ -11,82 +18,136 @@ import renderDogEstadistics from "./screens/dog-estadistics.js";
 import renderDogManagement from "./screens/dog-management.js";
 import renderDogProfile from "./screens/dog-profile.js";
 
-const socket = io("/", { path: "/real-time" });
-
-function clearScripts() {
-  document.getElementById("app").innerHTML = "";
-}
-
-let route = { path: "/admin-login-signup", data: {} };
-
-// Función para renderizar la pantalla actual
-async function renderCurrentScreen() {
-  clearScripts();
-  
-  switch (route.path) {
-    case "/admin-login-signup":
-      renderAdminLoginSignup(route.data);
-      break;
-    case "/admin-login":
-      renderAdminLogin(route.data);
-      break;
-    case "/admin-signup":
-      renderAdminSignup(route.data);
-      break;
-    case "/dashboard":
-      await renderDashboard(route.data);
-      break;
-    case "/products-manage":
-      await renderProductsManage(route.data);
-      break;
-    case "/add-pet":
-      await renderAddDog(route.data);
-      break;
-    case "/appointments":
-      await renderAppointmentsManage(route.data);
-      break;
-    case "/donations":
-      await renderDonationsView(route.data);
-      break;
-    case "/donations-profile-dog":
-      await renderDonationsProfileDog(route.data);
-      break;
-    case "/dog-estadistics":
-      await renderDogEstadistics(route.data);
-      break;
-    case "/dog-management":
-      await renderDogManagement(route.data);
-      break;
-    case "/dog-profile":
-      await renderDogProfile(route.data);
-      break;
-    default:
-      const app = document.getElementById("app");
-      app.innerHTML = `<h1>404 - Not Found</h1><p>The page you are looking for does not exist.</p>`;
-  }
-}
-
-// Renderizar la pantalla inicial
-renderCurrentScreen();
-
-function navigateTo(path, data) {
-  route = { path, data };
-  renderCurrentScreen();
-}
-
-async function makeRequest(url, method, body) {
-  const BASE_URL = "http://localhost:5050";
-  let response = await fetch(`${BASE_URL}${url}`, {
-    method: method,
-    headers: {
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify(body),
+/**
+ * Configurar todas las rutas de la aplicación
+ * Patrón igual a padrino-app: usar parámetros en la URL
+ */
+function setupRoutes() {
+  // Ruta por defecto (redirigir a login si no hay sesión)
+  router.addRoute('/', () => {
+    const token = localStorage.getItem('adminToken');
+    if (token) {
+      router.navigateTo('/dashboard');
+    } else {
+      router.navigateTo('/admin-login');
+    }
   });
-
-  response = await response.json();
-
-  return response;
+  
+  // Rutas de autenticación
+  router.addRoute('/admin-login-signup', renderAdminLoginSignup);
+  router.addRoute('/admin-login', renderAdminLogin);
+  router.addRoute('/admin-signup', renderAdminSignup);
+  
+  // Ruta principal - Dashboard
+  router.addRoute('/dashboard', renderDashboard);
+  
+  // Rutas de gestión
+  router.addRoute('/dog-management', renderDogManagement);
+  router.addRoute('/add-pet', renderAddDog);
+  router.addRoute('/appointments', renderAppointmentsManage);
+  router.addRoute('/donations', renderDonationsView);
+  
+  // Rutas con parámetros (igual que padrino-app)
+  router.addRoute('/dog-profile/:dogId', (params) => {
+    const dogId = params.dogId;
+    renderDogProfile(dogId);
+  });
+  
+  router.addRoute('/dog-estadistics/:dogId', (params) => {
+    const dogId = params.dogId;
+    renderDogEstadistics(dogId);
+  });
+  
+  router.addRoute('/donations-profile-dog/:dogId', (params) => {
+    const dogId = params.dogId;
+    renderDonationsProfileDog(dogId);
+  });
+  
+  // Ruta simple para products-manage (usa sessionStorage para contexto)
+  router.addRoute('/products-manage', renderProductsManage);
 }
 
-export { navigateTo, socket, makeRequest };
+/**
+ * Configurar listeners de eventos en tiempo real
+ */
+function setupRealtimeListeners() {
+  // Importar funciones del servicio de websockets
+  import('./services/websocket-admin.js').then(module => {
+    const { addEventListener } = module;
+    
+    // Listener para nuevas donaciones
+    addEventListener('donation-created', (data) => {
+      showNotification('Nueva donación recibida', 'success');
+    });
+    
+    // Listener para nuevas citas
+    addEventListener('appointment-created', (data) => {
+      showNotification('Nueva cita registrada', 'info');
+    });
+    
+    // Listener para necesidades urgentes
+    addEventListener('urgent-need-alert', (data) => {
+      showNotification('¡NECESIDAD URGENTE! - ' + (data.need?.name || 'Ver detalles'), 'warning');
+    });
+    
+    // Listener para nuevas compras
+    addEventListener('purchase-notification', (data) => {
+      showNotification('Nueva compra de accesorio', 'success');
+    });
+  });
+}
+
+/**
+ * Mostrar notificación visual
+ */
+function showNotification(message, type = 'info') {
+  // Crear elemento de notificación
+  const notification = document.createElement('div');
+  notification.className = `notification notification-${type}`;
+  notification.textContent = message;
+  
+  // Estilos inline para asegurar visibilidad
+  notification.style.cssText = `
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    padding: 15px 20px;
+    background-color: ${type === 'success' ? '#4CAF50' : type === 'warning' ? '#FF9800' : '#2196F3'};
+    color: white;
+    border-radius: 4px;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+    z-index: 10000;
+    animation: slideIn 0.3s ease-out;
+  `;
+  
+  // Agregar al DOM
+  document.body.appendChild(notification);
+  
+  // Remover después de 5 segundos
+  setTimeout(() => {
+    notification.style.animation = 'slideOut 0.3s ease-in';
+    setTimeout(() => {
+      document.body.removeChild(notification);
+    }, 300);
+  }, 5000);
+}
+
+/**
+ * Iniciar la aplicación
+ */
+function initApp() {
+  setupRoutes();
+  router.init();
+  initWebSocket();
+  setupRealtimeListeners();
+}
+
+// Cuando el HTML esté listo, iniciar la app
+if (document.readyState === 'loading') {
+  document.addEventListener('DOMContentLoaded', initApp);
+} else {
+  initApp();
+}
+
+// Exportar router para uso en otras partes de la app
+export { router };
