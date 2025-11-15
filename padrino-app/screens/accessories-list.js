@@ -14,7 +14,7 @@ export function renderAccessoriesList(dogId) {
       
       <!-- Título -->
       <h1 class="accessories-title">Tienda de Accesorios</h1>
-      <p class="accessories-subtitle">Dale un regalo especial a tu perrito 🎁</p>
+      <p class="accessories-subtitle">Dale un regalo especial a tu perrito</p>
       
       <!-- Lista de accesorios -->
       <div id="accessories-list" class="accessories-list">
@@ -53,19 +53,26 @@ function displayAccessories(accessories, dogId) {
     return;
   }
   
-  // IMPORTANTE: Mostramos TODOS los accesorios (no filtramos)
-  // Usamos imágenes placeholder por ahora
-  accessoriesList.innerHTML = accessories.map(accessory => `
+  // Filtrar accesorios que no tengan id_dog o id_user (accesorios generales de la tienda)
+  const generalAccessories = accessories.filter(acc => !acc.id_dog && !acc.id_user);
+  
+  if (generalAccessories.length === 0) {
+    accessoriesList.innerHTML = '<p class="no-accessories">No hay accesorios disponibles en la tienda</p>';
+    return;
+  }
+  
+  accessoriesList.innerHTML = generalAccessories.map(accessory => `
     <div class="accessory-card" data-id="${accessory.id}" data-dog-id="${dogId}">
       <div class="accessory-image-container">
         <img 
-          src="${accessory.image_url || getPlaceholderImage(accessory.category)}" 
+          src="${accessory.imagen_original || getPlaceholderImage(accessory.category)}" 
           alt="${accessory.name}" 
           class="accessory-image"
+          onerror="this.src='${getPlaceholderImage(accessory.category)}'"
         >
       </div>
       <div class="accessory-info">
-        <p class="accessory-category">${accessory.category || 'Accesorio'}</p>
+        <p class="accessory-category">${accessory.category?.toUpperCase() || 'ACCESORIO'}</p>
         <p class="accessory-name">${accessory.name}</p>
         <p class="accessory-price">$${accessory.price?.toLocaleString('es-CO') || '0'}</p>
         <button class="btn-view-accessory">Ver detalles</button>

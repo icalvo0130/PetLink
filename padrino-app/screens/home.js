@@ -18,13 +18,6 @@ export function renderHome() {
       <!-- Titulo -->
       <h1 class="title">Elige tu media naranja</h1>
 
-      <!-- Filtros -->
-      <div class="filters">
-        <button class="filter-btn active" data-filter="all">Todos</button>
-        <button class="filter-btn" data-filter="puppy">Cachorros</button>
-        <button class="filter-btn" data-filter="less-sponsored">Menos apadrinados</button>
-      </div>
-
       <!-- Lista de perros -->
       <div id="dogs-list" class="dogs-list">
         <p class="loading">Cargando perros...</p>
