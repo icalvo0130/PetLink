@@ -2024,105 +2024,1482 @@ img[class*="dog"],
 }
 
 /* =============================================
-   WHO ARE YOU
+   WHO ARE YOU - Mobile First Design
    ============================================= */
 
+/* Contenedor principal - Mobile First (320px+) */
 .who-are-you-container {
   min-height: 100vh;
+  width: 100%;
+  position: relative;
   display: flex;
   align-items: center;
   justify-content: center;
-  padding: 20px;
-  background-color: #f5f5f5;
+  padding: 0;
+  background-color: #ffffff;
+  overflow: hidden;
 }
 
+/* Contenido centrado */
 .who-are-you-content {
   width: 100%;
-  max-width: 500px;
-  background-color: white;
-  border-radius: 15px;
-  box-shadow: 0 4px 20px rgba(0,0,0,0.1);
-  padding: 40px 30px;
+  max-width: 100%;
+  background-color: transparent;
+  padding: 0;
   text-align: center;
+  position: relative;
+  z-index: 2;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
+  padding: 32px 24px 200px;
 }
 
+/* Sección de bienvenida */
 .who-are-you-content .welcome-section {
-  margin-bottom: 40px;
+  margin-bottom: 16px;
+  width: 100%;
+}
+
+/* Logo PET LINK estilizado */
+.who-are-you-content .app-logo {
+  margin-bottom: 0;
 }
 
 .who-are-you-content .app-logo h1 {
-  font-size: 48px;
-  color: #ff6b35;
-  margin-bottom: 20px;
+  font-size: 40px;
+  font-weight: 900;
+  color: transparent;
+  margin: 0 auto;
+  letter-spacing: 1px;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+  text-transform: uppercase;
+  position: relative;
+  display: block;
+  line-height: 1.2;
+  width: 200px;
+  height: auto;
+  min-height: 234px;
+}
+
+/* Mostrar logo de imagen */
+.who-are-you-content .app-logo h1::before {
+  content: '';
+  display: block;
+  background-image: url('/images/logo.png'); 
+  background-size: contain; 
+  background-repeat: no-repeat; 
+  background-position: center; 
+  width: 200px;
+  height: 234px; /* Mantiene proporción 178:208 */
+  margin: 0;
+  position: absolute;
+  top: 0;
+  left: 0;
+}
+
+/* Si tienes logo de imagen, descomenta esto y ajusta: */
+/* .who-are-you-content .app-logo h1::before {
+  content: '';
+  display: block;
+  background-image: url('/assets/images/petlink-logo.png');
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-position: center;
+  width: 180px;
+  height: 50px;
+  margin: 0 auto;
+} */
+
+/* Agregar texto "Bienvenido!" con CSS - debajo del logo */
+.who-are-you-content .app-logo::after {
+  content: 'Bienvenido!';
+  display: block;
+  font-size: 22px;
+  font-weight: 700;
+  color: #000000;
+  margin-top: 24px;
+  letter-spacing: 0.3px;
+  text-align: center;
+  position: relative;
+}
+
+/* Título "Quien eres?" */
+.who-are-you-title {
+  margin-bottom: 32px;
+  width: 100%;
 }
 
 .who-are-you-title h2 {
-  font-size: 32px;
-  color: #333;
-  margin-bottom: 40px;
-  font-weight: bold;
+  font-size: 22px;
+  font-weight: 300;
+  color: #000000;
+  margin: 0;
+  letter-spacing: 0.3px;
 }
 
+/* Contenedor de botones */
 .user-options {
   display: flex;
   flex-direction: column;
-  gap: 20px;
-  margin-top: 30px;
+  gap: 16px;
+  width: 100%;
+  max-width: 320px;
+  margin-top: 0;
 }
 
+/* Botones - Estilo naranja horizontal alargado */
 .user-option-btn {
   width: 100%;
-  padding: 20px;
+  padding: 18px 32px;
   border: none;
-  border-radius: 12px;
-  font-size: 20px;
-  font-weight: bold;
+  border-radius: 50px;
+  font-size: 18px;
+  font-weight: 600;
   cursor: pointer;
-  transition: all 0.3s;
-  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+  transition: all 0.2s ease;
+  box-shadow: 0 2px 8px rgba(255, 107, 53, 0.25);
+  text-align: center;
+  letter-spacing: 0.5px;
+  position: relative;
+  overflow: hidden;
 }
 
+/* Botón Administrador - Naranja sólido */
 .user-option-btn.admin-btn {
   background-color: #ff6b35;
-  color: white;
+  color: #ffffff;
+}
+
+.user-option-btn.admin-btn:active {
+  background-color: #e55a2b;
+  transform: scale(0.98);
 }
 
 .user-option-btn.admin-btn:hover {
   background-color: #e55a2b;
-  transform: translateY(-3px);
-  box-shadow: 0 4px 16px rgba(255, 107, 53, 0.4);
+  box-shadow: 0 4px 12px rgba(255, 107, 53, 0.35);
 }
 
+/* Botón Padrino - Naranja sólido (mismo estilo) */
 .user-option-btn.padrino-btn {
-  background-color: #4a90e2;
-  color: white;
+  background-color: #ff6b35;
+  color: #ffffff;
+}
+
+.user-option-btn.padrino-btn:active {
+  background-color: #e55a2b;
+  transform: scale(0.98);
 }
 
 .user-option-btn.padrino-btn:hover {
-  background-color: #357abd;
-  transform: translateY(-3px);
-  box-shadow: 0 4px 16px rgba(74, 144, 226, 0.4);
+  background-color: #e55a2b;
+  box-shadow: 0 4px 12px rgba(255, 107, 53, 0.35);
 }
 
-.user-option-btn:active {
-  transform: translateY(-1px);
+/* Deshabilitado */
+.user-option-btn:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+  transform: none !important;
 }
 
-@media (max-width: 600px) {
+/* Semicírculo amarillo con perro al fondo */
+.who-are-you-container::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  width: 100%;
+  height: 220px;
+  background-color: #ffd93d;
+  border-radius: 50% 50% 0 0 / 100% 100% 0 0;
+  z-index: 1;
+  /* Subir imagen del perro aquí: */
+  /* Coloca la imagen en: admin-app/public/images/dog-face-whoareyou.png */
+  /* Luego descomenta las siguientes líneas: */
+  background-image: url('/images/dog-inicio.png'); 
+  background-size: 360px auto; 
+  background-repeat: no-repeat; 
+  background-position: center bottom; 
+  padding-bottom: 20px; 
+}
+
+/* Tablet (481px - 768px) */
+@media (min-width: 481px) {
   .who-are-you-content {
-    padding: 30px 20px;
+    padding: 48px 32px 240px;
   }
-  
+
   .who-are-you-content .app-logo h1 {
-    font-size: 36px;
+    width: 260px;
+    min-height: 304px;
+  }
+
+  .who-are-you-content .app-logo h1::before {
+    width: 260px;
+    height: 304px; /* Mantiene proporción 178:208 */
+  }
+
+  .who-are-you-content .app-logo::after {
+    font-size: 28px;
+    margin-top: 28px;
   }
   
+  .who-are-you-content .welcome-section {
+    margin-bottom: 18px;
+  }
+
   .who-are-you-title h2 {
-    font-size: 24px;
+    font-size: 26px;
+    font-weight: 300;
+  }
+
+  .user-options {
+    max-width: 380px;
+    gap: 20px;
+  }
+
+  .user-option-btn {
+    padding: 20px 40px;
+    font-size: 20px;
+    border-radius: 50px;
+  }
+
+  .who-are-you-container::after {
+    height: 280px;
+  }
+}
+
+/* Desktop (769px+) */
+@media (min-width: 769px) {
+  .who-are-you-content {
+    padding: 64px 40px 300px;
+  }
+
+  .who-are-you-content .app-logo h1 {
+    width: 320px;
+    min-height: 374px;
+  }
+
+  .who-are-you-content .app-logo h1::before {
+    width: 320px;
+    height: 374px; /* Mantiene proporción 178:208 */
+  }
+
+  .who-are-you-content .app-logo::after {
+    font-size: 32px;
+    margin-top: 32px;
   }
   
+  .who-are-you-content .welcome-section {
+    margin-bottom: 20px;
+  }
+
+  .who-are-you-title h2 {
+    font-size: 30px;
+    font-weight: 300;
+  }
+
+  .user-options {
+    max-width: 420px;
+    gap: 24px;
+  }
+
   .user-option-btn {
-    padding: 16px;
+    padding: 22px 48px;
+    font-size: 22px;
+    border-radius: 50px;
+  }
+
+  .who-are-you-container::after {
+    height: 320px;
+  }
+}
+
+/* Pantallas grandes (1024px+) */
+@media (min-width: 1024px) {
+  .who-are-you-content {
+    max-width: 500px;
+    padding: 80px 40px 350px;
+  }
+
+  .who-are-you-container::after {
+    height: 380px;
+  }
+}
+
+/* =============================================
+   LOGIN-SIGNUP CONTAINER - Mobile First
+   Pantallas: admin-login-signup.js y login-signup.js
+   ============================================= */
+
+/* Contenedor principal - Mobile First (320px+) */
+.login-signup-container {
+  min-height: 100vh;
+  width: 100%;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 24px;
+  background-color: #ffffff;
+  overflow: hidden;
+}
+
+/* Sección de bienvenida */
+.login-signup-container .welcome-section {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 0;
+  margin-bottom: 0;
+}
+
+/* Logo contenedor */
+.login-signup-container .app-logo {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 48px;
+  width: 100%;
+}
+
+/* Logo - usar imagen logo.png */
+.login-signup-container .app-logo h1 {
+  font-size: 0;
+  font-weight: 900;
+  color: transparent;
+  margin: 0 auto;
+  padding: 0;
+  letter-spacing: 1px;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+  text-transform: uppercase;
+  position: relative;
+  display: block;
+  width: 200px;
+  height: 234px;
+  min-height: 234px;
+  background-image: url('/images/logo.png');
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-position: center;
+}
+
+/* Subtítulo del logo (oculto en el diseño) */
+.login-signup-container .app-logo .app-subtitle {
+  display: none;
+}
+
+/* Mensaje de bienvenida (oculto en el diseño) */
+.login-signup-container .welcome-message {
+  display: none;
+}
+
+/* Contenedor de opciones de autenticación */
+.login-signup-container .auth-options {
+  width: 100%;
+  max-width: 320px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 16px;
+  padding: 0;
+  margin: 0 auto;
+}
+
+/* Cards de autenticación */
+.login-signup-container .auth-card {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  background-color: transparent;
+  border: none;
+  padding: 0;
+  margin: 0;
+  box-shadow: none;
+  text-align: center;
+}
+
+/* Iconos de autenticación (ocultos en el diseño) */
+.login-signup-container .auth-card .auth-icon {
+  display: none;
+}
+
+/* Títulos de las cards (ocultos en el diseño) */
+.login-signup-container .auth-card h3 {
+  display: none;
+}
+
+/* Texto descriptivo de las cards (oculto en el diseño) */
+.login-signup-container .auth-card p {
+  display: none;
+}
+
+/* Botones de autenticación - Estilo pill-shaped naranja */
+.login-signup-container .auth-btn {
+  width: 100%;
+  padding: 18px 32px;
+  border: none;
+  border-radius: 50px;
+  font-size: 18px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  box-shadow: 0 2px 8px rgba(255, 107, 53, 0.25);
+  text-align: center;
+  letter-spacing: 0.5px;
+  position: relative;
+  overflow: hidden;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+  text-transform: none;
+}
+
+/* Botón Login - Naranja sólido */
+.login-signup-container .auth-btn.login-btn {
+  background-color: #ff6b35;
+  color: #ffffff;
+}
+
+.login-signup-container .auth-btn.login-btn:active {
+  background-color: #e55a2b;
+  transform: scale(0.98);
+}
+
+.login-signup-container .auth-btn.login-btn:hover {
+  background-color: #e55a2b;
+  box-shadow: 0 4px 12px rgba(255, 107, 53, 0.35);
+}
+
+/* Botón Sign Up - Naranja sólido (mismo estilo) */
+.login-signup-container .auth-btn.signup-btn {
+  background-color: #ff6b35;
+  color: #ffffff;
+}
+
+.login-signup-container .auth-btn.signup-btn:active {
+  background-color: #e55a2b;
+  transform: scale(0.98);
+}
+
+.login-signup-container .auth-btn.signup-btn:hover {
+  background-color: #e55a2b;
+  box-shadow: 0 4px 12px rgba(255, 107, 53, 0.35);
+}
+
+/* Botón deshabilitado */
+.login-signup-container .auth-btn:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+  transform: none !important;
+}
+
+/* Footer info (oculto en el diseño) */
+.login-signup-container .footer-info {
+  display: none;
+}
+
+/* Semicírculo amarillo eliminado - no se usa en login-signup */
+
+/* Tablet (481px - 768px) */
+@media (min-width: 481px) {
+  .login-signup-container {
+    padding: 32px;
+  }
+
+  .login-signup-container .app-logo {
+    margin-bottom: 56px;
+  }
+
+  .login-signup-container .app-logo h1 {
+    width: 260px;
+    height: 304px;
+    min-height: 304px;
+  }
+
+  .login-signup-container .auth-options {
+    max-width: 380px;
+    gap: 20px;
+    padding: 0;
+  }
+
+  .login-signup-container .auth-btn {
+    padding: 20px 40px;
+    font-size: 20px;
+  }
+}
+
+/* Desktop (769px+) */
+@media (min-width: 769px) {
+  .login-signup-container {
+    padding: 40px;
+  }
+
+  .login-signup-container .app-logo {
+    margin-bottom: 64px;
+  }
+
+  .login-signup-container .app-logo h1 {
+    width: 320px;
+    height: 374px;
+    min-height: 374px;
+  }
+
+  .login-signup-container .auth-options {
+    max-width: 420px;
+    gap: 24px;
+    padding: 0;
+  }
+
+  .login-signup-container .auth-btn {
+    padding: 22px 48px;
+    font-size: 22px;
+  }
+}
+
+/* Pantallas grandes (1024px+) */
+@media (min-width: 1024px) {
+  .login-signup-container {
+    max-width: 500px;
+    margin: 0 auto;
+    padding: 48px;
+  }
+
+  .login-signup-container .app-logo {
+    margin-bottom: 72px;
+  }
+}
+
+/* =============================================
+   ADMIN LOGIN SCREEN - Diseño según imagen
+   Pantalla: admin-login.js
+   Solo aplica cuando hay un #loginForm dentro de .login-container
+   ============================================= */
+
+/* Contenedor principal del admin login - Solo cuando hay #loginForm */
+.login-container:has(#loginForm) {
+  min-height: 100vh;
+  width: 100%;
+  background-color: #f5f5f5; /* Fondo gris claro */
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center; /* Centrado vertical */
+  position: relative;
+}
+
+/* Header con botón back - Solo cuando hay #loginForm */
+.login-container:has(#loginForm) .page-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 20px 20px 0;
+  margin-bottom: 0;
+  background-color: transparent;
+  width: 100%;
+  max-width: 100%;
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 10;
+}
+
+/* Botón back - Circular blanco con flecha negra - Solo cuando hay #loginForm */
+.login-container:has(#loginForm) .back-btn {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background-color: #ffffff;
+  border: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  font-size: 18px;
+  color: #000000;
+  padding: 0;
+  margin: 0;
+  transition: all 0.2s ease;
+  flex-shrink: 0;
+}
+
+.login-container:has(#loginForm) .back-btn:hover {
+  transform: scale(1.05);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+.login-container:has(#loginForm) .back-btn:active {
+  transform: scale(0.95);
+}
+
+/* Ocultar h1 del header (PetLink) - Solo cuando hay #loginForm */
+.login-container:has(#loginForm) .page-header h1 {
+  display: none;
+}
+
+/* Ocultar div vacío del header - Solo cuando hay #loginForm */
+.login-container:has(#loginForm) .page-header div {
+  display: none;
+}
+
+/* Formulario de login - Solo cuando hay #loginForm */
+.login-container:has(#loginForm) .login-form {
+  width: 100%;
+  max-width: 100%;
+  background-color: transparent;
+  padding: 32px 20px; /* Mobile padding */
+  border-radius: 0;
+  box-shadow: none;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  position: relative;
+}
+
+/* Ocultar título original y crear nuevo - Solo cuando hay #loginForm */
+.login-container:has(#loginForm) .login-form h1 {
+  font-size: 32px;
+  font-weight: 700;
+  color: transparent;
+  margin: 0 0 32px 0;
+  padding: 0;
+  line-height: 1.0; /* Line-height compacto para acercar las líneas */
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+  position: relative;
+  height: auto;
+  min-height: 60px;
+  text-align: left; /* Alineado a la izquierda */
+  width: 100%;
+}
+
+/* Crear "Accede a tu" en negro - Solo cuando hay #loginForm */
+.login-container:has(#loginForm) .login-form h1::before {
+  content: 'Accede a tu';
+  display: block;
+  color: #000000;
+  font-weight: 700;
+  font-size: 32px;
+  line-height: 1.0; /* Line-height compacto */
+  margin-bottom: -4px; /* Margen negativo para acercar más las líneas */
+}
+
+/* Crear "Cuenta" en naranja - Solo cuando hay #loginForm */
+.login-container:has(#loginForm) .login-form h1::after {
+  content: 'Cuenta';
+  display: block;
+  color: #ff6b35; /* Naranja */
+  font-weight: 700;
+  font-size: 32px;
+  line-height: 1.0; /* Line-height compacto */
+  margin-top: -2px; /* Margen negativo para acercar aún más */
+}
+
+/* Formulario - Solo cuando hay #loginForm */
+.login-container:has(#loginForm) #loginForm {
+  width: 100%;
+  margin: 0;
+  padding: 0;
+}
+
+/* Grupos de formulario - Solo cuando hay #loginForm */
+.login-container:has(#loginForm) .form-group {
+  margin-bottom: 20px;
+  position: relative;
+  width: 100%;
+  display: flex;
+  align-items: center;
+}
+
+/* Labels ocultos - Solo cuando hay #loginForm */
+.login-container:has(#loginForm) .form-group label {
+  display: none;
+}
+
+/* Inputs - Fondo blanco, bordes redondeados, sombra sutil - Solo cuando hay #loginForm */
+.login-container:has(#loginForm) .form-group input {
+  width: 100%;
+  padding: 16px 16px 16px 50px; /* Espacio para icono izquierdo */
+  border: none;
+  border-radius: 12px;
+  font-size: 16px;
+  background-color: #ffffff;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+  color: #333333;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+  box-sizing: border-box;
+  transition: all 0.2s ease;
+}
+
+/* Placeholder naranja - Solo cuando hay #loginForm */
+.login-container:has(#loginForm) .form-group input::placeholder {
+  color: #ff6b35; /* Naranja */
+  opacity: 1;
+  font-size: 16px;
+}
+
+/* Focus - borde naranja - Solo cuando hay #loginForm */
+.login-container:has(#loginForm) .form-group input:focus {
+  outline: none;
+  box-shadow: 0 4px 12px rgba(255, 107, 53, 0.2);
+  border: 2px solid #ff6b35;
+  padding: 14px 14px 14px 48px; /* Ajustar padding cuando hay borde */
+}
+
+/* Icono de usuario (input username) - Solo cuando hay #loginForm */
+.login-container:has(#loginForm) #username {
+  background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="%23ff6b35"><path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/></svg>');
+  background-repeat: no-repeat;
+  background-position: 16px center;
+  background-size: 24px 24px;
+}
+
+/* Icono de candado (input password) - Solo cuando hay #loginForm */
+.login-container:has(#loginForm) #password {
+  background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="%23ff6b35"><path d="M18 8h-1V6c0-2.76-2.24-5-5-5S7 3.24 7 6v2H6c-1.1 0-2 .9-2 2v10c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V10c0-1.1-.9-2-2-2zm-6 9c-1.1 0-2-.9-2-2s.9-2 2-2 2 .9 2 2-.9 2-2 2zm3.1-9H8.9V6c0-1.71 1.39-3.1 3.1-3.1 1.71 0 3.1 1.39 3.1 3.1v2z"/></svg>');
+  background-repeat: no-repeat;
+  background-position: 16px center;
+  background-size: 24px 24px;
+  padding-right: 50px; /* Espacio para icono de ojo */
+}
+
+/* Icono de ojo tachado (password visibility toggle) - Solo cuando hay #loginForm */
+.login-container:has(#loginForm) #password {
+  background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="%23ff6b35"><path d="M12 7c2.76 0 5 2.24 5 5 0 .65-.13 1.26-.36 1.83l2.92 2.92c1.51-1.26 2.7-2.89 3.43-4.75-1.73-4.39-6-7.5-11-7.5-1.4 0-2.74.25-3.98.7l2.16 2.16C10.74 7.13 11.35 7 12 7zM2 4.27l2.28 2.28.46.46C3.08 8.3 1.78 10.02 1 12c1.73 4.39 6 7.5 11 7.5 1.55 0 3.03-.3 4.38-.84l.42.42L19.73 22 21 20.73 3.27 3 2 4.27zM7.53 9.8l1.55 1.55c-.05.21-.08.43-.08.65 0 1.66 1.34 3 3 3 .22 0 .44-.03.65-.08l1.55 1.55c-.67.33-1.41.53-2.2.53-2.76 0-5-2.24-5-5 0-.79.2-1.53.53-2.2zm4.31-.78l3.15 3.15.02-.16c0-1.66-1.34-3-3-3l-.17.01z"/></svg>'), url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="%23ff6b35"><path d="M18 8h-1V6c0-2.76-2.24-5-5-5S7 3.24 7 6v2H6c-1.1 0-2 .9-2 2v10c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V10c0-1.1-.9-2-2-2zm-6 9c-1.1 0-2-.9-2-2s.9-2 2-2 2 .9 2 2-.9 2-2 2zm3.1-9H8.9V6c0-1.71 1.39-3.1 3.1-3.1 1.71 0 3.1 1.39 3.1 3.1v2z"/></svg>');
+  background-position: right 16px center, left 16px center;
+  background-size: 24px 24px, 24px 24px;
+}
+
+/* Ajuste para cuando el input tiene focus y cambia padding - Solo cuando hay #loginForm */
+.login-container:has(#loginForm) .form-group input:focus {
+  background-position: right 14px center, left 14px center;
+}
+
+/* Botones de acción - Solo cuando hay #loginForm */
+.login-container:has(#loginForm) .form-actions {
+  margin-top: 24px;
+  margin-bottom: 0;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+}
+
+/* Botón Login - Grande, naranja pill-shaped - Solo cuando hay #loginForm */
+.login-container:has(#loginForm) #loginBtn {
+  width: 100%;
+  padding: 18px 32px;
+  border: none;
+  border-radius: 50px; /* Botón completamente redondeado (pill-shaped) */
+  font-size: 18px;
+  font-weight: 700;
+  color: #ffffff;
+  background: linear-gradient(135deg, #ff6b35 0%, #ff8535 100%);
+  cursor: pointer;
+  box-shadow: 0 4px 12px rgba(255, 107, 53, 0.3);
+  transition: all 0.2s ease;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+  text-transform: none;
+  letter-spacing: 0.5px;
+  margin-bottom: 0;
+}
+
+.login-container:has(#loginForm) #loginBtn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 16px rgba(255, 107, 53, 0.4);
+  background: linear-gradient(135deg, #ff8535 0%, #ff6b35 100%);
+}
+
+.login-container:has(#loginForm) #loginBtn:active {
+  transform: translateY(0);
+  box-shadow: 0 2px 8px rgba(255, 107, 53, 0.3);
+}
+
+.login-container:has(#loginForm) #loginBtn:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+  transform: none;
+}
+
+/* Botón "Crear Cuenta" - Ocultar y reemplazar con texto - Solo cuando hay #loginForm */
+.login-container:has(#loginForm) #signupBtn {
+  display: none; /* Ocultar botón original */
+}
+
+/* Sección de registro - Crear texto "Aun no estas registrado?" y "Crea una cuenta" - Solo cuando hay #loginForm */
+.login-container:has(#loginForm) .form-actions::after {
+  content: 'Aun no estas registrado?\ACrea una cuenta';
+  white-space: pre;
+  display: block;
+  margin-top: 32px;
+  text-align: center;
+  width: 100%;
+  font-size: 14px;
+  color: #999999; /* Gris claro */
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+  font-weight: 400;
+  line-height: 1.6;
+}
+
+/* Mensajes de error - Solo cuando hay #loginForm */
+.login-container:has(#loginForm) #errorMessage {
+  margin-top: 16px;
+  width: 100%;
+  font-size: 14px;
+  padding: 10px;
+  border-radius: 8px;
+  background-color: #ffe0e0;
+  color: #cc0000;
+}
+
+/* Tablet (481px - 768px) - Solo cuando hay #loginForm */
+@media (min-width: 481px) {
+  .login-container:has(#loginForm) .page-header {
+    padding: 24px 32px 0;
+  }
+
+  .login-container:has(#loginForm) .back-btn {
+    width: 44px;
+    height: 44px;
+    font-size: 20px;
+  }
+
+  .login-container:has(#loginForm) .login-form {
+    padding: 48px 32px;
+    max-width: 480px; /* Centrado */
+    margin: 0 auto;
+  }
+
+  .login-container:has(#loginForm) .login-form h1 {
+    font-size: 36px;
+    margin-bottom: 40px;
+    min-height: 70px;
+  }
+
+  .login-container:has(#loginForm) .login-form h1::before {
+    font-size: 36px;
+    margin-bottom: -4px; /* Mantener espacio compacto en tablet */
+  }
+
+  .login-container:has(#loginForm) .login-form h1::after {
+    font-size: 36px;
+    margin-top: -2px; /* Mantener espacio compacto en tablet */
+  }
+
+  .login-container:has(#loginForm) .form-group input {
+    padding: 18px 18px 18px 55px;
+    font-size: 17px;
+    border-radius: 14px;
+  }
+
+  .login-container:has(#loginForm) .form-group input:focus {
+    padding: 16px 16px 16px 53px;
+  }
+
+  .login-container:has(#loginForm) #username {
+    background-position: 18px center;
+    background-size: 26px 26px;
+  }
+
+  .login-container:has(#loginForm) #password {
+    background-position: right 18px center, left 18px center;
+    background-size: 26px 26px, 26px 26px;
+  }
+
+  .login-container:has(#loginForm) #loginBtn {
+    padding: 20px 40px;
+    font-size: 20px;
+    border-radius: 50px; /* Mantener botón redondeado en tablet */
+  }
+
+  .login-container:has(#loginForm) .form-actions::after {
+    font-size: 15px;
+  }
+}
+
+/* Desktop (769px+) - Solo cuando hay #loginForm */
+@media (min-width: 769px) {
+  .login-container:has(#loginForm) .page-header {
+    padding: 32px 40px 0;
+  }
+
+  .login-container:has(#loginForm) .back-btn {
+    width: 48px;
+    height: 48px;
+    font-size: 22px;
+  }
+
+  .login-container:has(#loginForm) .login-form {
+    padding: 64px 40px;
+    max-width: 520px; /* Centrado */
+  }
+
+  .login-container:has(#loginForm) .login-form h1 {
+    font-size: 40px;
+    margin-bottom: 48px;
+    min-height: 80px;
+  }
+
+  .login-container:has(#loginForm) .login-form h1::before {
+    font-size: 40px;
+    margin-bottom: -4px; /* Mantener espacio compacto en desktop */
+  }
+
+  .login-container:has(#loginForm) .login-form h1::after {
+    font-size: 40px;
+    margin-top: -2px; /* Mantener espacio compacto en desktop */
+  }
+
+  .login-container:has(#loginForm) .form-group input {
+    padding: 20px 20px 20px 60px;
     font-size: 18px;
+    border-radius: 16px;
+  }
+
+  .login-container:has(#loginForm) .form-group input:focus {
+    padding: 18px 18px 18px 58px;
+  }
+
+  .login-container:has(#loginForm) #username {
+    background-position: 20px center;
+    background-size: 28px 28px;
+  }
+
+  .login-container:has(#loginForm) #password {
+    background-position: right 20px center, left 20px center;
+    background-size: 28px 28px, 28px 28px;
+  }
+
+  .login-container:has(#loginForm) #loginBtn {
+    padding: 22px 48px;
+    font-size: 22px;
+    border-radius: 50px; /* Mantener botón redondeado en desktop */
+  }
+
+  .login-container:has(#loginForm) .form-actions::after {
+    font-size: 16px;
+  }
+}
+
+/* Pantallas grandes (1024px+) - Solo cuando hay #loginForm */
+@media (min-width: 1024px) {
+  .login-container:has(#loginForm) .page-header {
+    max-width: 600px;
+    margin: 0 auto;
+    padding: 40px 0 0;
+  }
+
+  .login-container:has(#loginForm) .login-form {
+    max-width: 600px;
+    padding: 80px 50px;
+  }
+}
+
+/* =============================================
+   ADMIN SIGNUP SCREEN - Diseño según imagen
+   Pantalla: admin-signup.js
+   Solo aplica cuando hay un #signupForm dentro de .signup-container
+   ============================================= */
+
+/* Contenedor principal del admin signup - Solo cuando hay #signupForm */
+.signup-container:has(#signupForm) {
+  min-height: 100vh;
+  width: 100%;
+  background-color: #f5f5f5; /* Fondo gris claro */
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: flex-start; /* Igual que padrino */
+  position: relative;
+}
+
+/* Header con botón back - Solo cuando hay #signupForm */
+.signup-container:has(#signupForm) .page-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 20px 20px 0;
+  margin-bottom: 0;
+  background-color: transparent;
+  width: 100%;
+  max-width: 100%;
+  position: relative; /* Posición relativa para que esté en el flujo normal */
+  z-index: 10;
+}
+
+/* Botón back - Circular blanco con flecha negra - Solo cuando hay #signupForm */
+.signup-container:has(#signupForm) .back-btn {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background-color: #ffffff;
+  border: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  font-size: 18px;
+  color: #000000;
+  padding: 0;
+  margin: 0;
+  transition: all 0.2s ease;
+  flex-shrink: 0;
+}
+
+.signup-container:has(#signupForm) .back-btn:hover {
+  transform: scale(1.05);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+.signup-container:has(#signupForm) .back-btn:active {
+  transform: scale(0.95);
+}
+
+/* Ocultar h1 del header (PetLink) - Solo cuando hay #signupForm */
+.signup-container:has(#signupForm) .page-header h1 {
+  display: none;
+}
+
+/* Ocultar div vacío del header - Solo cuando hay #signupForm */
+.signup-container:has(#signupForm) .page-header div {
+  display: none;
+}
+
+/* Contenedor de formulario - Solo cuando hay #signupForm */
+.signup-container:has(#signupForm) .signup-form {
+  width: 100%;
+  max-width: 100%;
+  padding: 32px 20px;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  flex: 1;
+  background-color: transparent;
+  border-radius: 0;
+  box-shadow: none;
+}
+
+/* Ocultar título original y crear nuevo - Solo cuando hay #signupForm */
+.signup-container:has(#signupForm) .signup-form h1 {
+  font-size: 32px;
+  font-weight: 700;
+  color: transparent;
+  margin: 0 0 32px 0;
+  padding: 0;
+  line-height: 1.0; /* Line-height compacto para acercar las líneas */
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+  position: relative;
+  height: auto;
+  min-height: 60px;
+  text-align: left; /* Alineado a la izquierda */
+  width: 100%;
+}
+
+/* Crear "Crea una" en negro - Solo cuando hay #signupForm */
+.signup-container:has(#signupForm) .signup-form h1::before {
+  content: 'Crea una';
+  display: block;
+  color: #000000;
+  font-weight: 700;
+  font-size: 32px;
+  line-height: 1.0; /* Line-height compacto */
+  margin-bottom: -20px; /* Margen negativo muy grande para juntarlos al máximo */
+}
+
+/* Crear "cuenta" en naranja - Solo cuando hay #signupForm */
+.signup-container:has(#signupForm) .signup-form h1::after {
+  content: 'cuenta';
+  display: block;
+  color: #ff6b35; /* Naranja */
+  font-weight: 700;
+  font-size: 32px;
+  line-height: 1.0; /* Line-height compacto */
+  margin-top: -18px; /* Margen negativo muy grande para juntarlos al máximo */
+}
+
+/* Formulario - Solo cuando hay #signupForm */
+.signup-container:has(#signupForm) #signupForm {
+  width: 100%;
+  margin: 0;
+  padding: 0;
+}
+
+/* Grupos de formulario - Solo cuando hay #signupForm */
+.signup-container:has(#signupForm) .form-group {
+  margin-bottom: 20px;
+  position: relative;
+  width: 100%;
+  display: flex;
+  align-items: center;
+}
+
+/* Labels ocultos - Solo cuando hay #signupForm */
+.signup-container:has(#signupForm) .form-group label {
+  display: none;
+}
+
+/* Inputs - Fondo blanco, bordes redondeados, sombra sutil - Solo cuando hay #signupForm */
+.signup-container:has(#signupForm) .form-group input {
+  width: 100%;
+  padding: 16px 16px 16px 50px; /* Espacio para icono izquierdo */
+  border: none;
+  border-radius: 12px;
+  font-size: 16px;
+  background-color: #ffffff;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+  color: #333333;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+  box-sizing: border-box;
+  transition: all 0.2s ease;
+}
+
+/* Placeholder naranja - Solo cuando hay #signupForm */
+.signup-container:has(#signupForm) .form-group input::placeholder {
+  color: #ff6b35; /* Naranja */
+  opacity: 1;
+  font-size: 16px;
+}
+
+/* Focus - borde naranja - Solo cuando hay #signupForm */
+.signup-container:has(#signupForm) .form-group input:focus {
+  outline: none;
+  box-shadow: 0 4px 12px rgba(255, 107, 53, 0.2);
+  border: 2px solid #ff6b35;
+  padding: 14px 14px 14px 48px; /* Ajustar padding cuando hay borde */
+}
+
+/* Icono de usuario (input foundationName) - Solo cuando hay #signupForm */
+.signup-container:has(#signupForm) #foundationName {
+  background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="%23ff6b35"><path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/></svg>');
+  background-repeat: no-repeat;
+  background-position: 16px center;
+  background-size: 24px 24px;
+}
+
+/* Icono de usuario (input name) - Solo cuando hay #signupForm */
+.signup-container:has(#signupForm) #name {
+  background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="%23ff6b35"><path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/></svg>');
+  background-repeat: no-repeat;
+  background-position: 16px center;
+  background-size: 24px 24px;
+}
+
+/* Icono @ (input username) - Solo cuando hay #signupForm */
+.signup-container:has(#signupForm) #username {
+  background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="%23ff6b35"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 3c1.66 0 3 1.34 3 3s-1.34 3-3 3-3-1.34-3-3 1.34-3 3-3zm0 14.2c-2.5 0-4.71-1.28-6-3.22.03-1.99 4-3.08 6-3.08 1.99 0 5.97 1.09 6 3.08-1.29 1.94-3.5 3.22-6 3.22z"/></svg>');
+  background-repeat: no-repeat;
+  background-position: 16px center;
+  background-size: 24px 24px;
+}
+
+/* Icono de sobre/email (input email) - Solo cuando hay #signupForm */
+.signup-container:has(#signupForm) #email {
+  background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="%23ff6b35"><path d="M20 4H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z"/></svg>');
+  background-repeat: no-repeat;
+  background-position: 16px center;
+  background-size: 24px 24px;
+}
+
+/* Icono de candado (input password) - Solo cuando hay #signupForm */
+.signup-container:has(#signupForm) #password {
+  background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="%23ff6b35"><path d="M18 8h-1V6c0-2.76-2.24-5-5-5S7 3.24 7 6v2H6c-1.1 0-2 .9-2 2v10c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V10c0-1.1-.9-2-2-2zm-6 9c-1.1 0-2-.9-2-2s.9-2 2-2 2 .9 2 2-.9 2-2 2zm3.1-9H8.9V6c0-1.71 1.39-3.1 3.1-3.1 1.71 0 3.1 1.39 3.1 3.1v2z"/></svg>');
+  background-repeat: no-repeat;
+  background-position: 16px center;
+  background-size: 24px 24px;
+}
+
+/* Icono de candado (input confirmPassword) - Solo cuando hay #signupForm */
+.signup-container:has(#signupForm) #confirmPassword {
+  background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="%23ff6b35"><path d="M18 8h-1V6c0-2.76-2.24-5-5-5S7 3.24 7 6v2H6c-1.1 0-2 .9-2 2v10c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V10c0-1.1-.9-2-2-2zm-6 9c-1.1 0-2-.9-2-2s.9-2 2-2 2 .9 2 2-.9 2-2 2zm3.1-9H8.9V6c0-1.71 1.39-3.1 3.1-3.1 1.71 0 3.1 1.39 3.1 3.1v2z"/></svg>');
+  background-repeat: no-repeat;
+  background-position: 16px center;
+  background-size: 24px 24px;
+}
+
+/* Ajuste para cuando el input tiene focus y cambia padding - Solo cuando hay #signupForm */
+.signup-container:has(#signupForm) .form-group input:focus {
+  background-position: 14px center, 14px center;
+}
+
+/* Botones de acción - Solo cuando hay #signupForm */
+.signup-container:has(#signupForm) .form-actions {
+  margin-top: 24px;
+  margin-bottom: 0;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+}
+
+/* Botón Register - Grande, naranja pill-shaped - Solo cuando hay #signupForm */
+.signup-container:has(#signupForm) #signupBtn {
+  width: 100%;
+  padding: 18px 32px;
+  border: none;
+  border-radius: 50px; /* Botón completamente redondeado (pill-shaped) */
+  font-size: 18px;
+  font-weight: 700;
+  color: #ffffff;
+  background: linear-gradient(135deg, #ff6b35 0%, #ff8535 100%);
+  cursor: pointer;
+  box-shadow: 0 4px 12px rgba(255, 107, 53, 0.3);
+  transition: all 0.2s ease;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+  text-transform: none;
+  letter-spacing: 0.5px;
+  margin-bottom: 0;
+}
+
+.signup-container:has(#signupForm) #signupBtn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 16px rgba(255, 107, 53, 0.4);
+  background: linear-gradient(135deg, #ff8535 0%, #ff6b35 100%);
+}
+
+.signup-container:has(#signupForm) #signupBtn:active {
+  transform: translateY(0);
+  box-shadow: 0 2px 8px rgba(255, 107, 53, 0.3);
+}
+
+.signup-container:has(#signupForm) #signupBtn:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+  transform: none;
+}
+
+/* Botón "Accede a tu cuenta" - NO ocultar, solo estilizar - Solo cuando hay #signupForm */
+/* El botón debe mostrarse, solo se estiliza en la sección de abajo */
+
+/* Sección de login link - "Ya tienes una cuenta?" - Solo cuando hay #signupForm */
+.signup-container:has(#signupForm) .signup-form > div:last-of-type {
+  margin-top: 32px;
+  text-align: center;
+  width: 100%;
+}
+
+.signup-container:has(#signupForm) .signup-form > div:last-of-type small {
+  display: block;
+  font-size: 14px;
+  color: #999999; /* Gris claro */
+  margin-bottom: 8px;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+  font-weight: 400;
+}
+
+/* Botón "Accede a tu cuenta" - Estilo texto/link - Solo cuando hay #signupForm */
+.signup-container:has(#signupForm) #loginBtn {
+  background-color: transparent !important;
+  color: #999999 !important; /* Gris claro */
+  border: none !important;
+  padding: 0 !important;
+  font-size: 14px !important; /* Mismo tamaño que "¿Ya tienes cuenta?" */
+  font-weight: 400 !important; /* Regular/light */
+  box-shadow: none !important;
+  text-decoration: underline !important;
+  width: auto !important;
+  margin: 0 auto !important;
+  cursor: pointer;
+  display: block !important; /* Asegurar que se muestre */
+}
+
+.signup-container:has(#signupForm) #loginBtn:hover {
+  color: #666666 !important;
+  transform: none !important;
+  box-shadow: none !important;
+  background-color: transparent !important;
+}
+
+.signup-container:has(#signupForm) #loginBtn:active {
+  transform: none !important;
+}
+
+/* Mensajes de error/success - Solo cuando hay #signupForm */
+.signup-container:has(#signupForm) .messages-section {
+  margin-top: 16px;
+  width: 100%;
+}
+
+.signup-container:has(#signupForm) #errorMessage {
+  background-color: #ffe0e0;
+  color: #cc0000;
+  font-size: 14px;
+  padding: 10px;
+  border-radius: 8px;
+}
+
+.signup-container:has(#signupForm) #successMessage {
+  background-color: #e0ffe0;
+  color: #008000;
+  font-size: 14px;
+  padding: 10px;
+  border-radius: 8px;
+}
+
+/* Tablet (481px - 768px) - Solo cuando hay #signupForm */
+@media (min-width: 481px) {
+  .signup-container:has(#signupForm) .page-header {
+    padding: 24px 32px 0;
+  }
+
+  .signup-container:has(#signupForm) .back-btn {
+    width: 44px;
+    height: 44px;
+    font-size: 20px;
+  }
+
+  .signup-container:has(#signupForm) .signup-form {
+    padding: 48px 32px;
+    max-width: 480px; /* Centrado */
+    margin: 0 auto;
+  }
+
+  .signup-container:has(#signupForm) .signup-form > div:last-of-type small {
+    font-size: 15px;
+  }
+
+  .signup-container:has(#signupForm) #loginBtn {
+    font-size: 15px !important; /* Mismo tamaño que "¿Ya tienes cuenta?" en tablet */
+  }
+
+  .signup-container:has(#signupForm) .signup-form h1 {
+    font-size: 36px;
+    margin-bottom: 40px;
+    min-height: 70px;
+  }
+
+  .signup-container:has(#signupForm) .signup-form h1::before {
+    font-size: 36px;
+    margin-bottom: -20px; /* Espacio mínimo en tablet */
+  }
+
+  .signup-container:has(#signupForm) .signup-form h1::after {
+    font-size: 36px;
+    margin-top: -18px; /* Espacio mínimo en tablet */
+  }
+
+  .signup-container:has(#signupForm) .form-group input {
+    padding: 18px 18px 18px 55px;
+    font-size: 17px;
+    border-radius: 14px;
+  }
+
+  .signup-container:has(#signupForm) .form-group input:focus {
+    padding: 16px 16px 16px 53px;
+  }
+
+  .signup-container:has(#signupForm) #foundationName,
+  .signup-container:has(#signupForm) #name,
+  .signup-container:has(#signupForm) #username,
+  .signup-container:has(#signupForm) #email,
+  .signup-container:has(#signupForm) #password,
+  .signup-container:has(#signupForm) #confirmPassword {
+    background-position: 18px center;
+    background-size: 26px 26px;
+  }
+
+  .signup-container:has(#signupForm) #signupBtn {
+    padding: 20px 40px;
+    font-size: 20px;
+    border-radius: 50px; /* Mantener botón redondeado en tablet */
+  }
+
+}
+
+/* Desktop (769px+) - Solo cuando hay #signupForm */
+@media (min-width: 769px) {
+  .signup-container:has(#signupForm) .page-header {
+    padding: 32px 40px 0;
+  }
+
+  .signup-container:has(#signupForm) .back-btn {
+    width: 48px;
+    height: 48px;
+    font-size: 22px;
+  }
+
+  .signup-container:has(#signupForm) .signup-form {
+    padding: 64px 40px;
+    max-width: 520px; /* Centrado */
+  }
+
+  .signup-container:has(#signupForm) .signup-form > div:last-of-type small {
+    font-size: 16px;
+  }
+
+  .signup-container:has(#signupForm) #loginBtn {
+    font-size: 16px !important; /* Mismo tamaño que "¿Ya tienes cuenta?" en desktop */
+  }
+
+  .signup-container:has(#signupForm) .signup-form h1 {
+    font-size: 40px;
+    margin-bottom: 48px;
+    min-height: 80px;
+  }
+
+  .signup-container:has(#signupForm) .signup-form h1::before {
+    font-size: 40px;
+    margin-bottom: -20px; /* Espacio mínimo en desktop */
+  }
+
+  .signup-container:has(#signupForm) .signup-form h1::after {
+    font-size: 40px;
+    margin-top: -18px; /* Espacio mínimo en desktop */
+  }
+
+  .signup-container:has(#signupForm) .form-group input {
+    padding: 20px 20px 20px 60px;
+    font-size: 18px;
+    border-radius: 16px;
+  }
+
+  .signup-container:has(#signupForm) .form-group input:focus {
+    padding: 18px 18px 18px 58px;
+  }
+
+  .signup-container:has(#signupForm) #foundationName,
+  .signup-container:has(#signupForm) #name,
+  .signup-container:has(#signupForm) #username,
+  .signup-container:has(#signupForm) #email,
+  .signup-container:has(#signupForm) #password,
+  .signup-container:has(#signupForm) #confirmPassword {
+    background-position: 20px center;
+    background-size: 28px 28px;
+  }
+
+  .signup-container:has(#signupForm) #signupBtn {
+    padding: 22px 48px;
+    font-size: 22px;
+    border-radius: 50px; /* Mantener botón redondeado en desktop */
+  }
+
+}
+
+/* Pantallas grandes (1024px+) - Solo cuando hay #signupForm */
+@media (min-width: 1024px) {
+  .signup-container:has(#signupForm) .page-header {
+    max-width: 600px;
+    margin: 0 auto;
+    padding: 40px 0 0;
+  }
+
+  .signup-container:has(#signupForm) .signup-form {
+    max-width: 600px;
+    padding: 80px 50px;
   }
 }

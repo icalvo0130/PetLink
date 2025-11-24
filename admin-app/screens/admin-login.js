@@ -10,6 +10,12 @@ export default function renderAdminLogin() {
   
   app.innerHTML = `
     <div class="login-container">
+      <header class="page-header" style="width:100%; max-width:800px;">
+        <button id="backBtn" class="back-btn">← Volver</button>
+        <h1 style="margin:0 auto;">PetLink</h1>
+        <div style="width:80px;"></div>
+      </header>
+
       <div class="login-form">
         <h1>Iniciar Sesión - Admin</h1>
         
@@ -53,12 +59,20 @@ export default function renderAdminLogin() {
 function setupEventListeners() {
   const loginForm = document.getElementById('loginForm');
   const signupBtn = document.getElementById('signupBtn');
+  const backBtn = document.getElementById('backBtn');
   
   // Envío del formulario de login
   loginForm.addEventListener('submit', handleLogin);
   
   // Click en botón de crear cuenta
   signupBtn.addEventListener('click', handleSignup);
+  
+  // Click en botón de volver
+  if (backBtn) {
+    backBtn.addEventListener('click', () => {
+      router.navigateTo('/admin-login-signup');
+    });
+  }
 }
 
 // Manejar el proceso de login
