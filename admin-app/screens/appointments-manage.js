@@ -64,8 +64,8 @@ export default async function renderAppointmentsManage() {
     </div>
   `;
   
-  setupEventListeners();
   await loadAppointments();
+  setupEventListeners();
   setupRealtimeListeners();
 }
 
@@ -90,12 +90,43 @@ function setupEventListeners() {
   const searchInput = document.getElementById('searchInput');
   const clearSearchBtn = document.getElementById('clearSearchBtn');
   const backBtn = document.getElementById('backBtn');
+  const appointmentsList = document.getElementById('appointmentsList');
   
   searchInput.addEventListener('input', handleSearch);
   
   clearSearchBtn.addEventListener('click', clearSearch);
   
   backBtn.addEventListener('click', () => router.navigateTo('/dashboard'));
+  
+  // Event delegation para los botones Accept/Reject
+  if (appointmentsList) {
+    appointmentsList.addEventListener('click', (e) => {
+      const button = e.target.closest('.action-btn');
+      if (!button) return;
+      
+      const appointmentId = button.dataset.appointmentId;
+      const decision = button.dataset.decision;
+      const dogName = button.dataset.dogName || '';
+      const padrinoName = button.dataset.padrinoName || '';
+      const phoneNumber = button.dataset.phoneNumber || '';
+      const date = button.dataset.date || '';
+      const time = button.dataset.time || '';
+      
+      if (appointmentId && decision) {
+        e.preventDefault();
+        e.stopPropagation();
+        handleAppointmentDecision(
+          parseInt(appointmentId),
+          decision,
+          dogName,
+          padrinoName,
+          phoneNumber,
+          date,
+          time
+        );
+      }
+    });
+  }
 }
 
 // Cargar citas desde el backend
@@ -184,13 +215,25 @@ function renderAppointmentsList() {
       <div class="card-actions">
         <button 
           class="action-btn accept-btn" 
-          onclick="handleAppointmentDecision(${appointment.id}, 'accepted', '${appointment.dog_name}', '${appointment.padrino_name}', '${appointment.phone_number}', '${appointment.date}', '${appointment.time}')"
+          data-appointment-id="${appointment.id}"
+          data-decision="accepted"
+          data-dog-name="${appointment.dog_name || ''}"
+          data-padrino-name="${appointment.padrino_name || ''}"
+          data-phone-number="${appointment.phone_number || ''}"
+          data-date="${appointment.date || ''}"
+          data-time="${appointment.time || ''}"
         >
           Aceptar
         </button>
         <button 
           class="action-btn reject-btn" 
-          onclick="handleAppointmentDecision(${appointment.id}, 'rejected', '${appointment.dog_name}', '${appointment.padrino_name}', '${appointment.phone_number}', '${appointment.date}', '${appointment.time}')"
+          data-appointment-id="${appointment.id}"
+          data-decision="rejected"
+          data-dog-name="${appointment.dog_name || ''}"
+          data-padrino-name="${appointment.padrino_name || ''}"
+          data-phone-number="${appointment.phone_number || ''}"
+          data-date="${appointment.date || ''}"
+          data-time="${appointment.time || ''}"
         >
           Rechazar
         </button>
@@ -349,4 +392,4 @@ function showError(message) {
   }, 7000);
 }
 
-window.handleAppointmentDecision = handleAppointmentDecision;
+// Función ya no necesita ser global, se maneja con event delegation
