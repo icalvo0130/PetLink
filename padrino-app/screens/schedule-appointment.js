@@ -6,6 +6,17 @@ import { getCurrentUserId, getCurrentUser } from '../utils/auth.js';
 
 let selectedDate = null;
 
+// Convertir hora formato 24h a 12h AM/PM
+function formatTimeTo12Hour(time24) {
+  if (!time24) return '';
+  
+  const [hours, minutes] = time24.split(':').map(Number);
+  const period = hours >= 12 ? 'p.m.' : 'a.m.';
+  const hours12 = hours === 0 ? 12 : hours > 12 ? hours - 12 : hours;
+  
+  return `${hours12.toString().padStart(2, '0')}:${minutes.toString().padStart(2, '0')} ${period}`;
+}
+
 // Renderizar (mostrar) la pantalla de agendar cita
 export function renderScheduleAppointment(dogId) {
   const app = document.getElementById('app');
@@ -196,8 +207,8 @@ function selectDate(day, month, year) {
   // Marcar nueva seleccion
   event.target.classList.add('selected');
   
-  // Guardar fecha seleccionada
-  selectedDate = new Date(year, month, day);
+  // Guardar fecha seleccionada como objeto con valores directos (evita problemas de zona horaria)
+  selectedDate = { day, month, year };
   
   // Mostrar fecha en el input
   const dateInput = document.getElementById('selected-date');
@@ -296,14 +307,16 @@ async function scheduleAppointment(dog) {
   try {
     const userId = getCurrentUserId();
     
-    // Formatear fecha para la BD (YYYY-MM-DD)
-    const year = selectedDate.getFullYear();
-    const month = String(selectedDate.getMonth() + 1).padStart(2, '0');
-    const day = String(selectedDate.getDate()).padStart(2, '0');
+    // Formatear fecha para la BD (YYYY-MM-DD) usando valores directos para evitar problemas de zona horaria
+    const year = selectedDate.year;
+    const month = String(selectedDate.month + 1).padStart(2, '0');
+    const day = String(selectedDate.day).padStart(2, '0');
     const formattedDate = `${year}-${month}-${day}`;
     
-    // Formatear hora para mostrar (HH:MM - HH:MM)
-    const timeString = `${startTime} - ${endTime}`;
+    // Formatear hora para mostrar (HH:MM - HH:MM en formato 12h AM/PM)
+    const formattedStartTime = formatTimeTo12Hour(startTime);
+    const formattedEndTime = formatTimeTo12Hour(endTime);
+    const timeString = `${formattedStartTime} - ${formattedEndTime}`;
     
     const appointmentData = {
       id_padrino: userId,
