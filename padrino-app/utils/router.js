@@ -85,4 +85,7 @@ class Router {
 // Crear una sola instancia del router para toda la app
 const router = new Router();
 
+// Hacer el router accesible globalmente
+window.router = router;
+
 export default router;

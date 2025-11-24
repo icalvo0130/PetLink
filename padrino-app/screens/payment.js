@@ -31,7 +31,7 @@ export function renderPayment() {
   // Validar parámetros según el tipo
   if (!price || !dogId) {
     console.error('Faltan parámetros en la URL');
-    router.navigateTo('/');
+    router.navigateTo('/home');
     return;
   }
   

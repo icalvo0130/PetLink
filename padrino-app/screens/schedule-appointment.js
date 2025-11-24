@@ -14,7 +14,7 @@ export function renderScheduleAppointment(dogId) {
   const userId = getCurrentUserId();
   if (!userId) {
     alert('Debes iniciar sesion para agendar una cita');
-    router.navigateTo('/');
+    router.navigateTo('/home');
     return;
   }
   // Si no hay usuario, crear uno simulado para pruebas
@@ -344,6 +344,6 @@ function showSuccessMessage(dog) {
   `;
   
   document.getElementById('btn-back-home').addEventListener('click', () => {
-    router.navigateTo('/');
+    router.navigateTo('/home');
   });
 }

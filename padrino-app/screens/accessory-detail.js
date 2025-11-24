@@ -13,7 +13,7 @@ export async function renderAccessoryDetail(accessoryId) {
   
   if (!dogId) {
     console.error('No se encontró dogId en la URL');
-    router.navigateTo('/');
+    router.navigateTo('/home');
     return;
   }
   

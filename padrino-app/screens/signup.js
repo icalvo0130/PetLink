@@ -30,15 +30,23 @@
   // Navegaciones solicitadas
   if (backBtn) {
     backBtn.addEventListener('click', () => {
-      // Volver a selección de flujo
-      window.location.href = './login-signup.html';
+      // Volver a selección de flujo usando el router
+      if (window.router) {
+        window.router.navigateTo('/login-signup');
+      } else {
+        window.location.href = './login-signup.html';
+      }
     });
   }
 
   if (goLoginBtn) {
     goLoginBtn.addEventListener('click', () => {
-      // Ir a login
-      window.location.href = './login.html';
+      // Ir a login usando el router
+      if (window.router) {
+        window.router.navigateTo('/login');
+      } else {
+        window.location.href = './login.html';
+      }
     });
   }
 
@@ -81,9 +89,13 @@
         await new Promise((r) => setTimeout(r, 700));
         showSuccess('Registro exitoso');
 
-        // Redirigir al dog-profile del módulo padrino después de un breve delay
+        // Redirigir al home usando el router
         setTimeout(() => {
-          window.location.href = 'http://127.0.0.1:5500/padrino-app/screens/home/home.html';
+          if (window.router) {
+            window.router.navigateTo('/home');
+          } else {
+            window.location.href = '/home';
+          }
         }, 600);
       } catch (err) {
         console.error(err);

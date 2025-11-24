@@ -30,15 +30,23 @@
   // Navegaciones solicitadas
   if (backBtn) {
     backBtn.addEventListener('click', () => {
-      // Volver a selección de flujo
-      window.location.href = './login-signup.html';
+      // Volver a selección de flujo usando el router
+      if (window.router) {
+        window.router.navigateTo('/login-signup');
+      } else {
+        window.location.href = './login-signup.html';
+      }
     });
   }
 
   if (goSignupBtn) {
     goSignupBtn.addEventListener('click', () => {
-      // Ir a registro
-      window.location.href = './signup.html';
+      // Ir a registro usando el router
+      if (window.router) {
+        window.router.navigateTo('/signup');
+      } else {
+        window.location.href = './signup.html';
+      }
     });
   }
 
@@ -72,12 +80,13 @@
         await new Promise((r) => setTimeout(r, 600));
         showSuccess('Inicio de sesión exitoso');
 
-        // Redirigir al dog-profile del módulo padrino
-        // Si tu enrutador soporta rutas, reemplaza por la ruta adecuada.
+        // Redirigir al home usando el router
         setTimeout(() => {
-          window.location.href = 'http://127.0.0.1:5500/padrino-app/screens/home/home.html';
-          // Ejemplo alternativo si tienes hash routing:
-          // window.location.href = '../../index.html#/dog-profile';
+          if (window.router) {
+            window.router.navigateTo('/home');
+          } else {
+            window.location.href = '/home';
+          }
         }, 500);
       } catch (err) {
         console.error(err);

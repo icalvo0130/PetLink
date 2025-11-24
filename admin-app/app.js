@@ -5,6 +5,7 @@ import router from './utils/router.js';
 import { initWebSocket } from './services/websocket-admin.js';
 
 // Importar todas las pantallas
+import renderWhoAreYou from "./screens/WhoAreYou.js";
 import renderAdminLoginSignup from "./screens/admin-login-signup.js";
 import renderAdminLogin from "./screens/admin-login.js";
 import renderAdminSignup from "./screens/admin-signup.js";
@@ -23,15 +24,8 @@ import renderDogProfile from "./screens/dog-profile.js";
  * Patrón igual a padrino-app: usar parámetros en la URL
  */
 function setupRoutes() {
-  // Ruta por defecto (redirigir a login si no hay sesión)
-  router.addRoute('/', () => {
-    const token = localStorage.getItem('adminToken');
-    if (token) {
-      router.navigateTo('/dashboard');
-    } else {
-      router.navigateTo('/admin-login');
-    }
-  });
+  // Ruta por defecto - Pantalla inicial WhoAreYou
+  router.addRoute('/', renderWhoAreYou);
   
   // Rutas de autenticación
   router.addRoute('/admin-login-signup', renderAdminLoginSignup);

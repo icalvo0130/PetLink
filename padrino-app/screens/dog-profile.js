@@ -131,7 +131,7 @@ function displayNeeds(needs) {
 function setupProfileEvents(dog, needs) {
   // Boton volver
   document.getElementById('btn-back').addEventListener('click', () => {
-    router.navigateTo('/');
+    router.navigateTo('/home');
   });
   
   // Boton agendar cita

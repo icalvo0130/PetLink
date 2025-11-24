@@ -1514,3 +1514,107 @@ body {
     text-align: center;
   }
 }
+
+/* =============================================
+   WHO ARE YOU
+   ============================================= */
+
+.who-are-you-container {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+  background-color: #f5f5f5;
+}
+
+.who-are-you-content {
+  width: 100%;
+  max-width: 500px;
+  background-color: white;
+  border-radius: 15px;
+  box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+  padding: 40px 30px;
+  text-align: center;
+}
+
+.who-are-you-content .welcome-section {
+  margin-bottom: 40px;
+}
+
+.who-are-you-content .app-logo h1 {
+  font-size: 48px;
+  color: #ff6b35;
+  margin-bottom: 20px;
+}
+
+.who-are-you-title h2 {
+  font-size: 32px;
+  color: #333;
+  margin-bottom: 40px;
+  font-weight: bold;
+}
+
+.user-options {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  margin-top: 30px;
+}
+
+.user-option-btn {
+  width: 100%;
+  padding: 20px;
+  border: none;
+  border-radius: 12px;
+  font-size: 20px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: all 0.3s;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+}
+
+.user-option-btn.admin-btn {
+  background-color: #ff6b35;
+  color: white;
+}
+
+.user-option-btn.admin-btn:hover {
+  background-color: #e55a2b;
+  transform: translateY(-3px);
+  box-shadow: 0 4px 16px rgba(255, 107, 53, 0.4);
+}
+
+.user-option-btn.padrino-btn {
+  background-color: #4a90e2;
+  color: white;
+}
+
+.user-option-btn.padrino-btn:hover {
+  background-color: #357abd;
+  transform: translateY(-3px);
+  box-shadow: 0 4px 16px rgba(74, 144, 226, 0.4);
+}
+
+.user-option-btn:active {
+  transform: translateY(-1px);
+}
+
+@media (max-width: 600px) {
+  .who-are-you-content {
+    padding: 30px 20px;
+  }
+  
+  .who-are-you-content .app-logo h1 {
+    font-size: 36px;
+  }
+  
+  .who-are-you-title h2 {
+    font-size: 24px;
+  }
+  
+  .user-option-btn {
+    padding: 16px;
+    font-size: 18px;
+  }
+}
