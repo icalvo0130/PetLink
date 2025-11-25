@@ -761,73 +761,228 @@ hr {
   }
 }
 
-/* DETALLE DE NECESIDAD */
+/* =============================================
+   DETALLE DE NECESIDAD - padrino-app
+   ============================================= */
 
 .need-detail-container {
-  padding: 20px;
+  padding: 0;
   max-width: 500px;
   margin: 0 auto;
+  background-color: #ffffff;
+  min-height: 100vh;
+  position: relative;
 }
 
-.need-detail-image {
+/* Header con imagen */
+.need-detail-container .need-header {
+  position: relative;
   width: 100%;
-  height: 400px;
+  height: 420px;
   overflow: hidden;
-  border-radius: 10px;
-  margin-bottom: 20px;
 }
 
-.need-detail-image img {
+.need-detail-container .btn-back {
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  background-color: #ffffff;
+  border: none;
+  font-size: 28px;
+  color: #333333;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: absolute;
+  top: 20px;
+  left: 20px;
+  z-index: 10;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.15);
+}
+
+.need-detail-container .need-detail-image {
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  border-radius: 0;
+  margin: 0;
+}
+
+.need-detail-container .need-detail-image img {
   width: 100%;
   height: 100%;
   object-fit: cover;
 }
 
-.need-detail-info {
-  margin-bottom: 30px;
+/* Hueso decorativo */
+.need-detail-container .bone-decoration {
+  position: absolute;
+  top: 350px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 20;
+  width: 200px;
+  height: auto;
 }
 
-.need-detail-name {
-  font-size: 28px;
-  color: #333;
-  margin-bottom: 10px;
-}
-
-.need-detail-category {
-  font-size: 14px;
-  color: #666;
-  margin-bottom: 15px;
-  text-transform: capitalize;
-}
-
-.need-detail-description {
-  font-size: 16px;
-  line-height: 1.6;
-  color: #666;
-  margin-bottom: 20px;
-}
-
-.need-detail-price {
-  font-size: 32px;
-  font-weight: bold;
-  color: #ff6b35;
-  margin-bottom: 20px;
-}
-
-.btn-donate {
+.need-detail-container .bone-decoration img {
   width: 100%;
-  padding: 15px;
-  background-color: #ff6b35;
-  color: white;
-  border: none;
-  border-radius: 10px;
-  font-size: 18px;
-  font-weight: bold;
-  cursor: pointer;
+  height: auto;
+  filter: drop-shadow(0 4px 8px rgba(0, 0, 0, 0.1));
 }
 
-.btn-donate:hover {
+/* Card de información */
+.need-detail-container .need-detail-card {
+  background-color: #ffffff;
+  border-radius: 30px 30px 0 0;
+  margin-top: -40px;
+  padding: 60px 25px 40px;
+  position: relative;
+  z-index: 10;
+  text-align: center;
+  min-height: calc(100vh - 380px);
+}
+
+.need-detail-container .need-detail-name {
+  font-size: 26px;
+  font-weight: 700;
+  color: #000000;
+  margin: 0 0 16px 0;
+}
+
+.need-detail-container .need-detail-description {
+  font-size: 15px;
+  line-height: 1.6;
+  color: #666666;
+  margin: 0 0 30px 0;
+  text-align: left;
+}
+
+/* Precio y cantidad */
+.need-detail-container .price-quantity-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 40px;
+  padding: 0 10px;
+}
+
+.need-detail-container .need-detail-price {
+  font-size: 28px;
+  font-weight: 700;
+  color: #000000;
+  margin: 0;
+}
+
+/* Selector de cantidad */
+.need-detail-container .quantity-selector {
+  display: flex;
+  align-items: center;
+  gap: 0;
+}
+
+.need-detail-container .qty-btn {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  border: none;
+  font-size: 20px;
+  font-weight: 600;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.2s ease;
+}
+
+.need-detail-container .qty-btn.minus {
+  background-color: #4dd0e1;
+  color: #ffffff;
+}
+
+.need-detail-container .qty-btn.minus:hover {
+  background-color: #26c6da;
+}
+
+.need-detail-container .qty-btn.plus {
+  background-color: #ffd93d;
+  color: #333333;
+}
+
+.need-detail-container .qty-btn.plus:hover {
+  background-color: #ffcc00;
+}
+
+.need-detail-container .qty-value {
+  min-width: 50px;
+  text-align: center;
+  font-size: 18px;
+  font-weight: 600;
+  color: #333333;
+}
+
+/* Botón donar */
+.need-detail-container .btn-donate {
+  width: 70%;
+  max-width: 280px;
+  padding: 16px 40px;
+  background-color: #ff6b35;
+  color: #ffffff;
+  border: none;
+  border-radius: 30px;
+  font-size: 18px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  margin: 0 auto;
+  display: block;
+}
+
+.need-detail-container .btn-donate:hover {
   background-color: #e55a2b;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(255, 107, 53, 0.4);
+}
+
+/* Responsive - Tablet */
+@media (min-width: 481px) {
+  .need-detail-container .need-header {
+    height: 480px;
+  }
+  
+  .need-detail-container .bone-decoration {
+    top: 410px;
+    width: 220px;
+  }
+  
+  .need-detail-container .need-detail-card {
+    padding: 70px 35px 50px;
+  }
+  
+  .need-detail-container .need-detail-name {
+    font-size: 30px;
+  }
+  
+  .need-detail-container .need-detail-price {
+    font-size: 32px;
+  }
+}
+
+/* Responsive - Desktop */
+@media (min-width: 769px) {
+  .need-detail-container .need-header {
+    height: 520px;
+  }
+  
+  .need-detail-container .bone-decoration {
+    top: 450px;
+    width: 240px;
+  }
+  
+  .need-detail-container .need-detail-card {
+    padding: 80px 50px 60px;
+  }
 }
 
 /* PANTALLA DE PAGO */

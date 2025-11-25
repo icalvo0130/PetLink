@@ -40,26 +40,35 @@ function displayNeedDetail(need) {
   
   app.innerHTML = `
     <div class="need-detail-container">
-      <!-- Boton de volver -->
-      <button class="btn-back" id="btn-back">← Volver</button>
-      
-      <!-- Imagen del producto -->
-      <div class="need-detail-image">
-        <img src="${need.image}" alt="${need.name}">
+      <!-- Header con imagen -->
+      <div class="need-header">
+        <button class="btn-back" id="btn-back">‹</button>
+        <div class="need-detail-image">
+          <img src="${need.image}" alt="${need.name}">
+        </div>
       </div>
       
-      <!-- Informacion del producto -->
-      <div class="need-detail-info">
+      <!-- Decoracion hueso -->
+      <div class="bone-decoration">
+        <img src="/images/Bone.png" alt="Hueso decorativo">
+      </div>
+      
+      <!-- Card de informacion -->
+      <div class="need-detail-card">
         <h1 class="need-detail-name">${need.name}</h1>
-        
-        ${need.category ? `
-          <p class="need-detail-category">Categoria: ${need.category}</p>
-        ` : ''}
-        
         <p class="need-detail-description">${need.description || 'Sin descripcion'}</p>
         
-        <p class="need-detail-price">$${need.price}</p>
+        <!-- Precio y cantidad -->
+        <div class="price-quantity-row">
+          <p class="need-detail-price">$ ${need.price?.toLocaleString() || '0'}</p>
+          <div class="quantity-selector">
+            <button class="qty-btn minus" id="qty-minus">−</button>
+            <span class="qty-value" id="qty-value">1</span>
+            <button class="qty-btn plus" id="qty-plus">+</button>
+          </div>
+        </div>
         
+        <!-- Boton donar -->
         <button class="btn-donate" id="btn-donate">Donar</button>
       </div>
     </div>
@@ -71,14 +80,31 @@ function displayNeedDetail(need) {
 
 // Configurar eventos de la pantalla
 function setupNeedDetailEvents(need) {
+  let quantity = 1;
+  const qtyValue = document.getElementById('qty-value');
+  
   // Boton volver
   document.getElementById('btn-back').addEventListener('click', () => {
     window.history.back();
   });
   
+  // Boton menos cantidad
+  document.getElementById('qty-minus').addEventListener('click', () => {
+    if (quantity > 1) {
+      quantity--;
+      qtyValue.textContent = quantity;
+    }
+  });
+  
+  // Boton mas cantidad
+  document.getElementById('qty-plus').addEventListener('click', () => {
+    quantity++;
+    qtyValue.textContent = quantity;
+  });
+  
   // Boton donar
   document.getElementById('btn-donate').addEventListener('click', () => {
-    // Ir a la pantalla de pago con los datos de la necesidad
-    router.navigateTo(`/payment?needId=${need.id}&price=${need.price}&dogId=${need.id_dog}`);
+    const totalPrice = need.price * quantity;
+    router.navigateTo(`/payment?needId=${need.id}&price=${totalPrice}&quantity=${quantity}&dogId=${need.id_dog}`);
   });
 }
