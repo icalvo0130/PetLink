@@ -3859,3 +3859,585 @@ img[class*="dog"],
     height: 100px !important;
   }
 }
+
+/* =============================================
+   APPOINTMENTS MANAGE SCREEN - Diseño exacto según imagen
+   Pantalla: appointments-manage.js
+   ============================================= */
+
+.appointments-manage-container {
+  min-height: 100vh;
+  width: 100%;
+  background-color: #f5f5f5; /* Fondo gris claro */
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  position: relative;
+}
+
+/* Header naranja superior */
+.appointments-manage-container .page-header {
+  width: 100%;
+  background-color: #ff6b35; /* Naranja */
+  padding: 16px 20px;
+  margin: 0;
+  position: relative;
+  z-index: 10;
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+/* Logo blanco estilizado en el header */
+.appointments-manage-container .page-header::before {
+  content: '';
+  display: block;
+  width: 48px;
+  height: 48px;
+  background-image: url('/images/logo.png');
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-position: center;
+  margin-right: 0;
+  filter: brightness(0) invert(1); /* Hacer el logo blanco */
+  flex-shrink: 0;
+}
+
+/* Ocultar h1 original del header */
+.appointments-manage-container .page-header h1 {
+  display: none;
+}
+
+/* Botón back - Estilizar y posicionar */
+.appointments-manage-container .page-header .back-btn {
+  position: absolute;
+  top: 85px;
+  left: 20px;
+  width: 40px;
+  height: 40px;
+  background-color: #ffffff;
+  border: none;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 20px;
+  color: #333333;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  z-index: 20;
+  cursor: pointer;
+  line-height: 1;
+  padding: 0;
+  margin: 0;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+  transition: all 0.2s ease;
+}
+
+.appointments-manage-container .page-header .back-btn:hover {
+  transform: scale(1.05);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+.appointments-manage-container .page-header .back-btn:active {
+  transform: scale(0.95);
+}
+
+/* Ocultar texto del botón, solo mostrar flecha */
+.appointments-manage-container .page-header .back-btn {
+  text-indent: -9999px;
+  overflow: hidden;
+}
+
+.appointments-manage-container .page-header .back-btn::before {
+  content: '←';
+  text-indent: 0;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  font-size: 20px;
+  color: #333333;
+}
+
+/* Contenido principal */
+.appointments-manage-container .appointments-content {
+  width: 100%;
+  padding: 0;
+  margin: 0;
+  position: relative;
+  z-index: 1;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+/* Título "Citas de juego" */
+.appointments-manage-container .appointments-section .section-header {
+  display: block;
+  padding: 0 20px 8px;
+  margin-top: 50px;
+  background-color: #f5f5f5;
+  white-space: nowrap;
+  text-align: center;
+}
+
+/* Ocultar el h2 original */
+.appointments-manage-container .appointments-section .section-header h2 {
+  display: none;
+}
+
+/* Ocultar count-badge */
+.appointments-manage-container .appointments-section .section-header .count-badge {
+  display: none;
+}
+
+/* Crear "Citas de" en negro */
+.appointments-manage-container .appointments-section .section-header::before {
+  content: 'Citas de';
+  display: inline;
+  font-size: 28px;
+  font-weight: 700;
+  color: #000000;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+  line-height: 1.2;
+  white-space: nowrap;
+  margin-right: 4px;
+}
+
+/* Crear "juego" en naranja */
+.appointments-manage-container .appointments-section .section-header::after {
+  content: 'juego';
+  display: inline;
+  font-size: 28px;
+  font-weight: 700;
+  color: #ff6b35; /* Naranja */
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+  line-height: 1.2;
+  margin-left: 0;
+  letter-spacing: 0;
+}
+
+/* Sección de búsqueda */
+.appointments-manage-container .appointments-section .search-section {
+  width: 100%;
+  padding: 0 20px 20px;
+  background-color: #f5f5f5;
+  padding-top: 0;
+}
+
+.appointments-manage-container .search-container {
+  position: relative;
+  width: 100%;
+}
+
+.appointments-manage-container .search-input {
+  width: 100%;
+  padding: 14px 16px 14px 45px;
+  border: none;
+  border-radius: 12px;
+  font-size: 15px;
+  background-color: #ffffff;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+  color: #333333;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+  box-sizing: border-box;
+  transition: all 0.2s ease;
+  background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="%23333333"><path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z"/></svg>');
+  background-repeat: no-repeat;
+  background-position: 12px center;
+  background-size: 22px 22px;
+}
+
+.appointments-manage-container .search-input::placeholder {
+  color: #999999;
+  opacity: 1;
+  font-size: 15px;
+}
+
+.appointments-manage-container .search-input:focus {
+  outline: none;
+  box-shadow: 0 4px 12px rgba(255, 107, 53, 0.2);
+  border: 2px solid #ff6b35;
+  padding: 12px 14px 12px 43px;
+}
+
+.appointments-manage-container .clear-search-btn {
+  position: absolute;
+  right: 10px;
+  top: 50%;
+  transform: translateY(-50%);
+  background-color: transparent;
+  border: none;
+  color: #999999;
+  font-size: 14px;
+  cursor: pointer;
+  padding: 5px;
+  transition: color 0.2s ease;
+}
+
+.appointments-manage-container .clear-search-btn:hover {
+  color: #666666;
+}
+
+/* Lista de citas */
+.appointments-manage-container .appointments-list {
+  padding: 0 20px 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  width: 100%;
+  max-width: 100%;
+  margin: 0 auto;
+  flex: 1;
+}
+
+/* Card de cita - Se adapta al contenido, todo dentro */
+.appointments-manage-container .appointment-card {
+  background-color: #ffffff;
+  border-radius: 16px;
+  padding: 0;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  display: flex;
+  flex-direction: row;
+  align-items: stretch;
+  overflow: hidden; /* Asegurar que nada se salga */
+  position: relative;
+  min-height: auto; /* Adaptarse al contenido */
+  height: auto; /* Altura automática */
+  box-sizing: border-box; /* Incluir padding en las dimensiones */
+}
+
+/* Ocultar appointment-status */
+.appointments-manage-container .appointment-card .appointment-status {
+  display: none;
+}
+
+/* Card header - Contiene la imagen del perro - Se adapta al contenido */
+.appointments-manage-container .appointment-card .card-header {
+  width: 100px;
+  min-width: 100px;
+  max-width: 100px;
+  padding: 0;
+  background-color: transparent;
+  flex-shrink: 0;
+  position: relative;
+  display: flex;
+  align-items: stretch; /* Estirar para que coincida con la altura del contenido */
+  justify-content: center;
+  overflow: hidden;
+}
+
+/* Contenedor de la imagen del perro - Movido un poco a la derecha */
+.appointments-manage-container .appointment-card .card-header .dog-info {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 16px 8px 16px 16px; /* Más padding izquierdo para mover la imagen a la derecha */
+  position: relative;
+}
+
+/* Blob de color ELIMINADO - Cards limpias sin formas de color */
+.appointments-manage-container .appointment-card .card-header .dog-info::before {
+  display: none;
+}
+
+/* Imagen del perro - CÍRCULO PERFECTO sobre el blob - Ajustado para la segunda imagen */
+.appointments-manage-container .appointment-card .card-header .dog-info .dog-image {
+  position: relative;
+  z-index: 2;
+  width: 90px;
+  height: 90px;
+  min-width: 90px;
+  min-height: 90px;
+  border-radius: 50%;
+  overflow: hidden;
+  border: 3px solid rgba(255, 255, 255, 0.9);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+}
+
+.appointments-manage-container .appointment-card .card-header .dog-info .dog-image img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  aspect-ratio: 1 / 1;
+  border-radius: 50%;
+}
+
+/* Placeholder si no hay imagen */
+.appointments-manage-container .appointment-card .card-header .dog-info .dog-image .no-image {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 44px;
+  background-color: #f5f5f5;
+  border-radius: 50%;
+}
+
+/* Panel blanco - Lado derecho (card-body) - Más padding para que nada se vea pegado a los bordes */
+.appointments-manage-container .appointment-card .card-body {
+  flex: 1;
+  padding: 20px 20px 20px 10px; /* Padding generoso para que el contenido no se vea pegado */
+  background-color: #ffffff;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between; /* Distribuir espacio correctamente */
+  align-items: stretch;
+  min-height: auto;
+  height: auto;
+  overflow: hidden; /* Asegurar que nada se salga */
+  position: relative;
+  box-sizing: border-box;
+}
+
+/* Contenedor de contenido - Espaciado reducido entre nombre y texto */
+.appointments-manage-container .appointment-card .card-body .card-content {
+  display: flex;
+  flex-direction: column;
+  gap: 5px; /* Espaciado reducido entre nombre y texto */
+  flex: 0 0 auto; /* No crecer, solo el tamaño del contenido */
+  min-height: 0;
+  overflow: visible;
+  margin-bottom: 0;
+  padding-bottom: 0;
+  padding-top: 4px; /* Pequeño padding superior para separar del borde */
+  padding-right: 4px; /* Pequeño padding derecho para separar del borde */
+}
+
+/* Nombre del perro en naranja y bold */
+.appointments-manage-container .appointment-card .card-body .card-content .dog-name {
+  font-size: 20px;
+  font-weight: 700;
+  color: #ff6b35; /* Naranja */
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+  margin: 0;
+  margin-bottom: 0; /* Sin margen adicional, el gap controla el espacio */
+  line-height: 1.2;
+  text-transform: uppercase;
+}
+
+/* Usuario/Padrino - Estilo del nombre del usuario */
+.appointments-manage-container .appointment-card .card-body .card-content .padrino-name {
+  font-size: 14px;
+  color: #000000;
+  font-weight: 400;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+  margin: 0;
+  line-height: 1.4;
+}
+
+/* Contenedor de detalles - Sin fondo gris */
+.appointments-manage-container .appointment-card .card-body .card-content .appointment-details {
+  display: flex !important;
+  flex-direction: column !important;
+  gap: 4px; /* Gap consistente */
+  margin-top: 0;
+  margin-bottom: 0 !important;
+  background-color: transparent !important;
+  padding: 0 !important;
+  border-radius: 0 !important;
+  border: none !important;
+  box-shadow: none !important;
+}
+
+/* Ocultar teléfono y notas */
+.appointments-manage-container .appointment-card .card-body .appointment-details .detail-item:nth-child(3),
+.appointments-manage-container .appointment-card .card-body .appointment-details .detail-item:nth-child(4) {
+  display: none;
+}
+
+/* Detail items - Fecha y hora */
+.appointments-manage-container .appointment-card .card-body .appointment-details .detail-item {
+  display: block;
+  font-size: 14px;
+  color: #000000;
+  font-weight: 400;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+  line-height: 1.4;
+  margin: 0;
+}
+
+.appointments-manage-container .appointment-card .card-body .appointment-details .detail-item .label {
+  display: inline !important;
+  font-size: 12px !important;
+  color: #000000 !important;
+  font-weight: 400 !important;
+  margin-right: 2px;
+  text-transform: capitalize !important; /* Primera letra mayúscula, resto minúsculas: "Fecha:" y "Hora:" */
+}
+
+.appointments-manage-container .appointment-card .card-body .appointment-details .detail-item .value {
+  display: inline;
+  font-size: 14px;
+  color: #000000;
+  font-weight: 400;
+}
+
+/* Botones de acción - Siempre dentro de la card con más espacio */
+.appointments-manage-container .appointment-card .card-body .card-actions {
+  margin-top: 8px; /* Espacio normal entre texto y botones */
+  margin-bottom: 0;
+  padding: 0;
+  padding-bottom: 10px; /* Pequeño padding inferior para separar del borde */
+  padding-right: 10px; /* Pequeño padding derecho para separar del borde */
+  display: flex;
+  gap: 8px; /* Gap cómodo entre botones */
+  width: 100%;
+  max-width: 100%; /* No exceder el ancho del contenedor */
+  flex-shrink: 0;
+  flex: 0 0 auto; /* No crecer, solo el tamaño necesario */
+  box-sizing: border-box;
+}
+
+/* Botón Aceptar - Morado - Siempre dentro de la card */
+.appointments-manage-container .appointment-card .card-body .card-actions .accept-btn {
+  flex: 1;
+  padding: 7px 7px; /* Padding cómodo pero que quepa */
+  border: none;
+  border-radius: 50px; /* Pill-shaped */
+  font-size: 13px; /* Tamaño de fuente ligeramente reducido para que quepa */
+  font-weight: 600;
+  color: #ffffff;
+  background-color: #9370db; /* Morado */
+  cursor: pointer;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+  transition: all 0.2s ease;
+  box-shadow: 0 2px 4px rgba(147, 112, 219, 0.3);
+  white-space: nowrap;
+  box-sizing: border-box;
+  min-width: 0;
+  max-width: 100%;
+  overflow: hidden;
+}
+
+.appointments-manage-container .appointment-card .card-body .card-actions .accept-btn:hover {
+  background-color: #8360d3;
+  transform: translateY(-1px);
+  box-shadow: 0 4px 8px rgba(147, 112, 219, 0.4);
+}
+
+.appointments-manage-container .appointment-card .card-body .card-actions .accept-btn:active {
+  transform: translateY(0);
+}
+
+/* Botón Rechazar - Coral - Siempre dentro de la card */
+.appointments-manage-container .appointment-card .card-body .card-actions .reject-btn {
+  flex: 1;
+  padding: 7px 7px; /* Padding cómodo pero que quepa */
+  border: none;
+  border-radius: 50px; /* Pill-shaped */
+  font-size: 13px; /* Tamaño de fuente ligeramente reducido para que quepa */
+  font-weight: 600;
+  color: #ffffff;
+  background-color: #ff7f7f; /* Coral */
+  cursor: pointer;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+  transition: all 0.2s ease;
+  box-shadow: 0 2px 4px rgba(255, 127, 127, 0.3);
+  white-space: nowrap;
+  box-sizing: border-box;
+  min-width: 0;
+  max-width: 100%;
+  overflow: hidden;
+}
+
+.appointments-manage-container .appointment-card .card-body .card-actions .reject-btn:hover {
+  background-color: #ff6b6b;
+  transform: translateY(-1px);
+  box-shadow: 0 4px 8px rgba(255, 127, 127, 0.4);
+}
+
+.appointments-manage-container .appointment-card .card-body .card-actions .reject-btn:active {
+  transform: translateY(0);
+}
+
+/* Mensajes */
+.appointments-manage-container .loading-message,
+.appointments-manage-container .no-appointments {
+  text-align: center;
+  padding: 40px 20px;
+  color: #666666;
+  font-size: 16px;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+}
+
+.appointments-manage-container .messages-section {
+  padding: 0 20px 20px;
+}
+
+.appointments-manage-container .success-message,
+.appointments-manage-container .error-message {
+  padding: 12px 16px;
+  border-radius: 8px;
+  margin-bottom: 16px;
+  font-size: 14px;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+}
+
+.appointments-manage-container .success-message {
+  background-color: #d4edda;
+  color: #155724;
+  border: 1px solid #c3e6cb;
+}
+
+.appointments-manage-container .error-message {
+  background-color: #f8d7da;
+  color: #721c24;
+  border: 1px solid #f5c6cb;
+}
+
+/* Responsive Appointments Manage */
+@media (min-width: 481px) {
+  .appointments-manage-container .appointment-card {
+    min-height: 180px;
+  }
+
+  .appointments-manage-container .appointment-card .card-header {
+    width: 130px;
+    min-width: 130px;
+    max-width: 130px;
+  }
+
+  .appointments-manage-container .appointment-card .card-header .dog-info .dog-image {
+    width: 100px;
+    height: 100px;
+  }
+
+  .appointments-manage-container .appointments-list {
+    max-width: 600px;
+  }
+}
+
+@media (min-width: 769px) {
+  .appointments-manage-container .appointments-list {
+    max-width: 700px;
+  }
+}
+
+@media (min-width: 1024px) {
+  .appointments-manage-container .appointments-list {
+    max-width: 800px;
+  }
+
+  .appointments-manage-container .appointment-card {
+    min-height: 200px;
+  }
+
+  .appointments-manage-container .appointment-card .card-header {
+    width: 140px;
+    min-width: 140px;
+    max-width: 140px;
+  }
+
+  .appointments-manage-container .appointment-card .card-header .dog-info .dog-image {
+    width: 110px;
+    height: 110px;
+  }
+}
