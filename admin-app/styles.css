@@ -3503,3 +3503,359 @@ img[class*="dog"],
     padding: 80px 50px;
   }
 }
+
+/* =============================================
+   DASHBOARD - Diseño exacto según imagen
+   Pantalla: dashboard.js (Administrador)
+   ============================================= */
+
+.dashboard-container {
+  min-height: 100vh;
+  width: 100%;
+  padding: 0;
+  margin: 0;
+  background: linear-gradient(to bottom, #ffffff, #ffeb3b); /* Gradiente vertical de blanco a amarillo */
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  position: relative;
+}
+
+/* Banda naranja superior con logo */
+.dashboard-container .dashboard-header {
+  width: 100%;
+  background-color: #ff6b35; /* Naranja */
+  padding: 16px 20px;
+  margin: 0;
+  position: relative;
+  z-index: 10;
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+/* Ocultar contenido original del header excepto el botón de logout */
+.dashboard-container .dashboard-header .header-content h1,
+.dashboard-container .dashboard-header .user-info .welcome-text,
+.dashboard-container .dashboard-header .user-info .foundation-text {
+  display: none;
+}
+
+/* Hacer visible el botón de logout */
+.dashboard-container .dashboard-header .user-info {
+  display: block;
+  position: absolute;
+  top: auto;
+  left: auto;
+  right: 0;
+  bottom: 0;
+}
+
+.dashboard-container .dashboard-header {
+  position: relative;
+}
+
+/* Logo blanco en la banda naranja */
+.dashboard-container .dashboard-header::before {
+  content: '';
+  display: block;
+  width: 48px;
+  height: 48px;
+  background-image: url('/images/logo.png');
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-position: center;
+  margin-right: 0;
+  filter: brightness(0) invert(1); /* Hacer el logo blanco */
+  flex-shrink: 0;
+}
+
+/* Contenido principal centrado */
+.dashboard-container .dashboard-content {
+  width: 100%;
+  padding: 60px 20px 100px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  flex: 1;
+}
+
+.dashboard-container .dashboard-menu {
+  width: 100%;
+  max-width: 600px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 40px;
+}
+
+/* Título "Que haremos hoy?" - En una sola línea */
+.dashboard-container .dashboard-menu h2 {
+  font-size: 32px;
+  font-weight: 700;
+  margin: 0;
+  text-align: center;
+  white-space: nowrap;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+  letter-spacing: 0;
+  line-height: 1.2;
+}
+
+/* Ocultar texto original del h2 */
+.dashboard-container .dashboard-menu h2 {
+  color: transparent;
+  font-size: 0;
+}
+
+/* "Que haremos" en negro */
+.dashboard-container .dashboard-menu h2::before {
+  content: 'Que haremos';
+  display: inline;
+  color: #000000;
+  font-size: 32px;
+  font-weight: 700;
+  margin-right: 4px;
+}
+
+/* "hoy?" en naranja - inline para estar junto */
+.dashboard-container .dashboard-menu h2::after {
+  content: 'hoy?';
+  display: inline !important;
+  color: #ff6b35;
+  font-size: 32px;
+  font-weight: 700;
+  margin-left: 0;
+  letter-spacing: 0;
+}
+
+/* Grid de menu cards - 2x2 */
+.dashboard-container .menu-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 20px;
+  width: 100%;
+  max-width: 500px;
+}
+
+.dashboard-container .menu-card {
+  background-color: #ffffff;
+  border-radius: 16px;
+  padding: 24px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  min-height: 180px;
+  position: relative;
+}
+
+.dashboard-container .menu-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+}
+
+/* Ocultar h3, p y botones originales */
+.dashboard-container .menu-card h3,
+.dashboard-container .menu-card p,
+.dashboard-container .menu-card .menu-btn {
+  display: none;
+}
+
+/* Iconos de las cards usando las imágenes proporcionadas */
+
+/* Card 1: Editar Catálogo - Icono de libreta roja con lápiz */
+.dashboard-container .menu-card:nth-child(1)::before {
+  content: '';
+  display: block;
+  width: 80px;
+  height: 80px;
+  background-image: url('/images/catalogo.png');
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-position: center;
+  margin-bottom: 12px;
+}
+
+/* Card 2: Agregar Mascota - Icono de perro naranja con plus amarillo */
+.dashboard-container .menu-card:nth-child(2)::before {
+  content: '';
+  display: block;
+  width: 80px;
+  height: 80px;
+  background-image: url('/images/agregar-mascota.png');
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-position: center;
+  margin-bottom: 12px;
+}
+
+/* Card 3: Donaciones - Icono de dólar amarillo */
+.dashboard-container .menu-card:nth-child(3)::before {
+  content: '';
+  display: block;
+  width: 80px;
+  height: 80px;
+  background-image: url('/images/donacion.png');
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-position: center;
+  margin-bottom: 12px;
+}
+
+/* Card 4: Solicitudes de citas - Icono de calendario azul con check */
+.dashboard-container .menu-card:nth-child(4)::before {
+  content: '';
+  display: block;
+  width: 80px;
+  height: 80px;
+  background-image: url('/images/citas.png');
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-position: center;
+  margin-bottom: 12px;
+}
+
+/* Títulos de las cards - Crear usando pseudo-elementos */
+.dashboard-container .menu-card:nth-child(1)::after {
+  content: 'Editar Catálogo';
+  display: block;
+  font-size: 16px;
+  font-weight: 600;
+  color: #333333;
+  margin-top: 8px;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+}
+
+.dashboard-container .menu-card:nth-child(2)::after {
+  content: 'Agregar Mascota';
+  display: block;
+  font-size: 16px;
+  font-weight: 600;
+  color: #333333;
+  margin-top: 8px;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+}
+
+.dashboard-container .menu-card:nth-child(3)::after {
+  content: 'Donación';
+  display: block;
+  font-size: 16px;
+  font-weight: 600;
+  color: #333333;
+  margin-top: 8px;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+}
+
+.dashboard-container .menu-card:nth-child(4)::after {
+  content: 'Solicitudes de citas';
+  display: block;
+  font-size: 16px;
+  font-weight: 600;
+  color: #333333;
+  margin-top: 8px;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+}
+
+/* Botón Cerrar Sesión - Abajo derecha */
+.dashboard-container #logoutBtn {
+  position: fixed !important;
+  bottom: 30px !important;
+  right: 20px !important;
+  left: auto !important;
+  padding: 0 !important;
+  background-color: transparent !important;
+  border: none !important;
+  font-size: 16px !important;
+  font-weight: 500 !important;
+  color: #ff6b35 !important;
+  cursor: pointer !important;
+  z-index: 1000 !important;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif !important;
+  display: flex !important;
+  align-items: center !important;
+  gap: 8px !important;
+  transition: all 0.2s ease !important;
+  margin: 0 !important;
+  transform: none !important;
+  width: auto !important;
+  height: auto !important;
+}
+
+.dashboard-container #logoutBtn:hover {
+  color: #e55a2b !important;
+  transform: translateY(-2px) !important;
+}
+
+.dashboard-container #logoutBtn:active {
+  transform: translateY(0) !important;
+}
+
+/* Asegurar que el texto del botón sea visible */
+.dashboard-container #logoutBtn {
+  visibility: visible !important;
+  opacity: 1 !important;
+}
+
+/* Icono de flecha antes del texto "Cerrar sesión" */
+.dashboard-container #logoutBtn::before {
+  content: '←';
+  display: inline-block;
+  font-size: 16px;
+  color: #ff6b35;
+}
+
+/* Responsive Dashboard */
+@media (min-width: 481px) {
+  .dashboard-container .menu-grid {
+    max-width: 600px;
+    gap: 24px;
+  }
+
+  .dashboard-container .menu-card {
+    min-height: 200px;
+    padding: 28px;
+  }
+
+  .dashboard-container .menu-card::before {
+    width: 90px !important;
+    height: 90px !important;
+  }
+
+  .dashboard-container .dashboard-menu h2::before,
+  .dashboard-container .dashboard-menu h2::after {
+    font-size: 36px;
+  }
+}
+
+@media (min-width: 769px) {
+  .dashboard-container .dashboard-menu {
+    max-width: 700px;
+  }
+
+  .dashboard-container .dashboard-menu h2::before,
+  .dashboard-container .dashboard-menu h2::after {
+    font-size: 40px;
+  }
+}
+
+@media (min-width: 1024px) {
+  .dashboard-container .menu-grid {
+    max-width: 800px;
+  }
+
+  .dashboard-container .menu-card {
+    min-height: 220px;
+  }
+
+  .dashboard-container .menu-card::before {
+    width: 100px !important;
+    height: 100px !important;
+  }
+}

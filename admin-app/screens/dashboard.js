@@ -157,19 +157,70 @@ function setupAutoRefresh() {
 
 function setupEventListeners() {
   const logoutBtn = document.getElementById('logoutBtn');
+  
+  // Cerrar sesión
+  if (logoutBtn) {
+    logoutBtn.addEventListener('click', handleLogout);
+  }
+  
+  // Navegación a otras pantallas - Agregar listeners a las cards completas
+  const menuCards = document.querySelectorAll('.menu-card');
+  
+  if (menuCards.length >= 4) {
+    // Card 1: Editar Catálogo -> /dog-management
+    menuCards[0].addEventListener('click', () => {
+      router.navigateTo('/dog-management');
+    });
+    
+    // Card 2: Agregar Mascota -> /add-pet
+    menuCards[1].addEventListener('click', () => {
+      router.navigateTo('/add-pet');
+    });
+    
+    // Card 3: Donaciones -> /donations
+    menuCards[2].addEventListener('click', () => {
+      router.navigateTo('/donations');
+    });
+    
+    // Card 4: Solicitudes de Citas -> /appointments
+    menuCards[3].addEventListener('click', () => {
+      router.navigateTo('/appointments');
+    });
+  }
+  
+  // También mantener los listeners de los botones originales por si acaso
   const editCatalogBtn = document.getElementById('editCatalogBtn');
   const addPetBtn = document.getElementById('addPetBtn');
   const donationsBtn = document.getElementById('donationsBtn');
   const appointmentsBtn = document.getElementById('appointmentsBtn');
   
-  // Cerrar sesión
-  logoutBtn.addEventListener('click', handleLogout);
+  if (editCatalogBtn) {
+    editCatalogBtn.addEventListener('click', (e) => {
+      e.stopPropagation(); // Evitar doble navegación
+      router.navigateTo('/dog-management');
+    });
+  }
   
-  // Navegación a otras pantallas (igual que padrino-app)
-  editCatalogBtn.addEventListener('click', () => router.navigateTo('/dog-management'));
-  addPetBtn.addEventListener('click', () => router.navigateTo('/add-pet'));
-  donationsBtn.addEventListener('click', () => router.navigateTo('/donations'));
-  appointmentsBtn.addEventListener('click', () => router.navigateTo('/appointments'));
+  if (addPetBtn) {
+    addPetBtn.addEventListener('click', (e) => {
+      e.stopPropagation();
+      router.navigateTo('/add-pet');
+    });
+  }
+  
+  if (donationsBtn) {
+    donationsBtn.addEventListener('click', (e) => {
+      e.stopPropagation();
+      router.navigateTo('/donations');
+    });
+  }
+  
+  if (appointmentsBtn) {
+    appointmentsBtn.addEventListener('click', (e) => {
+      e.stopPropagation();
+      router.navigateTo('/appointments');
+    });
+  }
 }
 
 // Cargar datos

@@ -28,22 +28,22 @@ export default async function renderAppointmentsManage() {
       </header>
       
       <main class="appointments-content">
-        <div class="search-section">
-          <div class="search-container">
-            <input 
-              type="text" 
-              id="searchInput" 
-              placeholder="Buscar por nombre del perro..."
-              class="search-input"
-            />
-            <button id="clearSearchBtn" class="clear-search-btn">Limpiar</button>
-          </div>
-        </div>
-        
         <div class="appointments-section">
           <div class="section-header">
             <h2>Citas Pendientes</h2>
             <span id="appointmentsCount" class="count-badge">0 citas</span>
+          </div>
+          
+          <div class="search-section">
+            <div class="search-container">
+              <input 
+                type="text" 
+                id="searchInput" 
+                placeholder="Busca un perrito"
+                class="search-input"
+              />
+              <button id="clearSearchBtn" class="clear-search-btn">Limpiar</button>
+            </div>
           </div>
           
           <div id="appointmentsList" class="appointments-list">
@@ -215,10 +215,6 @@ function renderAppointmentsList() {
               '<div class="no-image">🐕</div>'
             }
           </div>
-          <div class="dog-details">
-            <h3>${appointment.dog_name || 'Sin nombre'}</h3>
-            <p class="padrino-name">Padrino: ${appointment.padrino_name || 'Sin nombre'}</p>
-          </div>
         </div>
         <div class="appointment-status">
           <span class="status-badge ${appointment.status || 'pending'}">${getStatusText(appointment.status)}</span>
@@ -226,43 +222,46 @@ function renderAppointmentsList() {
       </div>
       
       <div class="card-body">
-        <div class="appointment-details">
-          <div class="detail-item">
-            <span class="label">Fecha:</span>
-            <span class="value">${formatDate(appointment.date)}</span>
-          </div>
-          <div class="detail-item">
-            <span class="label">Hora:</span>
-            <span class="value">${formatTimeDisplay(appointment.time)}</span>
-          </div>
-          <div class="detail-item">
-            <span class="label">Teléfono:</span>
-            <span class="value">${appointment.phone_number || 'No disponible'}</span>
-          </div>
-          ${appointment.notes ? `
+        <div class="card-content">
+          <h3 class="dog-name">${appointment.dog_name || 'Sin nombre'}</h3>
+          <p class="padrino-name">Padrino: ${appointment.padrino_name || 'Sin nombre'}</p>
+          <div class="appointment-details">
             <div class="detail-item">
-              <span class="label">Notas:</span>
-              <span class="value">${appointment.notes}</span>
+              <span class="label">Fecha:</span>
+              <span class="value">${formatDate(appointment.date)}</span>
             </div>
-          ` : ''}
+            <div class="detail-item">
+              <span class="label">Hora:</span>
+              <span class="value">${formatTimeDisplay(appointment.time)}</span>
+            </div>
+            <div class="detail-item">
+              <span class="label">Teléfono:</span>
+              <span class="value">${appointment.phone_number || 'No disponible'}</span>
+            </div>
+            ${appointment.notes ? `
+              <div class="detail-item">
+                <span class="label">Notas:</span>
+                <span class="value">${appointment.notes}</span>
+              </div>
+            ` : ''}
+          </div>
         </div>
-      </div>
-      
-      <div class="card-actions">
-        <button 
-          class="action-btn accept-btn" 
-          data-appointment-id="${appointment.id}"
-          data-decision="accepted"
-        >
-          Aceptar
-        </button>
-        <button 
-          class="action-btn reject-btn" 
-          data-appointment-id="${appointment.id}"
-          data-decision="rejected"
-        >
-          Rechazar
-        </button>
+        <div class="card-actions">
+          <button 
+            class="action-btn accept-btn" 
+            data-appointment-id="${appointment.id}"
+            data-decision="accepted"
+          >
+            Aceptar
+          </button>
+          <button 
+            class="action-btn reject-btn" 
+            data-appointment-id="${appointment.id}"
+            data-decision="rejected"
+          >
+            Rechazar
+          </button>
+        </div>
       </div>
     </div>
   `).join('');
