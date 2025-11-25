@@ -901,7 +901,7 @@ textarea {
    ============================================= */
 
 .add-dog-container {
-  padding: 20px;
+  padding: 0;
 }
 
 .add-dog-container h1 {
@@ -5644,5 +5644,487 @@ img[class*="dog"],
 
   .donations-profile-container .donations-section .donations-list {
     max-width: 800px;
+  }
+}
+
+/* =============================================
+   ADD DOG - AGREGAR NUEVA MASCOTA
+   ============================================= */
+
+.add-dog-container {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  background-color: #f5f5f5;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+}
+
+/* Header naranja con logo */
+.add-dog-container .page-header {
+  width: 100%;
+  background-color: #ff6b35; /* Naranja */
+  padding: 16px 20px;
+  margin: 0;
+  position: relative;
+  z-index: 10;
+  min-height: 80px;
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+}
+
+/* Logo blanco en el header - Solo logo sin fondo */
+.add-dog-container .page-header::before {
+  content: '';
+  display: block;
+  width: 56px;
+  height: 56px;
+  background-image: url('/images/logo.png');
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-position: center;
+  margin-right: 12px;
+  filter: brightness(0) invert(1); /* Convertir logo a blanco */
+  transition: all 0.3s ease;
+  flex-shrink: 0;
+}
+
+/* Hover effect en el logo */
+.add-dog-container .page-header:hover::before {
+  transform: scale(1.05);
+  opacity: 0.9;
+}
+
+/* Ocultar h1 original del header */
+.add-dog-container .page-header h1 {
+  display: none;
+}
+
+/* Botón back - Circular blanco debajo del header */
+.add-dog-container .page-header .back-btn {
+  position: absolute;
+  top: 110px; /* Debajo del header */
+  left: 20px;
+  width: 40px;
+  height: 40px;
+  background-color: #ffffff;
+  border: none;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 20px;
+  color: #333333;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  z-index: 20;
+  cursor: pointer;
+  line-height: 1;
+  padding: 0;
+  margin: 0;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+  transition: all 0.2s ease;
+}
+
+.add-dog-container .page-header .back-btn:hover {
+  transform: scale(1.05);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+.add-dog-container .page-header .back-btn:active {
+  transform: scale(0.95);
+}
+
+/* Ocultar texto del botón, solo mostrar flecha */
+.add-dog-container .page-header .back-btn {
+  text-indent: -9999px;
+  overflow: hidden;
+}
+
+.add-dog-container .page-header .back-btn::before {
+  content: '←';
+  text-indent: 0;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  font-size: 20px;
+  color: #333333;
+}
+
+/* Contenido principal */
+.add-dog-container .add-dog-content {
+  flex: 1;
+  padding: 20px;
+  padding-top: 70px; /* Espacio para el botón de volver */
+  position: relative;
+  z-index: 1;
+  background-color: #f5f5f5;
+}
+
+/* Título "Un nuevo integrante!" - Modificar el h2 existente */
+.add-dog-container .form-section:first-child h2 {
+  font-size: 0; /* Ocultar texto original "Información Básica" */
+  margin-bottom: 24px;
+  line-height: 1.3;
+  display: block;
+  position: relative;
+}
+
+.add-dog-container .form-section:first-child h2::before {
+  content: 'Un nuevo ';
+  font-size: 28px;
+  font-weight: 700;
+  color: #000000;
+  display: inline;
+}
+
+.add-dog-container .form-section:first-child h2::after {
+  content: 'integrante!';
+  font-size: 28px;
+  font-weight: 700;
+  color: #ff6b35; /* Naranja */
+  display: inline;
+}
+
+/* Formulario */
+.add-dog-container form {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+}
+
+/* Grupos de formulario */
+.add-dog-container .form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin-bottom: 20px;
+}
+
+/* Labels */
+.add-dog-container .form-group label {
+  font-size: 14px;
+  font-weight: 500;
+  color: #000000;
+  margin: 0;
+}
+
+/* Inputs y selects */
+.add-dog-container .form-group input[type="text"],
+.add-dog-container .form-group input[type="number"],
+.add-dog-container .form-group select,
+.add-dog-container .form-group textarea {
+  width: 100%;
+  padding: 12px 16px;
+  background-color: #ffffff;
+  border: 1px solid #e0e0e0;
+  border-radius: 12px;
+  font-size: 15px;
+  color: #000000;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+  outline: none;
+  transition: border-color 0.2s ease;
+}
+
+.add-dog-container .form-group input[type="text"]:focus,
+.add-dog-container .form-group input[type="number"]:focus,
+.add-dog-container .form-group select:focus,
+.add-dog-container .form-group textarea:focus {
+  border-color: #ff6b35;
+}
+
+.add-dog-container .form-group textarea {
+  resize: vertical;
+  min-height: 100px;
+}
+
+/* Ocultar el label de "Imagen del perro:" */
+.add-dog-container .form-group label[for="image"] {
+  display: none !important;
+}
+
+/* Crear botón "Agregar imagen" personalizado */
+.add-dog-container .form-group:has(input[type="file"]) {
+  position: relative;
+  cursor: pointer;
+  margin-top: 8px;
+}
+
+/* Ocultar el input de imagen original pero mantenerlo funcional */
+.add-dog-container .form-group input[type="file"] {
+  position: absolute;
+  opacity: 0;
+  width: 100%;
+  height: 100%;
+  top: 0;
+  left: 0;
+  cursor: pointer;
+  z-index: 10;
+  margin: 0;
+  padding: 0;
+}
+
+/* Botón personalizado "Agregar imagen" */
+.add-dog-container .form-group:has(input[type="file"])::after {
+  content: 'Agregar imagen';
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  padding: 14px 48px 14px 20px;
+  background-color: #f5f5f5;
+  border: 2px dashed #cccccc;
+  border-radius: 12px;
+  font-size: 15px;
+  font-weight: 500;
+  color: #666666;
+  margin-top: 0;
+  cursor: pointer;
+  box-sizing: border-box;
+  position: relative;
+  transition: all 0.3s ease;
+  pointer-events: none;
+}
+
+/* Hover effect en el botón */
+.add-dog-container .form-group:has(input[type="file"]):hover::after {
+  background-color: #ffebee;
+  border-color: #ff6b35;
+  color: #ff6b35;
+}
+
+/* Icono + en círculo naranja a la derecha del botón - Más pequeño y centrado */
+.add-dog-container .form-group:has(input[type="file"])::before {
+  content: '+';
+  position: absolute;
+  right: 20px;
+  top: 60%;
+  transform: translateY(-50%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 28px;
+  height: 28px;
+  background-color: #ff6b35;
+  color: #ffffff;
+  border-radius: 50%;
+  font-size: 18px;
+  font-weight: 300;
+  line-height: 1;
+  z-index: 1;
+  pointer-events: none;
+  transition: all 0.3s ease;
+  box-shadow: 0 2px 4px rgba(255, 107, 53, 0.3);
+}
+
+/* Hover effect en el icono */
+.add-dog-container .form-group:has(input[type="file"]):hover::before {
+  background-color: #ff5722;
+  transform: translateY(-50%) scale(1.1);
+  box-shadow: 0 4px 8px rgba(255, 107, 53, 0.4);
+}
+
+/* Sección de Estadísticas */
+.add-dog-container .form-section:last-of-type h2 {
+  font-size: 20px;
+  font-weight: 700;
+  color: #000000;
+  margin-bottom: 16px;
+  margin-top: 24px;
+}
+
+.add-dog-container .form-section:last-of-type .section-description {
+  display: none; /* Ocultar descripción */
+}
+
+/* Mostrar todas las 4 estadísticas */
+.add-dog-container .stats-grid {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.add-dog-container .stat-item {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.add-dog-container .stat-item label {
+  font-size: 14px;
+  font-weight: 500;
+  color: #000000;
+  margin: 0;
+}
+
+/* Estilos para los sliders */
+.add-dog-container .stat-item .stat-control {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.add-dog-container .stat-item .stat-slider {
+  flex: 1;
+  height: 8px;
+  border-radius: 4px;
+  background: #e0e0e0;
+  outline: none;
+  -webkit-appearance: none;
+  appearance: none;
+}
+
+.add-dog-container .stat-item .stat-slider::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  background: #ff6b35;
+  cursor: pointer;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+.add-dog-container .stat-item .stat-slider::-moz-range-thumb {
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  background: #ff6b35;
+  cursor: pointer;
+  border: none;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+.add-dog-container .stat-item .stat-value {
+  font-size: 16px;
+  font-weight: 600;
+  color: #000000;
+  min-width: 30px;
+  text-align: center;
+}
+
+/* Botones de acción */
+.add-dog-container .form-actions {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  margin-top: 32px;
+  margin-bottom: 20px;
+}
+
+/* Botón "Confirmar y seguir" - Morado oscuro */
+.add-dog-container .submit-btn {
+  width: 100%;
+  padding: 16px 24px;
+  background-color: #6a1b9a; /* Morado oscuro */
+  color: #ffffff;
+  border: none;
+  border-radius: 25px;
+  font-size: 16px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+}
+
+.add-dog-container .submit-btn:hover {
+  background-color: #5a1588;
+}
+
+.add-dog-container .submit-btn:active {
+  transform: scale(0.98);
+}
+
+/* Ocultar botón "Limpiar Formulario" */
+.add-dog-container .clear-btn {
+  display: none;
+}
+
+/* Mensajes */
+.add-dog-container .messages-section {
+  margin-top: 20px;
+}
+
+.add-dog-container .success-message,
+.add-dog-container .error-message {
+  padding: 12px 16px;
+  border-radius: 8px;
+  margin-bottom: 12px;
+  font-size: 14px;
+}
+
+.add-dog-container .success-message {
+  background-color: #e6ffe6;
+  color: #008000;
+  border: 1px solid #008000;
+}
+
+.add-dog-container .error-message {
+  background-color: #ffe6e6;
+  color: #ff0000;
+  border: 1px solid #ff0000;
+}
+
+/* Media Queries - Mobile First */
+/* Tablet (min-width: 481px) */
+@media (min-width: 481px) {
+  .add-dog-container .add-dog-content {
+    padding: 24px;
+  }
+
+  .add-dog-container .form-section:first-child::before {
+    font-size: 32px;
+  }
+
+  .add-dog-container .form-group label {
+    font-size: 15px;
+  }
+
+  .add-dog-container .form-group input[type="text"],
+  .add-dog-container .form-group input[type="number"],
+  .add-dog-container .form-group select,
+  .add-dog-container .form-group textarea {
+    padding: 14px 18px;
+    font-size: 16px;
+  }
+
+  .add-dog-container .page-header .back-btn {
+    width: 44px;
+    height: 44px;
+    font-size: 22px;
+    top: 100px;
+  }
+}
+
+/* Desktop (min-width: 769px) */
+@media (min-width: 769px) {
+  .add-dog-container {
+    max-width: 600px;
+    margin: 0 auto;
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+  }
+
+  .add-dog-container .add-dog-content {
+    padding: 30px;
+  }
+
+  .add-dog-container .form-section:first-child::before {
+    font-size: 36px;
+  }
+
+  .add-dog-container .page-header .back-btn {
+    width: 48px;
+    height: 48px;
+    font-size: 24px;
+    top: 105px;
+    left: 30px;
+  }
+}
+
+/* Desktop Large (min-width: 1024px) */
+@media (min-width: 1024px) {
+  .add-dog-container {
+    max-width: 700px;
   }
 }
