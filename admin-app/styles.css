@@ -965,14 +965,412 @@ textarea {
    PRODUCTOS/NECESIDADES
    ============================================= */
 
+/* =============================================
+   PRODUCTS-MANAGE - Estilo según imagen
+   Pantalla: products-manage.js
+   ============================================= */
+
 .products-manage-container {
-  padding: 20px;
+  padding: 0;
+  min-height: 100vh;
+  background-color: #f5f5f5;
+  display: flex;
+  flex-direction: column;
 }
 
-.products-manage-container h1 {
+/* Header naranja con logo */
+.products-manage-container .page-header {
+  width: 100%;
+  background-color: #ff6b35; /* Naranja */
+  padding: 16px 20px;
+  margin: 0;
+  position: relative;
+  z-index: 10;
+  min-height: 80px;
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+}
+
+/* Logo blanco en el header */
+.products-manage-container .page-header::before {
+  content: '';
+  display: block;
+  width: 56px;
+  height: 56px;
+  background-image: url('/images/logo.png');
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-position: center;
+  margin-right: 12px;
+  filter: brightness(0) invert(1); /* Convertir logo a blanco */
+  transition: all 0.3s ease;
+  flex-shrink: 0;
+}
+
+/* Ocultar h1 original del header */
+.products-manage-container .page-header h1 {
+  display: none;
+}
+
+/* Botón back - Circular blanco debajo del header */
+.products-manage-container .page-header .back-btn {
+  position: absolute;
+  top: 110px;
+  left: 20px;
+  width: 40px;
+  height: 40px;
+  background-color: #ffffff;
+  border: none;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 20px;
+  color: #333333;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  z-index: 20;
+  cursor: pointer;
+  line-height: 1;
+  padding: 0;
+  margin: 0;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+  transition: all 0.2s ease;
+  text-indent: -9999px;
+  overflow: hidden;
+}
+
+.products-manage-container .page-header .back-btn::before {
+  content: '←';
+  text-indent: 0;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  font-size: 20px;
+  color: #333333;
+}
+
+.products-manage-container .page-header .back-btn:hover {
+  transform: scale(1.05);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+.products-manage-container .page-header .back-btn:active {
+  transform: scale(0.95);
+}
+
+/* Contenido principal */
+.products-manage-container .products-content {
+  flex: 1;
+  padding: 20px;
+  padding-top: 70px;
+  position: relative;
+  z-index: 1;
+  background-color: #f5f5f5;
+}
+
+/* Ocultar form-section h2 original */
+.products-manage-container .form-section h2 {
+  font-size: 0;
+  margin-bottom: 24px;
+  line-height: 1.3;
+  display: block;
+  position: relative;
+}
+
+/* Título "Añade sus necesidades" */
+.products-manage-container .form-section h2::before {
+  content: 'Añade sus ';
   font-size: 28px;
-  color: #ff6b35;
+  font-weight: 700;
+  color: #000000;
+  display: inline;
+}
+
+.products-manage-container .form-section h2::after {
+  content: 'necesidades';
+  font-size: 28px;
+  font-weight: 700;
+  color: #ff6b35; /* Naranja */
+  display: inline;
+}
+
+/* Formulario */
+.products-manage-container form {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+}
+
+/* Grupos de formulario */
+.products-manage-container .form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
   margin-bottom: 20px;
+}
+
+/* Ocultar campo de estado */
+.products-manage-container .form-group:has(#estado) {
+  display: none !important;
+}
+
+/* Labels */
+.products-manage-container .form-group label {
+  font-size: 14px;
+  font-weight: 500;
+  color: #000000;
+  margin: 0;
+}
+
+/* Inputs y textarea */
+.products-manage-container .form-group input[type="text"],
+.products-manage-container .form-group input[type="number"],
+.products-manage-container .form-group textarea {
+  width: 100%;
+  padding: 12px 16px;
+  border: none;
+  border-radius: 12px;
+  font-size: 15px;
+  font-weight: 400;
+  color: #000000;
+  background-color: #ffffff;
+  box-sizing: border-box;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+  transition: all 0.2s ease;
+}
+
+.products-manage-container .form-group input[type="text"]:focus,
+.products-manage-container .form-group input[type="number"]:focus,
+.products-manage-container .form-group textarea:focus {
+  outline: none;
+  box-shadow: 0 0 0 2px rgba(255, 107, 53, 0.2);
+}
+
+.products-manage-container .form-group input[type="text"]::placeholder,
+.products-manage-container .form-group input[type="number"]::placeholder,
+.products-manage-container .form-group textarea::placeholder {
+  color: #999999;
+}
+
+.products-manage-container .form-group textarea {
+  resize: vertical;
+  min-height: 100px;
+}
+
+/* Estilos para el botón de agregar imagen */
+.products-manage-container .form-group label[for="image"] {
+  display: none !important;
+}
+
+.products-manage-container .form-group:has(input[type="file"]) {
+  position: relative;
+  cursor: pointer;
+  margin-top: 8px;
+}
+
+/* Ocultar el input de imagen original pero mantenerlo funcional */
+.products-manage-container .form-group input[type="file"] {
+  position: absolute;
+  opacity: 0;
+  width: 100%;
+  height: 100%;
+  top: 0;
+  left: 0;
+  cursor: pointer;
+  z-index: 10;
+  margin: 0;
+  padding: 0;
+}
+
+/* Botón personalizado "Agregar imagen" - Estilo temático */
+.products-manage-container .form-group:has(input[type="file"])::after {
+  content: 'Agregar imagen';
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  padding: 14px 48px 14px 20px;
+  background-color: #f5f5f5;
+  border: 2px dashed #cccccc;
+  border-radius: 12px;
+  font-size: 15px;
+  font-weight: 500;
+  color: #666666;
+  margin-top: 0;
+  cursor: pointer;
+  box-sizing: border-box;
+  position: relative;
+  transition: all 0.3s ease;
+  pointer-events: none;
+}
+
+.products-manage-container .form-group:has(input[type="file"]):hover::after {
+  background-color: #ffebee;
+  border-color: #ff6b35;
+  color: #ff6b35;
+}
+
+/* Icono + en círculo naranja a la derecha del botón */
+.products-manage-container .form-group:has(input[type="file"])::before {
+  content: '+';
+  position: absolute;
+  right: 20px;
+  top: 61%;
+  transform: translateY(-50%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 28px;
+  height: 28px;
+  background-color: #ff6b35;
+  color: #ffffff;
+  border-radius: 50%;
+  font-size: 18px;
+  font-weight: 300;
+  line-height: 1;
+  z-index: 1;
+  pointer-events: none;
+  transition: all 0.3s ease;
+  box-shadow: 0 2px 4px rgba(255, 107, 53, 0.3);
+}
+
+.products-manage-container .form-group:has(input[type="file"]):hover::before {
+  background-color: #ff5722;
+  transform: translateY(-50%) scale(1.1);
+  box-shadow: 0 4px 8px rgba(255, 107, 53, 0.4);
+}
+
+/* Botones de acción */
+.products-manage-container .form-actions {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  margin-top: 32px;
+  margin-bottom: 20px;
+}
+
+/* Ocultar botón "Limpiar Formulario" */
+.products-manage-container .clear-btn {
+  display: none !important;
+}
+
+/* Botón "Agregar y finalizar" - Morado oscuro */
+.products-manage-container .submit-btn {
+  width: 100%;
+  padding: 16px 24px;
+  background-color: #6a1b9a; /* Morado oscuro */
+  color: #ffffff;
+  border: none;
+  border-radius: 25px;
+  font-size: 16px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+}
+
+.products-manage-container .submit-btn:hover {
+  background-color: #5a1588;
+}
+
+.products-manage-container .submit-btn:active {
+  transform: scale(0.98);
+}
+
+.products-manage-container .submit-btn:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+/* Mensajes */
+.products-manage-container .messages-section {
+  margin-top: 20px;
+}
+
+.products-manage-container .success-message,
+.products-manage-container .error-message {
+  padding: 12px 16px;
+  border-radius: 8px;
+  font-size: 14px;
+  margin-bottom: 12px;
+}
+
+.products-manage-container .success-message {
+  background-color: #d4edda;
+  color: #155724;
+  border: 1px solid #c3e6cb;
+}
+
+.products-manage-container .error-message {
+  background-color: #f8d7da;
+  color: #721c24;
+  border: 1px solid #f5c6cb;
+}
+
+/* Responsive - Tablet (min-width: 481px) */
+@media (min-width: 481px) {
+  .products-manage-container .page-header {
+    padding: 20px 24px;
+  }
+
+  .products-manage-container .page-header .back-btn {
+    width: 44px;
+    height: 44px;
+    font-size: 22px;
+    top: 105px;
+    left: 24px;
+  }
+
+  .products-manage-container .products-content {
+    padding: 24px;
+    padding-top: 100px;
+  }
+
+  .products-manage-container .form-section h2::before,
+  .products-manage-container .form-section h2::after {
+    font-size: 32px;
+  }
+}
+
+/* Responsive - Desktop (min-width: 769px) */
+@media (min-width: 769px) {
+  .products-manage-container {
+    max-width: 600px;
+    margin: 0 auto;
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+  }
+
+  .products-manage-container .page-header {
+    padding: 24px 30px;
+  }
+
+  .products-manage-container .page-header .back-btn {
+    width: 48px;
+    height: 48px;
+    font-size: 24px;
+    top: 110px;
+    left: 30px;
+  }
+
+  .products-manage-container .products-content {
+    padding: 30px;
+    padding-top: 110px;
+  }
+
+  .products-manage-container .form-section h2::before,
+  .products-manage-container .form-section h2::after {
+    font-size: 36px;
+  }
+}
+
+/* Responsive - Desktop Large (min-width: 1024px) */
+@media (min-width: 1024px) {
+  .products-manage-container {
+    max-width: 700px;
+  }
 }
 
 .products-list,
