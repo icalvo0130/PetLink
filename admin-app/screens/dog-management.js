@@ -31,6 +31,14 @@ export default async function renderDogManagement() {
       </header>
       
       <main class="management-content">
+        <div class="title-section">
+          <button id="backBtn" class="back-btn">← Volver al Dashboard</button>
+          <div class="title-text">
+            <span class="title-part1">Editar</span>
+            <span class="title-part2">mascotas</span>
+          </div>
+        </div>
+        
         <div class="search-section">
           <div class="search-container">
             <input 
@@ -44,7 +52,7 @@ export default async function renderDogManagement() {
         </div>
         
         <div class="filters-section">
-          <h3>Filtros:</h3>
+          <h3 class="filters-title" style="display: none;">Filtros:</h3>
           <div class="filter-buttons">
             <button id="filterAll" class="filter-btn active">Todos</button>
             <button id="filterPuppies" class="filter-btn">Cachorros</button>
@@ -53,7 +61,7 @@ export default async function renderDogManagement() {
         </div>
         
         <div class="dogs-section">
-          <div class="section-header">
+          <div class="section-header" style="display: none;">
             <h2>Perros</h2>
             <span id="dogsCount" class="count-badge">0 perros</span>
           </div>
@@ -134,15 +142,46 @@ function setupEventListeners() {
   const filterPuppies = document.getElementById('filterPuppies');
   const filterLessSponsored = document.getElementById('filterLessSponsored');
   
-  searchInput.addEventListener('input', handleSearch);
+  if (searchInput) {
+    searchInput.addEventListener('input', handleSearch);
+  }
   
-  clearSearchBtn.addEventListener('click', clearSearch);
+  if (clearSearchBtn) {
+    clearSearchBtn.addEventListener('click', clearSearch);
+  }
   
-  backBtn.addEventListener('click', () => router.navigateTo('/dashboard'));
+  if (backBtn) {
+    console.log('Botón de volver encontrado, agregando event listener');
+    backBtn.addEventListener('click', (e) => {
+      console.log('Botón de volver clickeado');
+      e.preventDefault();
+      e.stopPropagation();
+      router.navigateTo('/dashboard');
+    });
+    
+    // También agregar como fallback con onclick directo
+    backBtn.onclick = function(e) {
+      console.log('Botón de volver onclick ejecutado');
+      e.preventDefault();
+      e.stopPropagation();
+      router.navigateTo('/dashboard');
+      return false;
+    };
+  } else {
+    console.error('Botón de volver NO encontrado');
+  }
   
-  filterAll.addEventListener('click', () => applyFilter('all'));
-  filterPuppies.addEventListener('click', () => applyFilter('puppies'));
-  filterLessSponsored.addEventListener('click', () => applyFilter('lessSponsored'));
+  if (filterAll) {
+    filterAll.addEventListener('click', () => applyFilter('all'));
+  }
+  
+  if (filterPuppies) {
+    filterPuppies.addEventListener('click', () => applyFilter('puppies'));
+  }
+  
+  if (filterLessSponsored) {
+    filterLessSponsored.addEventListener('click', () => applyFilter('lessSponsored'));
+  }
 }
 
 async function loadInitialData() {
@@ -286,9 +325,9 @@ function renderDogsList() {
             }
           </div>
           <div class="dog-info">
-            <h3>${dog.name || 'Sin nombre'}</h3>
-            <p class="dog-age">Edad: ${dog.age || 'No especificada'} años</p>
-            <p class="donation-count">Donaciones: ${donationCount}</p>
+            <p class="dog-name-text">Mi nombre es <span class="dog-name">${dog.name || 'Sin nombre'}</span></p>
+            <p class="dog-age">${dog.age || 'No especificada'} años</p>
+            <p class="donation-count" style="display: none;">Donaciones: ${donationCount}</p>
           </div>
         </div>
         
