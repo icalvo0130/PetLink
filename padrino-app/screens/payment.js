@@ -41,79 +41,100 @@ export function renderPayment() {
   const summaryLabel = isAccessory ? 'Monto a pagar:' : 'Monto a donar:';
   const buttonText = isAccessory ? `Confirmar Compra de $${price}` : `Confirmar Donación de $${price}`;
   
+  // Calcular costos
+  const subtotal = parseFloat(price);
+  const costosAdicionales = 0;
+  const total = subtotal + costosAdicionales;
+  
+  // Formatear precios en formato colombiano
+  const formatCOP = (value) => {
+    return value.toLocaleString('es-CO');
+  };
+
   app.innerHTML = `
     <div class="payment-container">
       <!-- Botón de volver -->
-      <button class="btn-back" id="btn-back">← Volver</button>
+      <button class="payment-btn-back" id="btn-back">
+        <span>‹</span>
+      </button>
       
-      <h1 class="payment-title">${title}</h1>
+      <!-- Título -->
+      <h1 class="payment-title">Elige tu <span class="payment-title-highlight">pago</span></h1>
       
-      <!-- Resumen -->
-      <div class="payment-summary">
-        <h3>${summaryTitle}</h3>
-        <div class="summary-item">
-          <span>${summaryLabel}</span>
-          <span class="summary-price">$${price}</span>
+      <!-- Métodos de pago -->
+      <div class="payment-methods">
+        <label class="payment-method-card">
+          <input type="radio" name="payment-method" value="card" checked>
+          <div class="payment-method-content">
+            <div class="payment-method-icon">
+              <svg width="32" height="20" viewBox="0 0 32 20" fill="none">
+                <circle cx="10" cy="10" r="10" fill="#EB001B"/>
+                <circle cx="22" cy="10" r="10" fill="#F79E1B"/>
+                <path d="M16 3.82a9.96 9.96 0 0 0-3.64 7.68c0 3.08 1.39 5.83 3.64 7.68a9.96 9.96 0 0 0 3.64-7.68A9.96 9.96 0 0 0 16 3.82z" fill="#FF5F00"/>
+              </svg>
+            </div>
+            <span class="payment-method-label">Tarjeta de credito/debito</span>
+          </div>
+        </label>
+        
+        <label class="payment-method-card">
+          <input type="radio" name="payment-method" value="paypal">
+          <div class="payment-method-content">
+            <div class="payment-method-icon">
+              <svg width="24" height="28" viewBox="0 0 24 28" fill="none">
+                <path d="M20.1 4.5C18.9 3.1 16.6 2.5 13.7 2.5H5.5c-.5 0-1 .4-1.1.9L1.3 22.1c-.1.4.2.7.6.7h4.4l1.1-7-.1.2c.1-.5.5-.9 1.1-.9h2.2c4.4 0 7.9-1.8 8.9-7 0-.2.1-.3.1-.5.3-1.7.0-2.9-.5-4.1z" fill="#003087"/>
+                <path d="M20.6 8.6c-1 5.2-4.5 7-8.9 7H9.5c-.5 0-1 .4-1.1.9l-1.1 7.2-.3 2c-.1.3.2.6.5.6h3.8c.5 0 .9-.3 1-.8v-.2l.7-4.5v-.2c.1-.5.5-.8 1-.8h.6c4 0 7.1-1.6 8-6.3.4-2 .2-3.6-.8-4.8-.3-.4-.7-.7-1.2-1.1z" fill="#009CDE"/>
+              </svg>
+            </div>
+            <span class="payment-method-label">Paypal</span>
+          </div>
+        </label>
+        
+        <label class="payment-method-card">
+          <input type="radio" name="payment-method" value="google">
+          <div class="payment-method-content">
+            <div class="payment-method-icon">
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+                <path d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z" fill="#4285F4"/>
+                <path d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z" fill="#34A853"/>
+                <path d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z" fill="#FBBC05"/>
+                <path d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z" fill="#EA4335"/>
+              </svg>
+            </div>
+            <span class="payment-method-label">Google pay</span>
+          </div>
+        </label>
+      </div>
+      
+      <!-- Resumen de pago -->
+      <div class="payment-summary-section">
+        <div class="payment-summary-row">
+          <span class="payment-summary-label">Subtotal</span>
+          <span class="payment-summary-value">COP ${formatCOP(subtotal)}</span>
+        </div>
+        
+        <div class="payment-summary-row">
+          <span class="payment-summary-label">Costos Adicionales</span>
+          <span class="payment-summary-value">COP ${costosAdicionales}</span>
+        </div>
+        
+        <div class="payment-summary-row payment-summary-total-row">
+          <span class="payment-summary-label">Total</span>
+        </div>
+        
+        <div class="payment-summary-divider"></div>
+        
+        <div class="payment-summary-total">
+          <span class="payment-total-amount">COP ${formatCOP(total)}</span>
         </div>
       </div>
       
-      <!-- Formulario de pago (simulado) -->
-      <form class="payment-form" id="payment-form">
-        <h3>Información de pago</h3>
-        
-        <div class="form-group">
-          <label for="card-number">Número de tarjeta</label>
-          <input 
-            type="text" 
-            id="card-number" 
-            placeholder="1234 5678 9012 3456"
-            maxlength="19"
-            required
-          >
-        </div>
-        
-        <div class="form-row">
-          <div class="form-group">
-            <label for="card-expiry">Fecha de expiración</label>
-            <input 
-              type="text" 
-              id="card-expiry" 
-              placeholder="MM/YY"
-              maxlength="5"
-              required
-            >
-          </div>
-          
-          <div class="form-group">
-            <label for="card-cvv">CVV</label>
-            <input 
-              type="text" 
-              id="card-cvv" 
-              placeholder="123"
-              maxlength="3"
-              required
-            >
-          </div>
-        </div>
-        
-        <div class="form-group">
-          <label for="card-name">Nombre en la tarjeta</label>
-          <input 
-            type="text" 
-            id="card-name" 
-            placeholder="Juan Pérez"
-            required
-          >
-        </div>
-        
-        <button type="submit" class="btn-pay" id="btn-pay">
-          ${buttonText}
+      <!-- Botón de pagar -->
+      <form id="payment-form">
+        <button type="submit" class="payment-btn-submit" id="btn-pay">
+          Donar ahora
         </button>
       </form>
-      
-      <p class="payment-note">
-        Esta es una simulación de pago. No se procesará ninguna transacción real.
-      </p>
     </div>
   `;
   
@@ -126,30 +147,6 @@ function setupPaymentEvents(params, userId, isAccessory) {
   // Botón volver
   document.getElementById('btn-back').addEventListener('click', () => {
     window.history.back();
-  });
-  
-  // Formatear número de tarjeta mientras se escribe
-  const cardNumberInput = document.getElementById('card-number');
-  cardNumberInput.addEventListener('input', (e) => {
-    let value = e.target.value.replace(/\s/g, '');
-    let formattedValue = value.match(/.{1,4}/g)?.join(' ') || value;
-    e.target.value = formattedValue;
-  });
-  
-  // Formatear fecha de expiración
-  const cardExpiryInput = document.getElementById('card-expiry');
-  cardExpiryInput.addEventListener('input', (e) => {
-    let value = e.target.value.replace(/\D/g, '');
-    if (value.length >= 2) {
-      value = value.slice(0, 2) + '/' + value.slice(2, 4);
-    }
-    e.target.value = value;
-  });
-  
-  // Solo permitir números en CVV
-  const cardCvvInput = document.getElementById('card-cvv');
-  cardCvvInput.addEventListener('input', (e) => {
-    e.target.value = e.target.value.replace(/\D/g, '');
   });
   
   // Enviar formulario
