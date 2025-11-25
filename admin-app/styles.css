@@ -2492,126 +2492,179 @@ textarea {
    ESTADÍSTICAS - Igual que padrino-app
    ============================================= */
 
-.estadistics-container,
+/* =============================================
+   ESTADÍSTICAS DEL PERRO - dog-estadistics
+   ============================================= */
+
 .statistics-container {
+  padding: 0;
+  min-height: 100vh;
+  background-color: #ffffff;
+}
+
+/* Header con botón volver */
+.statistics-container .stats-header {
+  background-color: #ffeb3b;
   padding: 20px;
-  max-width: 500px;
-  margin: 0 auto;
+  position: relative;
 }
 
-.estadistics-title,
-.statistics-title {
-  font-size: 28px;
-  color: #333;
-  margin-bottom: 30px;
-  text-align: center;
-}
-
-/* Indicador de tiempo real */
-.realtime-indicator {
+.statistics-container .btn-back {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background-color: #ffffff;
+  border: none;
+  font-size: 24px;
+  color: #333333;
+  cursor: pointer;
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: 8px;
-  margin-bottom: 20px;
-  padding: 10px;
-  background-color: #e8f5e9;
-  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
 }
 
-.realtime-dot {
-  width: 10px;
-  height: 10px;
-  background-color: #4caf50;
-  border-radius: 50%;
-  animation: pulse 2s infinite;
+/* Info del perro */
+.statistics-container .stats-dog-info {
+  background-color: #ffffff;
+  border-radius: 30px 30px 0 0;
+  margin-top: -20px;
+  padding: 30px 20px 20px;
+  text-align: center;
+  position: relative;
+  z-index: 10;
 }
 
-@keyframes pulse {
-  0%, 100% {
-    opacity: 1;
-    transform: scale(1);
-  }
-  50% {
-    opacity: 0.5;
-    transform: scale(1.2);
-  }
+.statistics-container .stats-dog-name {
+  font-size: 28px;
+  font-weight: 700;
+  color: #000000;
+  margin: 0 0 8px 0;
 }
 
-.realtime-text {
+.statistics-container .stats-dog-location {
+  font-size: 15px;
+  color: #666666;
+  margin: 0 0 20px 0;
+}
+
+.statistics-container .stats-dog-tags {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 10px;
+}
+
+.statistics-container .stats-tag {
+  padding: 8px 16px;
+  border: none;
+  border-radius: 20px;
   font-size: 14px;
-  color: #2e7d32;
-  font-weight: 500;
+  color: #333333;
+  background-color: #ffeb3b;
 }
 
 /* Barras de estadísticas */
-.statistics-bars {
+.statistics-container .statistics-bars {
   display: flex;
   flex-direction: column;
   gap: 30px;
+  padding: 20px;
+  background-color: #ffffff;
 }
 
-.stat-item {
-  background-color: #f5f5f5;
-  padding: 20px;
-  border-radius: 15px;
+.statistics-container .stat-item {
+  background-color: transparent;
+  padding: 0;
+  border-radius: 0;
   transition: all 0.3s ease;
 }
 
 /* Animación cuando se actualiza una estadística */
-.stat-item.stat-updated {
-  background-color: #fff9c4;
+.statistics-container .stat-item.stat-updated {
   transform: scale(1.02);
-  box-shadow: 0 2px 8px rgba(255, 193, 7, 0.3);
 }
 
-.stat-header {
+/* Wrapper de la barra con patita */
+.statistics-container .stat-bar-wrapper {
   display: flex;
-  justify-content: space-between;
   align-items: center;
-  margin-bottom: 10px;
+  gap: 0;
+  position: relative;
 }
 
-.stat-label {
-  font-size: 18px;
-  font-weight: bold;
-  color: #333;
-}
-
-.stat-value {
-  font-size: 16px;
-  font-weight: bold;
-  color: #666;
-}
-
-.stat-bar-container {
-  width: 100%;
-  height: 30px;
+.statistics-container .stat-bar-container {
+  flex: 1;
+  height: 24px;
   background-color: #e0e0e0;
-  border-radius: 15px;
-  overflow: hidden;
+  border-radius: 12px;
+  overflow: visible;
+  position: relative;
 }
 
-.stat-bar {
+.statistics-container .stat-bar {
   height: 100%;
-  border-radius: 15px;
+  border-radius: 12px;
   transition: width 0.5s ease-in-out;
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  min-width: 50px;
 }
 
-.stat-bar-food {
+/* Patita al final de la barra - se mueve con ella */
+.statistics-container .stat-paw {
+  width: 50px;
+  height: 50px;
+  object-fit: contain;
+  position: absolute;
+  right: -20px;
+  top: 50%;
+  transform: translateY(-50%);
+  z-index: 5;
+  transition: all 0.5s ease-in-out;
+}
+
+/* Colores de las barras */
+.statistics-container .stat-bar-food {
   background-color: #9c27b0;
 }
 
-.stat-bar-health {
-  background-color: #00bcd4;
+.statistics-container .stat-bar-health {
+  background-color: #4dd0e1;
 }
 
-.stat-bar-wellbeing {
-  background-color: #ff9800;
+.statistics-container .stat-bar-wellbeing {
+  background-color: #f8bbd9;
 }
 
-.stat-bar-affection {
-  background-color: #f44336;
+.statistics-container .stat-bar-affection {
+  background-color: #ff7043;
+}
+
+/* Info debajo de la barra */
+.statistics-container .stat-info {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-top: 15px;
+}
+
+.statistics-container .stat-value {
+  font-size: 12px;
+  font-weight: 600;
+  color: #333333;
+  background-color: #f5f5f5;
+  padding: 2px 6px;
+  border-radius: 4px;
+  border: 1px solid #e0e0e0;
+}
+
+.statistics-container .stat-label {
+  font-size: 14px;
+  font-weight: 500;
+  color: #333333;
 }
 
 /* Notificación flotante de actualización */
@@ -2635,6 +2688,52 @@ textarea {
 .stats-notification.show {
   opacity: 1;
   transform: translateX(0);
+}
+
+/* Responsive - Tablet */
+@media (min-width: 481px) {
+  .statistics-container .stats-dog-info {
+    padding: 40px 30px 30px;
+  }
+  
+  .statistics-container .stats-dog-name {
+    font-size: 32px;
+  }
+  
+  .statistics-container .statistics-bars {
+    padding: 30px;
+  }
+  
+  .statistics-container .stat-paw {
+    width: 60px;
+    height: 60px;
+  }
+}
+
+/* Responsive - Desktop */
+@media (min-width: 769px) {
+  .statistics-container {
+    max-width: 600px;
+    margin: 0 auto;
+  }
+  
+  .statistics-container .stats-dog-info {
+    padding: 50px 40px 40px;
+  }
+  
+  .statistics-container .statistics-bars {
+    padding: 40px;
+    gap: 20px;
+  }
+  
+  .statistics-container .stat-bar-container {
+    height: 28px;
+  }
+  
+  .statistics-container .stat-paw {
+    width: 70px;
+    height: 70px;
+  }
 }
 
 /* =============================================

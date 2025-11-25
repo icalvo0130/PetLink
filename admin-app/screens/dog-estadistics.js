@@ -99,55 +99,82 @@ async function loadStatistics(dogId) {
 function displayStatistics(stats, dogId) {
   const app = document.getElementById('app');
   
+  // Obtener info de la fundación
+  const adminUser = JSON.parse(localStorage.getItem('adminUser') || '{}');
+  const foundationName = adminUser.foundation_name || adminUser.username || 'Fundación';
+
   app.innerHTML = `
     <div class="statistics-container">
-      <button class="btn-back" id="btn-back">← Volver</button>
+      <header class="stats-header">
+        <button class="btn-back" id="btn-back">‹</button>
+      </header>
       
-      <h1 class="statistics-title">Estadísticas de ${stats.name}</h1>
-      
-      <div class="realtime-indicator">
-        <span class="realtime-dot"></span>
-        <span class="realtime-text">Actualización en tiempo real</span>
+      <div class="stats-dog-info">
+        <h1 class="stats-dog-name">${stats.name || 'Sin nombre'}</h1>
+        <p class="stats-dog-location">📍 ${foundationName}</p>
+        
+        <div class="stats-dog-tags">
+          <span class="stats-tag">${stats.weight || '0'} kg</span>
+          <span class="stats-tag">${stats.age || '0'} Años</span>
+          <span class="stats-tag">Disponible</span>
+          <span class="stats-tag">${stats.size || 'Mediano'}</span>
+        </div>
       </div>
       
       <div class="statistics-bars">
         <div class="stat-item" data-stat="food">
-          <div class="stat-header">
-            <span class="stat-label">Comida</span>
-            <span class="stat-value" id="food-value">${stats.food_level || 0}/10</span>
+          <div class="stat-bar-wrapper">
+            <div class="stat-bar-container">
+              <div class="stat-bar stat-bar-food" id="food-bar" style="width: ${(stats.food_level || 0) * 10}%">
+                <img src="/images/Pata4.png" alt="paw" class="stat-paw" />
+              </div>
+            </div>
           </div>
-          <div class="stat-bar-container">
-            <div class="stat-bar stat-bar-food" id="food-bar" style="width: ${(stats.food_level || 0) * 10}%"></div>
+          <div class="stat-info">
+            <span class="stat-value" id="food-value">${stats.food_level || 0}/10</span>
+            <span class="stat-label">Comida</span>
           </div>
         </div>
         
         <div class="stat-item" data-stat="health">
-          <div class="stat-header">
-            <span class="stat-label">Salud</span>
-            <span class="stat-value" id="health-value">${stats.health_level || 0}/10</span>
+          <div class="stat-bar-wrapper">
+            <div class="stat-bar-container">
+              <div class="stat-bar stat-bar-health" id="health-bar" style="width: ${(stats.health_level || 0) * 10}%">
+                <img src="/images/Pata3.png" alt="paw" class="stat-paw" />
+              </div>
+            </div>
           </div>
-          <div class="stat-bar-container">
-            <div class="stat-bar stat-bar-health" id="health-bar" style="width: ${(stats.health_level || 0) * 10}%"></div>
+          <div class="stat-info">
+            <span class="stat-value" id="health-value">${stats.health_level || 0}/10</span>
+            <span class="stat-label">Salud</span>
           </div>
         </div>
         
         <div class="stat-item" data-stat="wellbeing">
-          <div class="stat-header">
-            <span class="stat-label">Bienestar / Accesorios</span>
-            <span class="stat-value" id="wellbeing-value">${stats.wellbeing_level || 0}/10</span>
+          <div class="stat-bar-wrapper">
+            <div class="stat-bar-container">
+              <div class="stat-bar stat-bar-wellbeing" id="wellbeing-bar" style="width: ${(stats.wellbeing_level || 0) * 10}%">
+                <img src="/images/Pata1.png" alt="paw" class="stat-paw" />
+              </div>
+            </div>
           </div>
-          <div class="stat-bar-container">
-            <div class="stat-bar stat-bar-wellbeing" id="wellbeing-bar" style="width: ${(stats.wellbeing_level || 0) * 10}%"></div>
+          <div class="stat-info">
+            <span class="stat-value" id="wellbeing-value">${stats.wellbeing_level || 0}/10</span>
+            <span class="stat-label">Bienestar/Accesorios</span>
           </div>
         </div>
         
         <div class="stat-item" data-stat="affection">
-          <div class="stat-header">
-            <span class="stat-label">Cariño / Atención</span>
-            <span class="stat-value" id="affection-value">${stats.affection_level || 0}/10</span>
+          <div class="stat-bar-wrapper">
+            <div class="stat-bar-container">
+              <div class="stat-bar stat-bar-affection" id="affection-bar" style="width: ${(stats.affection_level || 0) * 10}%">
+                <img src="/images/Pata2.png" alt="paw" class="stat-paw" />
+              </div>
+            </div>
           </div>
-          <div class="stat-bar-container">
-            <div class="stat-bar stat-bar-affection" id="affection-bar" style="width: ${(stats.affection_level || 0) * 10}%"></div>
+          <div class="stat-info">
+            <span class="stat-value" id="affection-value">${stats.affection_level || 0}/10</span>
+            <span class="stat-label">Cariño / Atención</span>
           </div>
         </div>
       </div>
