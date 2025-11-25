@@ -5136,3 +5136,513 @@ img[class*="dog"],
     height: 110px;
   }
 }
+
+/* =============================================
+   DONATIONS PROFILE DOG SCREEN - Diseño según imagen
+   Pantalla: donations-profile-dog.js (Administrador)
+   ============================================= */
+
+/* Contenedor principal - Encapsulado para no afectar otras pantallas */
+.donations-profile-container {
+  min-height: 100vh;
+  width: 100%;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  position: relative;
+  background-color: #f5f5f5;
+}
+
+/* Header - Fondo amarillo con decoraciones */
+/* Ocultar solo el fondo amarillo del header, mantener el botón de volver visible */
+.donations-profile-container .page-header {
+  background-color: transparent !important; /* Quitar el fondo amarillo */
+  padding: 0 !important;
+  margin: 0 !important;
+  min-height: auto !important;
+  position: relative !important;
+  z-index: 10 !important;
+  overflow: visible !important;
+}
+
+/* Mantener el botón de volver visible y posicionado */
+.donations-profile-container .page-header .back-btn {
+  display: block !important;
+  position: fixed !important;
+  top: 20px !important;
+  left: 20px !important;
+  width: 40px !important;
+  height: 40px !important;
+  background-color: #ffffff !important;
+  border: none !important;
+  border-radius: 50% !important;
+  z-index: 1000 !important;
+  cursor: pointer !important;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1) !important;
+}
+
+/* Eliminar decoraciones de huellas */
+.donations-profile-container .page-header::before {
+  display: none;
+}
+
+.donations-profile-container .page-header::after {
+  display: none;
+}
+
+/* Ocultar h1 original del header */
+.donations-profile-container .page-header h1 {
+  display: none;
+}
+
+/* Botón back - Circular blanco */
+.donations-profile-container .page-header .back-btn {
+  position: absolute;
+  top: 20px;
+  left: 20px;
+  width: 40px;
+  height: 40px;
+  background-color: #ffffff;
+  border: none;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 20px;
+  color: #333333;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  z-index: 20;
+  cursor: pointer;
+  line-height: 1;
+  padding: 0;
+  margin: 0;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+  transition: all 0.2s ease;
+}
+
+.donations-profile-container .page-header .back-btn:hover {
+  transform: scale(1.05);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+.donations-profile-container .page-header .back-btn:active {
+  transform: scale(0.95);
+}
+
+/* Ocultar texto del botón, solo mostrar flecha */
+.donations-profile-container .page-header .back-btn {
+  text-indent: -9999px;
+  overflow: hidden;
+}
+
+.donations-profile-container .page-header .back-btn::before {
+  content: '←';
+  text-indent: 0;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  font-size: 20px;
+  color: #333333;
+}
+
+/* Contenido principal */
+.donations-profile-container .profile-content {
+  width: 100%;
+  padding: 0;
+  margin: 0;
+  position: relative;
+  z-index: 1;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  background-color: #f5f5f5;
+}
+
+/* Sección del perfil del perro - Fondo amarillo */
+.donations-profile-container .dog-profile-section {
+  width: 100%;
+  padding: 0;
+  margin: 0;
+  position: relative;
+  background-color: #bc1111; /* Amarillo */
+  min-height: 350px; /* Aumentado para dar más espacio a la imagen */
+  display: block;
+  overflow: visible !important; /* Permitir que la imagen se vea completamente */
+}
+
+/* Asegurar que la imagen esté por encima del fondo amarillo */
+.donations-profile-container .dog-profile-section .dog-header .dog-image {
+  z-index: 10 !important; /* Aumentar z-index para que esté por encima */
+}
+
+/* Contenedor del header del perro */
+.donations-profile-container .dog-profile-section .dog-header {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 0;
+  width: 100%;
+  height: 100%;
+  min-height: 350px; /* Aumentado para dar más espacio a la imagen */
+  position: relative;
+  padding: 60px 20px 20px;
+  z-index: 2;
+  background-color: transparent !important; /* Sin fondo amarillo que tape la imagen */
+  overflow: visible !important; /* Permitir que la imagen se vea completamente */
+}
+
+/* Imagen del perro - FORMA NATURAL (RECTANGULAR) CENTRADA en la parte amarilla */
+.donations-profile-container .dog-profile-section .dog-header .dog-image {
+  position: absolute !important;
+  top: 40% !important; /* Subido más arriba (de 50% a 40%) para que se vea completa */
+  left: 50% !important;
+  transform: translate(-50%, -50%) !important; /* Centrar horizontalmente y verticalmente */
+  width: 400px !important;
+  height: 400px !important;
+  min-width: 400px !important;
+  min-height: 400px !important;
+  max-width: none !important;
+  max-height: none !important;
+  z-index: 10 !important; /* Aumentado para estar por encima del fondo amarillo */
+  margin: 0 !important;
+  padding: 0 !important;
+  overflow: visible !important; /* Cambiado a visible para que la imagen se vea completamente */
+  background-color: transparent !important; /* Sin fondo */
+  border-radius: 0 !important; /* Sin bordes redondeados - forma natural */
+  border: none !important; /* Sin borde */
+  box-shadow: none !important; /* Sin sombra */
+  box-sizing: border-box !important;
+}
+
+/* La imagen dentro - FORMA NATURAL - Sobrescribir estilos globales */
+.donations-profile-container .dog-profile-section .dog-header .dog-image img,
+.donations-profile-container .dog-profile-section .dog-header #dogImage img,
+.donations-profile-container .dog-profile-section .dog-header .dog-image > div > img {
+  width: 100% !important;
+  height: 100% !important;
+  min-width: 100% !important;
+  min-height: 100% !important;
+  max-width: none !important;
+  max-height: none !important;
+  object-fit: cover !important;
+  border-radius: 0 !important; /* Sin bordes redondeados - forma natural */
+  background-color: transparent !important; /* Sin fondo */
+  border: none !important;
+  display: block !important;
+}
+
+.donations-profile-container .dog-profile-section .dog-header .dog-image .dog-image-placeholder {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 100px;
+  background-color: transparent; /* Sin fondo */
+  border-radius: 0 !important; /* Sin bordes redondeados - forma natural */
+}
+
+/* Info del perro - Ocultar el overlay original, el nombre irá en la sección gris */
+.donations-profile-container .dog-profile-section .dog-header .dog-info {
+  display: none; /* Ocultar el overlay original */
+}
+
+/* Ocultar edad y tamaño */
+.donations-profile-container .dog-profile-section .dog-header .dog-info p {
+  display: none;
+}
+
+/* Sección de donaciones - Parte inferior gris/blanca - SUBIDA con bordes redondeados */
+.donations-profile-container .donations-section {
+  width: 100%;
+  padding: 20px 20px 40px 20px; /* Reducido significativamente de 90px a 60px para subir mucho más */
+  margin: 0;
+  border-top-left-radius: 30px;
+  border-top-right-radius: 30px;
+  background-color: #f5f5f5; /* Gris claro */
+  margin-top: -60px; /* Subir más la sección */
+  position: relative;
+  z-index: 2;
+  flex: 1;
+}
+
+/* Header de la sección de donaciones - Mostrar el nombre del perro en negrilla y grande */
+.donations-profile-container .donations-section .section-header {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 5px 0 8px 0; /* Reducido mucho más: de 10px a 5px para subirlo mucho más arriba */
+  margin-bottom: 8px; /* Reducido de 20px a 8px para menos espacio */
+  gap: 8px;
+}
+
+/* Nombre del perro - EN LA PARTE GRIS ARRIBA, CENTRADO, NEGRILLA Y GRANDE */
+.donations-profile-container .donations-section .section-header h3 {
+  font-size: 32px;
+  font-weight: 700;
+  color: #000000;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+  text-align: center;
+  margin: 0;
+  line-height: 1.2;
+}
+
+/* Ocultar el contador de donaciones del header (se mostrará después) */
+.donations-profile-container .donations-section .section-header .count-badge {
+  display: none;
+}
+
+/* Lista de donaciones */
+.donations-profile-container .donations-section .donations-list {
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  width: 100%;
+  max-width: 100%;
+  margin: 0 auto;
+}
+
+/* Card de donación */
+.donations-profile-container .donations-section .donations-list .donation-card {
+  background-color: #ffffff;
+  border-radius: 12px;
+  padding: 16px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  border: 1px solid #e0e0e0;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+/* Mensaje de donación */
+.donations-profile-container .donations-section .donations-list .donation-card .donation-message {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+/* Mensaje principal - Formato: "@username ha donado $amount en item" */
+.donations-profile-container .donations-section .donations-list .donation-card .donation-message p:not(.donation-date) {
+  font-size: 14px;
+  color: #000000;
+  font-weight: 400;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+  margin: 0;
+  line-height: 1.5;
+  order: 1; /* Aparecer primero */
+}
+
+/* Agregar @ antes del nombre del usuario usando pseudo-elemento */
+.donations-profile-container .donations-section .donations-list .donation-card .donation-message p:not(.donation-date) strong:first-child::before {
+  content: '@';
+  font-weight: 600;
+}
+
+.donations-profile-container .donations-section .donations-list .donation-card .donation-message p strong {
+  font-weight: 600;
+}
+
+/* Fecha de la donación - Abajo del mensaje */
+.donations-profile-container .donations-section .donations-list .donation-card .donation-message .donation-date {
+  font-size: 12px;
+  color: #666666;
+  font-weight: 400;
+  margin: 0;
+  order: 2; /* Aparecer después del mensaje */
+}
+
+/* Formato de donación: "@username ha donado $amount en item" */
+/* El formato ya viene del HTML, solo estilizamos */
+
+/* Mensaje sin donaciones */
+.donations-profile-container .donations-section .no-donations {
+  padding: 20px;
+  text-align: center;
+  color: #666666;
+  font-size: 16px;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+}
+
+/* Mensajes de éxito/error */
+.donations-profile-container .messages-section {
+  padding: 12px 20px;
+}
+
+.donations-profile-container .success-message,
+.donations-profile-container .error-message {
+  padding: 12px 16px;
+  border-radius: 8px;
+  margin: 8px 0;
+  font-size: 14px;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+}
+
+.donations-profile-container .success-message {
+  background-color: #d4edda;
+  color: #155724;
+  border: 1px solid #c3e6cb;
+}
+
+.donations-profile-container .error-message {
+  background-color: #f8d7da;
+  color: #721c24;
+  border: 1px solid #f5c6cb;
+}
+
+/* Loading section */
+.donations-profile-container .loading-section {
+  padding: 40px 20px;
+  text-align: center;
+  color: #666666;
+  font-size: 16px;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+}
+
+/* Responsive Donations Profile */
+@media (min-width: 481px) {
+  .donations-profile-container .page-header {
+    min-height: 240px;
+    padding: 20px 30px;
+  }
+
+  .donations-profile-container .page-header .back-btn {
+    top: 24px;
+    left: 30px;
+    width: 44px;
+    height: 44px;
+    font-size: 22px;
+  }
+
+  .donations-profile-container .dog-profile-section {
+    min-height: 240px;
+  }
+
+  .donations-profile-container .dog-profile-section .dog-header {
+    padding: 70px 30px 24px;
+  }
+
+  .donations-profile-container .dog-profile-section .dog-header::before {
+    width: 220px;
+    height: 220px;
+    top: 50px;
+  }
+
+  .donations-profile-container .dog-profile-section .dog-header .dog-image {
+    width: 200px;
+    height: 200px;
+  }
+
+  .donations-profile-container .dog-profile-section .dog-header .dog-info h2 {
+    font-size: 32px;
+  }
+
+  .donations-profile-container .donations-section {
+    padding: 24px 30px 50px;
+    border-radius: 35px 35px 0 0;
+  }
+}
+
+@media (min-width: 769px) {
+  .donations-profile-container .page-header {
+    min-height: 260px;
+    padding: 24px 40px;
+  }
+
+  .donations-profile-container .page-header .back-btn {
+    top: 28px;
+    left: 40px;
+    width: 48px;
+    height: 48px;
+    font-size: 24px;
+  }
+
+  .donations-profile-container .dog-profile-section {
+    min-height: 260px;
+  }
+
+  .donations-profile-container .dog-profile-section .dog-header {
+    padding: 80px 40px 28px;
+  }
+
+  .donations-profile-container .dog-profile-section .dog-header::before {
+    width: 240px;
+    height: 240px;
+    top: 60px;
+  }
+
+  .donations-profile-container .dog-profile-section .dog-header .dog-image {
+    width: 220px;
+    height: 220px;
+  }
+
+  .donations-profile-container .dog-profile-section .dog-header .dog-info h2 {
+    font-size: 36px;
+  }
+
+  .donations-profile-container .donations-section {
+    padding: 28px 40px 60px;
+    border-radius: 40px 40px 0 0;
+    max-width: 700px;
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  .donations-profile-container .donations-section .donations-list {
+    max-width: 700px;
+  }
+}
+
+@media (min-width: 1024px) {
+  .donations-profile-container .page-header {
+    min-height: 280px;
+    padding: 28px 50px;
+  }
+
+  .donations-profile-container .page-header .back-btn {
+    top: 32px;
+    left: 50px;
+    width: 52px;
+    height: 52px;
+    font-size: 26px;
+  }
+
+  .donations-profile-container .dog-profile-section {
+    min-height: 280px;
+  }
+
+  .donations-profile-container .dog-profile-section .dog-header {
+    padding: 90px 50px 32px;
+  }
+
+  .donations-profile-container .dog-profile-section .dog-header::before {
+    width: 260px;
+    height: 260px;
+    top: 70px;
+  }
+
+  .donations-profile-container .dog-profile-section .dog-header .dog-image {
+    width: 240px;
+    height: 240px;
+  }
+
+  .donations-profile-container .dog-profile-section .dog-header .dog-info h2 {
+    font-size: 40px;
+  }
+
+  .donations-profile-container .donations-section {
+    padding: 32px 50px 70px;
+    border-radius: 45px 45px 0 0;
+    max-width: 800px;
+  }
+
+  .donations-profile-container .donations-section .donations-list {
+    max-width: 800px;
+  }
+}

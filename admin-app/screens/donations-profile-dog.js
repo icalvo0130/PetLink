@@ -179,6 +179,12 @@ function renderDogProfile() {
   document.getElementById('dogAge').textContent = `Edad: ${dogData.age || 'No especificada'} años`;
   document.getElementById('dogSize').textContent = `Tamaño: ${dogData.size || 'No especificado'}`;
   
+  // Actualizar el nombre del perro en el header de la sección de donaciones
+  const sectionHeader = document.querySelector('.donations-section .section-header h3');
+  if (sectionHeader) {
+    sectionHeader.textContent = dogData.name || 'Sin nombre';
+  }
+  
   const dogImage = document.getElementById('dogImage');
   if (dogData.image) {
     dogImage.innerHTML = `<img src="${dogData.image}" alt="${dogData.name}" />`;
