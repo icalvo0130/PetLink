@@ -1453,12 +1453,12 @@ hr {
   background-color: #ffd93d;
 }
 
-/* Barras de estadísticas */
+/* Barras de estadísticas - ESTILO EXACTO DE LA IMAGEN */
 .statistics-container .statistics-bars {
   display: flex;
   flex-direction: column;
-  gap: 35px;
-  padding: 0 10px;
+  gap: 25px;
+  padding: 0 20px;
 }
 
 .statistics-container .stat-item {
@@ -1470,38 +1470,40 @@ hr {
 .statistics-container .stat-footer {
   display: flex;
   align-items: center;
-  gap: 10px;
-  margin-top: 10px;
+  gap: 12px;
+  margin-top: 18px;
 }
 
 .statistics-container .stat-value {
-  padding: 4px 10px;
-  border: 2px solid #333333;
-  border-radius: 8px;
-  font-size: 13px;
-  font-weight: 600;
+  padding: 4px 8px;
+  border: 1.5px solid #333333;
+  border-radius: 6px;
+  font-size: 12px;
+  font-weight: 500;
   color: #333333;
   background-color: transparent;
+  min-width: 40px;
+  text-align: center;
 }
 
 .statistics-container .stat-label {
-  font-size: 15px;
-  font-weight: 600;
+  font-size: 14px;
+  font-weight: 500;
   color: #333333;
 }
 
 .statistics-container .stat-bar-container {
   width: 100%;
-  height: 24px;
-  background-color: #e0e0e0;
-  border-radius: 15px;
+  height: 18px;
+  background-color: transparent;
+  border-radius: 12px;
   overflow: visible;
   position: relative;
 }
 
 .statistics-container .stat-bar {
   height: 100%;
-  border-radius: 15px;
+  border-radius: 12px;
   transition: width 0.5s ease;
   position: relative;
   display: flex;
@@ -1512,37 +1514,38 @@ hr {
 
 .statistics-container .stat-bar .paw-icon {
   position: absolute;
-  right: -18px;
+  right: -20px;
   top: 50%;
   transform: translateY(-50%);
-  width: 42px;
+  width: 45px;
   height: auto;
   transition: all 0.5s ease;
+  z-index: 5;
 }
 
-/* Colores de las barras */
+/* Colores de las barras - EXACTOS DE LA IMAGEN */
 .statistics-container .stat-bar.stat-bar-food,
 .statistics-container .stat-bar-food {
-  background-color: #9c27b0 !important; /* Morado */
-  background: #9c27b0 !important;
+  background-color: #9B4DCA !important; /* Morado vibrante */
+  background: linear-gradient(90deg, #9B4DCA 0%, #8E44AD 100%) !important;
 }
 
 .statistics-container .stat-bar.stat-bar-health,
 .statistics-container .stat-bar-health {
-  background-color: #26c6da !important; /* Azul */
-  background: #26c6da !important;
+  background-color: #5BC0EB !important; /* Azul claro */
+  background: linear-gradient(90deg, #7DD3FC 0%, #5BC0EB 100%) !important;
 }
 
 .statistics-container .stat-bar.stat-bar-wellbeing,
 .statistics-container .stat-bar-wellbeing {
-  background-color: #f48fb1 !important; /* Rosado */
-  background: #f48fb1 !important;
+  background-color: #F8BBD9 !important; /* Rosa claro */
+  background: linear-gradient(90deg, #F8BBD9 0%, #F48FB1 100%) !important;
 }
 
 .statistics-container .stat-bar.stat-bar-affection,
 .statistics-container .stat-bar-affection {
-  background-color: #ff7043 !important; /* Naranja */
-  background: #ff7043 !important;
+  background-color: #FF8A65 !important; /* Naranja */
+  background: linear-gradient(90deg, #FF8A65 0%, #FF7043 100%) !important;
 }
 
 /* Animación de actualización */
@@ -1590,11 +1593,15 @@ hr {
   }
   
   .statistics-container .stat-bar .paw-icon {
-    width: 48px;
+    width: 50px;
   }
   
   .statistics-container .statistics-bars {
     gap: 28px;
+  }
+  
+  .statistics-container .stat-bar-container {
+    height: 20px;
   }
 }
 
@@ -1609,11 +1616,15 @@ hr {
   }
   
   .statistics-container .stat-bar .paw-icon {
-    width: 52px;
+    width: 55px;
   }
   
   .statistics-container .statistics-bars {
     gap: 32px;
+  }
+  
+  .statistics-container .stat-bar-container {
+    height: 22px;
   }
 }
 /* =============================================
@@ -2084,24 +2095,24 @@ hr {
   font-weight: 500;
 }
 
-/* Animacion de actualizacion de estadistica */
-.stat-item {
+/* Animacion de actualizacion de estadistica - SOLO para pantallas que NO son statistics-container */
+.admin-stats .stat-item {
   transition: all 0.3s ease;
 }
 
-.stat-item.stat-updated {
+.admin-stats .stat-item.stat-updated {
   background-color: #fff9c4;
   transform: scale(1.02);
   box-shadow: 0 2px 8px rgba(255, 193, 7, 0.3);
 }
 
-/* Barras de estadisticas con transicion suave */
-.stat-bar {
+/* Barras de estadisticas con transicion suave - admin */
+.admin-stats .stat-bar {
   transition: width 0.5s ease-in-out;
 }
 
-/* Notificacion flotante */
-.stats-notification {
+/* Notificacion flotante - version alternativa para admin */
+.admin-stats .stats-notification {
   position: fixed;
   top: 80px;
   right: 20px;
@@ -2118,44 +2129,44 @@ hr {
   transition: all 0.3s ease;
 }
 
-.stats-notification.show {
+.admin-stats .stats-notification.show {
   opacity: 1;
   transform: translateX(0);
 }
 
-/* Ajustes adicionales para estadisticas */
-.statistics-bars {
+/* Ajustes para estadisticas de admin (NO afecta statistics-container) */
+.admin-stats .statistics-bars {
   display: flex;
   flex-direction: column;
   gap: 20px;
 }
 
-.stat-item {
+.admin-stats .stat-item {
   padding: 15px;
   background-color: white;
   border-radius: 10px;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
-.stat-header {
+.admin-stats .stat-header {
   display: flex;
   justify-content: space-between;
   margin-bottom: 10px;
 }
 
-.stat-label {
+.admin-stats .stat-label {
   font-size: 16px;
   font-weight: 500;
   color: #333;
 }
 
-.stat-value {
+.admin-stats .stat-value {
   font-size: 16px;
   font-weight: bold;
   color: #666;
 }
 
-.stat-bar-container {
+.admin-stats .stat-bar-container {
   width: 100%;
   height: 20px;
   background-color: #e0e0e0;
@@ -2163,30 +2174,30 @@ hr {
   overflow: hidden;
 }
 
-.stat-bar {
+.admin-stats .stat-bar {
   height: 100%;
   border-radius: 10px;
 }
 
-.stat-bar-food {
+.admin-stats .stat-bar-food {
   background: linear-gradient(90deg, #ffa726, #ff6f00);
 }
 
-.stat-bar-health {
+.admin-stats .stat-bar-health {
   background: linear-gradient(90deg, #66bb6a, #2e7d32);
 }
 
-.stat-bar-wellbeing {
+.admin-stats .stat-bar-wellbeing {
   background: linear-gradient(90deg, #42a5f5, #1565c0);
 }
 
-.stat-bar-affection {
+.admin-stats .stat-bar-affection {
   background: linear-gradient(90deg, #ec407a, #c2185b);
 }
 
-/* Responsive */
+/* Responsive para admin stats */
 @media (max-width: 600px) {
-  .stats-notification {
+  .admin-stats .stats-notification {
     top: 60px;
     right: 10px;
     left: 10px;
