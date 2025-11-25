@@ -1757,104 +1757,205 @@ hr {
   }
 }
 /* =============================================
-   ACCESORIOS - LISTA
+   ACCESORIOS - LISTA (Estilo exacto de la imagen)
    ============================================= */
 
 .accessories-container {
-  padding: 20px;
+  padding: 30px 25px;
   max-width: 500px;
   margin: 0 auto;
-}
-
-.accessories-title {
-  font-size: 28px;
-  color: #333;
-  margin-bottom: 10px;
-}
-
-.accessories-subtitle {
-  font-size: 16px;
-  color: #666;
-  margin-bottom: 30px;
-}
-
-.accessories-list {
-  display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  gap: 15px;
-}
-
-.accessory-card {
-  background-color: white;
-  border: 1px solid #e0e0e0;
-  border-radius: 10px;
-  overflow: hidden;
-  cursor: pointer;
-  transition: transform 0.2s, box-shadow 0.2s;
-}
-
-.accessory-card:hover {
-  transform: translateY(-5px);
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-}
-
-.accessory-image-container {
-  width: 100%;
-  height: 150px;
-  overflow: hidden;
   background-color: #f5f5f5;
+  min-height: 100vh;
+  box-sizing: border-box;
 }
 
-.accessory-image {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
+/* Header con botón y título */
+.accessories-container .accessories-header {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  margin-bottom: 20px;
 }
 
-.accessory-info {
-  padding: 15px;
-}
-
-.accessory-category {
-  font-size: 12px;
-  color: #999;
-  text-transform: uppercase;
-  margin-bottom: 5px;
-}
-
-.accessory-name {
-  font-size: 16px;
-  font-weight: bold;
-  color: #333;
-  margin-bottom: 10px;
-}
-
-.accessory-price {
-  font-size: 18px;
-  font-weight: bold;
-  color: #ff6b35;
-  margin-bottom: 10px;
-}
-
-.btn-view-accessory {
-  width: 100%;
-  padding: 8px;
-  background-color: #ff6b35;
-  color: white;
+/* Botón de volver circular */
+.accessories-container .accessories-btn-back {
+  width: 45px;
+  height: 45px;
+  border-radius: 50%;
+  background-color: #ffffff;
   border: none;
-  border-radius: 5px;
-  font-size: 14px;
+  font-size: 26px;
+  color: #333333;
   cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+  transition: all 0.2s ease;
+  flex-shrink: 0;
 }
 
-.btn-view-accessory:hover {
-  background-color: #e55a2b;
+.accessories-container .accessories-btn-back:hover {
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.12);
+  transform: translateY(-1px);
 }
 
-.no-accessories {
+.accessories-container .accessories-btn-back span {
+  line-height: 1;
+  margin-top: -2px;
+}
+
+/* Título "Accesorios" */
+.accessories-container .accessories-title {
+  font-size: 26px;
+  font-weight: 700;
+  color: #000000;
+  margin: 0;
+}
+
+/* Descripción */
+.accessories-container .accessories-description {
+  font-size: 14px;
+  font-weight: 400;
+  color: #666666;
+  line-height: 1.5;
+  margin: 0 0 25px 0;
+}
+
+/* Lista de accesorios */
+.accessories-container .accessories-list {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+/* Tarjeta de accesorio */
+.accessories-container .accessory-card {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  background-color: #ffffff;
+  border: none;
+  border-radius: 20px;
+  padding: 15px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+}
+
+.accessories-container .accessory-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
+}
+
+/* Contenedor de imagen circular */
+.accessories-container .accessory-image-container {
+  width: 100px;
+  height: 100px;
+  border-radius: 20px;
+  overflow: hidden;
+  background-color: #E8E4E0;
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.accessories-container .accessory-image {
+  width: 85%;
+  height: 85%;
+  object-fit: contain;
+}
+
+/* Info del accesorio */
+.accessories-container .accessory-info {
+  flex: 1;
+  padding: 0;
+}
+
+/* Nombre del accesorio */
+.accessories-container .accessory-name {
+  font-size: 17px;
+  font-weight: 600;
+  color: #000000;
+  margin: 0 0 6px 0;
+}
+
+/* Precio del accesorio */
+.accessories-container .accessory-price {
+  font-size: 16px;
+  font-weight: 600;
+  color: #333333;
+  margin: 0;
+}
+
+/* Estados de carga y mensajes */
+.accessories-container .loading,
+.accessories-container .error,
+.accessories-container .no-accessories {
   text-align: center;
-  padding: 40px;
-  color: #999;
+  padding: 40px 20px;
+  color: #666666;
+  background-color: #ffffff;
+  border-radius: 20px;
+}
+
+.accessories-container .error {
+  color: #ff0000;
+}
+
+/* Legacy - ocultar elementos no usados */
+.accessories-container .accessory-category,
+.accessories-container .btn-view-accessory,
+.accessories-container .accessories-subtitle {
+  display: none;
+}
+
+/* Responsive - Tablet */
+@media (min-width: 481px) {
+  .accessories-container {
+    padding: 40px 35px;
+  }
+  
+  .accessories-container .accessories-title {
+    font-size: 30px;
+  }
+  
+  .accessories-container .accessory-image-container {
+    width: 120px;
+    height: 120px;
+  }
+  
+  .accessories-container .accessory-name {
+    font-size: 18px;
+  }
+  
+  .accessories-container .accessory-price {
+    font-size: 17px;
+  }
+}
+
+/* Responsive - Desktop */
+@media (min-width: 769px) {
+  .accessories-container {
+    padding: 50px 45px;
+    border-radius: 20px;
+    margin: 20px auto;
+    min-height: auto;
+  }
+  
+  .accessories-container .accessories-title {
+    font-size: 32px;
+  }
+  
+  .accessories-container .accessory-card {
+    padding: 20px;
+  }
+  
+  .accessories-container .accessory-image-container {
+    width: 130px;
+    height: 130px;
+  }
 }
 
 /* =============================================
