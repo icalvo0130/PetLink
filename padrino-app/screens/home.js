@@ -11,12 +11,27 @@ export function renderHome() {
     <div class="home-container">
       <!-- Header -->
       <header class="header">
-        <div class="logo">P</div>
-        <input type="text" id="search-input" class="search-bar" placeholder="Busca un perrito">
+        <img src="/images/logo.png" alt="PetLink" class="logo-img" />
       </header>
 
+      <!-- Barra de búsqueda -->
+      <div class="search-section">
+        <button class="menu-btn">☰</button>
+        <div class="search-wrapper">
+          <span class="search-icon">🔍</span>
+          <input type="text" id="search-input" class="search-bar" placeholder="Busca un perrito">
+        </div>
+      </div>
+
       <!-- Titulo -->
-      <h1 class="title">Elige tu media naranja</h1>
+      <h1 class="title">Elije tu media <span class="highlight">naranja</span></h1>
+
+      <!-- Filtros -->
+      <div class="filters">
+        <button class="filter-btn active" data-filter="all">Todos</button>
+        <button class="filter-btn" data-filter="puppies">Cachorros</button>
+        <button class="filter-btn" data-filter="less-sponsored">Menos apadrinados</button>
+      </div>
 
       <!-- Lista de perros -->
       <div id="dogs-list" class="dogs-list">
@@ -55,15 +70,15 @@ function displayDogs(dogs) {
     return;
   }
 
-  dogsList.innerHTML = dogs.map(dog => `
-    <div class="dog-card" data-id="${dog.id}">
-      <div class="dog-image-container">
+  dogsList.innerHTML = dogs.map((dog, index) => `
+    <div class="dog-card ${index % 2 === 0 ? 'card-left' : 'card-right'}" data-id="${dog.id}">
+      <div class="dog-image-container color-${(index % 4) + 1}">
         <img src="${dog.image}" alt="${dog.name}" class="dog-image">
       </div>
       <div class="dog-info">
         <p class="dog-label">Mi nombre es</p>
         <p class="dog-name">${dog.name}</p>
-        <p class="dog-location">${dog.location || 'Sin ubicacion'}</p>
+        <p class="dog-age">${dog.age || '0'}años</p>
         <button class="btn-ver-mas">Ver mas</button>
       </div>
     </div>
