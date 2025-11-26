@@ -1726,8 +1726,125 @@ hr {
   }
 }
 
-/* Pantalla de exito */
+/* =============================================
+   CITA AGENDADA - CONFIRMACIÓN (Estilo exacto de la imagen)
+   ============================================= */
 
+.schedule-success-container {
+  max-width: 500px;
+  margin: 0 auto;
+  background-color: #f5f5f5;
+  min-height: 100vh;
+}
+
+/* Header naranja */
+.schedule-success-container .schedule-success-header {
+  background-color: #FF6B35;
+  padding: 20px;
+  display: flex;
+  align-items: center;
+}
+
+.schedule-success-container .schedule-success-logo {
+  height: 45px;
+  width: auto;
+  filter: brightness(0) invert(1);
+}
+
+/* Contenido */
+.schedule-success-container .schedule-success-content {
+  padding: 60px 30px 50px;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  min-height: calc(100vh - 85px);
+  box-sizing: border-box;
+}
+
+/* Ilustración */
+.schedule-success-container .schedule-success-illustration {
+  margin-bottom: 40px;
+  margin-top: 60px;
+}
+
+.schedule-success-container .schedule-success-mascot {
+  width: 150px;
+  height: auto;
+}
+
+/* Título */
+.schedule-success-container .schedule-success-title {
+  font-size: 28px;
+  font-weight: 700;
+  color: #000000;
+  margin: 0 0 20px 0;
+  line-height: 1.3;
+}
+
+.schedule-success-container .schedule-success-title .highlight {
+  color: #FF6B35;
+}
+
+/* Subtítulo */
+.schedule-success-container .schedule-success-subtitle {
+  font-size: 16px;
+  font-weight: 400;
+  color: #666666;
+  line-height: 1.6;
+  margin: 0 0 auto 0;
+}
+
+/* Botón */
+.schedule-success-container .schedule-success-btn {
+  width: 100%;
+  max-width: 280px;
+  padding: 16px 30px;
+  background-color: #FF6B35;
+  color: #ffffff;
+  border: none;
+  border-radius: 30px;
+  font-size: 16px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  box-shadow: 0 4px 15px rgba(255, 107, 53, 0.3);
+  margin-top: auto;
+  margin-bottom: 30px;
+}
+
+.schedule-success-container .schedule-success-btn:hover {
+  background-color: #E55A2B;
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(255, 107, 53, 0.4);
+}
+
+/* Responsive - Tablet */
+@media (min-width: 481px) {
+  .schedule-success-container .schedule-success-content {
+    padding: 80px 40px 60px;
+  }
+  
+  .schedule-success-container .schedule-success-title {
+    font-size: 32px;
+  }
+  
+  .schedule-success-container .schedule-success-mascot {
+    width: 170px;
+  }
+}
+
+/* Responsive - Desktop */
+@media (min-width: 769px) {
+  .schedule-success-container {
+    border-radius: 20px;
+    margin: 20px auto;
+    min-height: auto;
+    overflow: hidden;
+  }
+}
+
+/* Legacy - mantener compatibilidad */
 .schedule-success {
   padding: 40px 20px;
   text-align: center;

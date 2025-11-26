@@ -409,12 +409,30 @@ function showSuccessMessage(dog) {
   const app = document.getElementById('app');
   
   app.innerHTML = `
-    <div class="schedule-success">
-      <div class="success-icon">✓</div>
-      <h1>Cita Agendada</h1>
-      <p>Tu solicitud de cita con ${dog.name} ha sido enviada</p>
-      <p class="success-note">Te notificaremos cuando la fundacion confirme tu cita</p>
-      <button class="btn-back-home" id="btn-back-home">Volver al inicio</button>
+    <div class="schedule-success-container">
+      <!-- Header naranja con logo -->
+      <div class="schedule-success-header">
+        <img src="/images/logo.png" alt="PetLink" class="schedule-success-logo">
+      </div>
+      
+      <!-- Contenido -->
+      <div class="schedule-success-content">
+        <!-- Ilustración del perrito -->
+        <div class="schedule-success-illustration">
+          <img src="/images/Tigre.png" alt="Tigre" class="schedule-success-mascot">
+        </div>
+        
+        <!-- Título -->
+        <h1 class="schedule-success-title"><span class="highlight">¡Cita agendada</span> con éxito!</h1>
+        
+        <!-- Subtítulo -->
+        <p class="schedule-success-subtitle">Pronto recibirás un mensaje<br>por WhatsApp con los<br>detalles de la cita.</p>
+        
+        <!-- Botón -->
+        <button class="schedule-success-btn" id="btn-back-home">
+          Todo listo!
+        </button>
+      </div>
     </div>
   `;
   
