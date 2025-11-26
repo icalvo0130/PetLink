@@ -54,27 +54,13 @@ export default async function renderDogProfile(id) {
           </div>
           
           <div class="dog-details">
-            <h3>Información Principal</h3>
-            <div class="details-grid">
-              <div class="detail-item">
-                <span class="label">Peso:</span>
-                <span id="dogWeight" class="value">Cargando...</span>
-              </div>
-              <div class="detail-item">
-                <span class="label">Edad:</span>
-                <span id="dogAge" class="value">Cargando...</span>
-              </div>
-              <div class="detail-item">
-                <span class="label">Disponibilidad:</span>
-                <span id="dogAvailability" class="value">Cargando...</span>
-              </div>
-              <div class="detail-item">
-                <span class="label">Tamaño:</span>
-                <span id="dogSize" class="value">Cargando...</span>
-              </div>
+            <div class="details-tags">
+              <span id="dogWeight" class="detail-tag">Cargando...</span>
+              <span id="dogAge" class="detail-tag">Cargando...</span>
+              <span id="dogAvailability" class="detail-tag">Cargando...</span>
+              <span id="dogSize" class="detail-tag">Cargando...</span>
             </div>
             <div class="description-section">
-              <h4>Descripción:</h4>
               <p id="dogDescription">Cargando...</p>
             </div>
           </div>
@@ -89,8 +75,7 @@ export default async function renderDogProfile(id) {
         
         <div id="needsSection" class="needs-section" style="display: none;">
           <div class="section-header">
-            <h3>Necesidades del Perro</h3>
-            <button id="addNeedBtn" class="add-need-btn">Agregar artículo</button>
+            <h3>Necesidades</h3>
           </div>
           
           <div id="needsList" class="needs-list">
@@ -99,14 +84,20 @@ export default async function renderDogProfile(id) {
           
           <div id="noNeedsMessage" class="no-needs" style="display: none;">
             <p>Este perro no tiene necesidades registradas</p>
-            <p>Puedes agregar artículos usando el botón "Agregar artículo"</p>
+          </div>
+          
+          <div class="add-need-container">
+            <button id="addNeedBtn" class="add-need-btn">Agregar articulo <span class="plus-icon">＋</span></button>
           </div>
         </div>
         
         <div id="actionsSection" class="actions-section" style="display: none;">
-          <h3>Acciones</h3>
+          <h3>Estadisticas</h3>
           <div class="action-buttons">
-            <button id="statisticsBtn" class="action-btn statistics-btn">Estadísticas</button>
+            <button id="statisticsBtn" class="action-btn statistics-btn">
+              <img src="/images/Estadisticas.png" alt="Estadísticas" class="stats-dog-image" />
+              <span class="stats-text">Haz click aquí y revisa cómo se encuentra este perrito en diferentes aspectos de su bienestar</span>
+            </button>
             <button id="deleteDogBtn" class="action-btn delete-btn">Eliminar perro</button>
           </div>
         </div>
@@ -243,9 +234,9 @@ function renderDogInfo() {
   const foundationName = adminUser.foundation_name || adminUser.username || adminUser.name || 'No especificada';
   
   document.getElementById('dogName').textContent = dogData.name || 'Sin nombre';
-  document.getElementById('foundationName').textContent = `Fundación: ${foundationName}`;
-  document.getElementById('dogWeight').textContent = `${dogData.weight || 'No especificado'} kg`;
-  document.getElementById('dogAge').textContent = `${dogData.age || 'No especificada'} años`;
+  document.getElementById('foundationName').innerHTML = `📍 ${foundationName}`;
+  document.getElementById('dogWeight').textContent = `${dogData.weight || '0'} kg`;
+  document.getElementById('dogAge').textContent = `${dogData.age || '0'} Años`;
   document.getElementById('dogAvailability').textContent = getAvailabilityText(dogData.availability);
   document.getElementById('dogSize').textContent = dogData.size || 'No especificado';
   document.getElementById('dogDescription').textContent = dogData.description || 'Sin descripción';
@@ -281,43 +272,19 @@ function renderNeedsList() {
   
   needsList.innerHTML = needsData.map(need => `
     <div class="need-card" data-need-id="${need.id}">
-      <div class="card-header">
-        <div class="need-image">
-          ${need.image ? 
-            `<img src="${need.image}" alt="${need.name}" />` : 
-            '<div class="no-image">📦</div>'
-          }
-        </div>
-        <div class="need-info">
-          <h4>${need.name || 'Sin nombre'}</h4>
-          <p class="need-price">$${formatAmount(need.price)}</p>
-        </div>
+      <div class="need-image">
+        ${need.image ? 
+          `<img src="${need.image}" alt="${need.name}" />` : 
+          '<div class="no-image">📦</div>'
+        }
       </div>
-      
-      <div class="card-body">
-        <div class="need-details">
-          <div class="detail-item">
-            <span class="label">Descripción:</span>
-            <span class="value">${need.description || 'Sin descripción'}</span>
-          </div>
-          <div class="detail-item">
-            <span class="label">Categoría:</span>
-            <span class="value">${need.category || 'No especificada'}</span>
-          </div>
-          <div class="detail-item">
-            <span class="label">Estado:</span>
-            <span class="value">${getNeedStatusText(need.estado)}</span>
-          </div>
-        </div>
+      <div class="need-info">
+        <h4>${need.name || 'Sin nombre'}</h4>
+        <p class="need-description">${need.description || 'Sin descripción'}</p>
+        <p class="need-price">$ ${formatAmount(need.price)}</p>
       </div>
-      
       <div class="card-actions">
-        <button 
-          class="action-btn delete-need-btn" 
-          onclick="handleDeleteNeed(${need.id})"
-        >
-          Eliminar
-        </button>
+        <button class="delete-need-btn" onclick="handleDeleteNeed(${need.id})">🗑️</button>
       </div>
     </div>
   `).join('');
@@ -446,7 +413,7 @@ function formatAmount(amount) {
 
 /*
 async function makeRequestWithAuth(url, method, body, token) {
-  const BASE_URL = "http://localhost:5050";
+  const BASE_URL = "https://petlink-production.up.railway.app";
   
   const response = await fetch(`${BASE_URL}${url}`, {
     method: method,

@@ -1,8 +1,10 @@
 // Login Padrino - Manejo de eventos, validación y autenticación
+import { login, saveCurrentUser } from '../utils/auth.js';
+import router from '../utils/router.js';
+
 (function initPadrinoLogin() {
   const backBtn = document.getElementById('backBtn');
   const loginForm = document.getElementById('loginForm');
-  const loginBtn = document.getElementById('loginBtn');
   const goSignupBtn = document.getElementById('goSignupBtn');
   const errorMessage = document.getElementById('errorMessage');
   const successMessage = document.getElementById('successMessage');
@@ -27,18 +29,16 @@
     if (successMessage) successMessage.style.display = 'none';
   }
 
-  // Navegaciones solicitadas
+  // Navegaciones
   if (backBtn) {
     backBtn.addEventListener('click', () => {
-      // Volver a selección de flujo
-      window.location.href = './login-signup.html';
+      router.navigateTo('/login-signup');
     });
   }
 
   if (goSignupBtn) {
     goSignupBtn.addEventListener('click', () => {
-      // Ir a registro
-      window.location.href = './signup.html';
+      router.navigateTo('/signup');
     });
   }
 
@@ -57,28 +57,19 @@
       }
 
       try {
-        // Placeholder de autenticación. Ajusta a tu endpoint si aplica.
-        // const res = await fetch('http://localhost:5050/api/padrino/auth/login', {
-        //   method: 'POST',
-        //   headers: { 'Content-Type': 'application/json' },
-        //   body: JSON.stringify({ username, password })
-        // });
-        // if (!res.ok) throw new Error('Credenciales inválidas');
-        // const data = await res.json();
-        // localStorage.setItem('padrinoToken', data.token);
-        // localStorage.setItem('padrinoUser', JSON.stringify(data.user));
-
-        // Simulación básica de éxito (quítalo cuando conectes tu endpoint real)
-        await new Promise((r) => setTimeout(r, 600));
-        showSuccess('Inicio de sesión exitoso');
-
-        // Redirigir al dog-profile del módulo padrino
-        // Si tu enrutador soporta rutas, reemplaza por la ruta adecuada.
-        setTimeout(() => {
-          window.location.href = 'http://127.0.0.1:5500/padrino-app/screens/home/home.html';
-          // Ejemplo alternativo si tienes hash routing:
-          // window.location.href = '../../index.html#/dog-profile';
-        }, 500);
+        // Usar la función login de auth.js
+        const result = await login(username, password);
+        
+        if (result.success) {
+          showSuccess('Inicio de sesión exitoso');
+          
+          // Redirigir al home
+          setTimeout(() => {
+            router.navigateTo('/home');
+          }, 500);
+        } else {
+          showError(result.error || 'Credenciales inválidas');
+        }
       } catch (err) {
         console.error(err);
         showError('No fue posible iniciar sesión. Verifica tus datos.');

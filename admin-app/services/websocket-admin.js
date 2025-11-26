@@ -19,7 +19,7 @@ export function initWebSocket() {
 
   try {
     // Usar io global desde el CDN cargado en index.html
-    socket = window.io('http://localhost:5050', {
+    socket = window.io('https://petlink-production.up.railway.app', {
       transports: ['websocket', 'polling'],
       reconnection: true,
       reconnectionDelay: 1000,

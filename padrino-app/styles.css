@@ -8,7 +8,12 @@
 
 body {
   font-family: Arial, sans-serif;
-  background-color: #f5f5f5;
+  background-color: #ffffff;
+  border: none;
+}
+
+hr {
+  display: none;
 }
 
 #app {
@@ -16,582 +21,1343 @@ body {
   margin: 0 auto;
   background-color: white;
   min-height: 100vh;
+  border: none;
+  box-shadow: none;
 }
 
-/* HOME */
+/* =============================================
+   HOME - Pantalla principal padrino-app
+   ============================================= */
 
 .home-container {
-  padding: 20px;
+  padding: 0;
+  background-color: #f5f5f5;
+  min-height: 100vh;
 }
 
-/* Header */
-.header {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  margin-bottom: 20px;
-}
-
-.logo {
-  width: 40px;
-  height: 40px;
+/* Header naranja con logo */
+.home-container .header {
   background-color: #ff6b35;
-  color: white;
+  padding: 20px;
   display: flex;
   align-items: center;
-  justify-content: center;
-  font-weight: bold;
-  font-size: 20px;
-  border-radius: 5px;
+  justify-content: space-between;
 }
 
-.search-bar {
-  flex: 1;
-  padding: 10px;
-  border: 1px solid #ddd;
-  border-radius: 5px;
+.home-container .logo-img {
+  height: 50px;
+  width: auto;
+  filter: brightness(0) invert(1);
+}
+
+/* Botón cerrar sesión */
+.home-container .logout-btn {
+  background-color: #ffffff;
+  color: #ff6b35;
+  border: none;
+  padding: 8px 16px;
+  border-radius: 20px;
   font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
-/* Titulo */
-.title {
+.home-container .logout-btn:hover {
+  background-color: #f5f5f5;
+  transform: scale(1.05);
+}
+
+/* Sección de búsqueda */
+.home-container .search-section {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 20px;
+  background-color: #f5f5f5;
+}
+
+.home-container .menu-btn {
+  display: none;
+}
+
+.home-container .search-wrapper {
+  flex: 1;
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.home-container .search-icon {
+  position: absolute;
+  left: 12px;
+  font-size: 0;
+  width: 20px;
+  height: 20px;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='%23ff6b35' viewBox='0 0 24 24'%3E%3Cpath d='M15.5 14h-.79l-.28-.27A6.471 6.471 0 0 0 16 9.5 6.5 6.5 0 1 0 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z'/%3E%3C/svg%3E");
+  background-size: contain;
+  background-repeat: no-repeat;
+}
+
+.home-container .search-bar {
+  width: 100%;
+  padding: 12px 12px 12px 40px;
+  border: 1px solid #e0e0e0;
+  border-radius: 25px;
+  font-size: 14px;
+  background-color: #ffffff;
+  outline: none;
+}
+
+.home-container .search-bar::placeholder {
+  color: #999999;
+}
+
+/* Título */
+.home-container .title {
   font-size: 24px;
-  margin-bottom: 20px;
-  color: #333;
+  font-weight: 700;
+  color: #000000;
+  padding: 0 20px 15px;
+  margin: 0;
+  background-color: #f5f5f5;
+}
+
+.home-container .title .highlight {
+  color: #ff6b35;
 }
 
 /* Filtros */
-.filters {
+.home-container .filters {
   display: flex;
   gap: 10px;
-  margin-bottom: 20px;
+  padding: 0 20px 20px;
+  background-color: #f5f5f5;
+  overflow-x: auto;
+  flex-wrap: nowrap;
+  border: none;
+  box-shadow: none;
+  scrollbar-width: none; /* Firefox */
+  -ms-overflow-style: none; /* IE and Edge */
 }
 
-.filter-btn {
-  padding: 8px 16px;
+/* Ocultar scrollbar en Chrome, Safari */
+.home-container .filters::-webkit-scrollbar {
+  display: none;
+  height: 0;
+  background: transparent;
+}
+
+.home-container .filter-btn {
+  padding: 10px 20px;
   border: none;
-  border-radius: 20px;
-  background-color: #f0f0f0;
+  border-radius: 25px;
+  background-color: #ffd93d;
   cursor: pointer;
   font-size: 14px;
+  font-weight: 500;
+  color: #333333;
+  white-space: nowrap;
+  flex-shrink: 0;
+  transition: all 0.2s ease;
 }
 
-.filter-btn.active {
-  background-color: #ffd93d;
-  font-weight: bold;
+.home-container .filter-btn.active {
+  background-color: #ffcd00;
+  color: #333333;
+  font-weight: 600;
+}
+
+.home-container .filter-btn:hover {
+  background-color: #ffcd00;
+  transform: translateY(-2px);
 }
 
 /* Lista de perros */
-.dogs-list {
+.home-container .dogs-list {
   display: flex;
   flex-direction: column;
-  gap: 20px;
+  gap: 30px;
+  padding: 20px;
+  background-color: #f5f5f5;
+  border: none;
+  box-shadow: none;
+  outline: none;
+  border-top: 3px solid #f5f5f5;
 }
 
 /* Card de perro */
-.dog-card {
+.home-container .dog-card {
   display: flex;
   align-items: center;
-  gap: 15px;
-  padding: 15px;
-  background-color: white;
-  border: 1px solid #e0e0e0;
-  border-radius: 10px;
+  gap: 0;
+  padding: 0;
+  background-color: transparent;
+  border: none;
+  border-radius: 0;
   cursor: pointer;
   transition: transform 0.2s;
+  position: relative;
 }
 
-.dog-card:hover {
+.home-container .dog-card:hover {
   transform: scale(1.02);
-  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
 }
 
-.dog-image-container {
-  width: 80px;
-  height: 80px;
+/* Card alineada a la izquierda */
+.home-container .dog-card.card-left {
+  flex-direction: row;
+}
+
+.home-container .dog-card.card-left .dog-image-container {
+  margin-right: -30px;
+  z-index: 2;
+}
+
+.home-container .dog-card.card-left .dog-info {
+  margin-left: 0;
+  padding-left: 50px;
+}
+
+/* Card alineada a la derecha */
+.home-container .dog-card.card-right {
+  flex-direction: row-reverse;
+}
+
+.home-container .dog-card.card-right .dog-image-container {
+  margin-left: -30px;
+  z-index: 2;
+}
+
+.home-container .dog-card.card-right .dog-info {
+  margin-right: 0;
+  padding-right: 50px;
+  text-align: right;
+}
+
+.home-container .dog-card.card-right .btn-ver-mas {
+  margin-left: auto;
+}
+
+/* Contenedor de imagen con colores */
+.home-container .dog-image-container {
+  width: 140px;
+  height: 140px;
   border-radius: 50%;
   overflow: hidden;
-  background-color: #ff6b35;
   flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
 }
 
-.dog-image {
-  width: 100%;
-  height: 100%;
+/* Colores alternados para las imágenes */
+.home-container .dog-image-container.color-1 {
+  background-color: #ff7f6e;
+}
+
+.home-container .dog-image-container.color-2 {
+  background-color: #ffd93d;
+}
+
+.home-container .dog-image-container.color-3 {
+  background-color: #7dd3c0;
+}
+
+.home-container .dog-image-container.color-4 {
+  background-color: #f8bbd9;
+}
+
+.home-container .dog-image {
+  width: 90%;
+  height: 90%;
   object-fit: cover;
+  border-radius: 50%;
 }
 
-.dog-info {
+/* Info del perro */
+.home-container .dog-info {
   flex: 1;
+  background-color: #ffffff;
+  border-radius: 20px;
+  padding: 20px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
 }
 
-.dog-label {
-  font-size: 12px;
-  color: #666;
-  margin-bottom: 5px;
+.home-container .dog-label {
+  font-size: 14px;
+  color: #333333;
+  margin: 0 0 4px 0;
+  font-weight: 700;
 }
 
-.dog-name {
-  font-size: 18px;
-  font-weight: bold;
+.home-container .dog-name {
+  font-size: 20px;
+  font-weight: 700;
   color: #ff6b35;
-  margin-bottom: 5px;
+  margin: 0 0 4px 0;
 }
 
-.dog-location {
-  font-size: 12px;
-  color: #999;
-  margin-bottom: 10px;
+.home-container .dog-age {
+  font-size: 14px;
+  color: #666666;
+  margin: 0 0 12px 0;
 }
 
-.btn-ver-mas {
-  padding: 6px 16px;
+.home-container .btn-ver-mas {
+  padding: 8px 20px;
   background-color: #ff6b35;
-  color: white;
+  color: #ffffff;
   border: none;
-  border-radius: 15px;
+  border-radius: 20px;
   cursor: pointer;
-  font-size: 12px;
+  font-size: 13px;
+  font-weight: 500;
+  transition: all 0.2s ease;
 }
 
-.btn-ver-mas:hover {
+.home-container .btn-ver-mas:hover {
   background-color: #e55a2b;
+  transform: translateY(-2px);
 }
 
 /* Mensajes */
-.loading,
-.error,
-.no-dogs {
+.home-container .loading,
+.home-container .error,
+.home-container .no-dogs {
   text-align: center;
   padding: 40px;
-  color: #666;
+  color: #666666;
+  background-color: #ffffff;
+  border-radius: 16px;
+  margin: 20px;
 }
 
-.error {
+.home-container .error {
   color: #ff0000;
 }
 
-/* PERFIL DEL PERRO */
+/* Responsive - Tablet */
+@media (min-width: 481px) {
+  .home-container .dog-image-container {
+    width: 160px;
+    height: 160px;
+  }
+  
+  .home-container .dog-info {
+    padding: 25px;
+  }
+  
+  .home-container .dog-name {
+    font-size: 22px;
+  }
+}
+
+/* Responsive - Desktop */
+@media (min-width: 769px) {
+  .home-container .dogs-list {
+    gap: 40px;
+    padding: 30px;
+  }
+  
+  .home-container .dog-image-container {
+    width: 180px;
+    height: 180px;
+  }
+  
+  .home-container .dog-card.card-left .dog-image-container {
+    margin-right: -40px;
+  }
+  
+  .home-container .dog-card.card-right .dog-image-container {
+    margin-left: -40px;
+  }
+  
+  .home-container .dog-info {
+    padding: 30px;
+  }
+}
+
+/* =============================================
+   PERFIL DEL PERRO - padrino-app
+   ============================================= */
 
 .dog-profile-container {
-  padding: 20px;
+  padding: 0;
   max-width: 500px;
   margin: 0 auto;
+  background-color: #ffffff;
+  min-height: 100vh;
 }
 
-.btn-back {
-  background: none;
-  border: none;
-  font-size: 16px;
-  cursor: pointer;
-  margin-bottom: 20px;
-  color: #666;
-}
-
-.btn-back:hover {
-  color: #333;
-}
-
-.dog-profile-image {
-  width: 100%;
-  height: 300px;
+/* Header con imagen */
+.dog-profile-container .profile-header {
+  background-color: #ffd93d;
+  padding: 0;
+  position: relative;
+  min-height: 320px;
   overflow: hidden;
-  border-radius: 10px;
-  margin-bottom: 20px;
 }
 
-.dog-profile-image img {
+.dog-profile-container .btn-back {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background-color: #ffffff;
+  border: none;
+  font-size: 24px;
+  color: #333333;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: absolute;
+  top: 20px;
+  left: 20px;
+  z-index: 10;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.dog-profile-container .dog-profile-image {
+  width: 100%;
+  height: 320px;
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+}
+
+.dog-profile-container .dog-profile-image img {
   width: 100%;
   height: 100%;
   object-fit: cover;
 }
 
-.dog-profile-info {
-  margin-bottom: 30px;
+/* Card de info */
+.dog-profile-container .profile-info-card {
+  background-color: #ffffff;
+  border-radius: 30px 30px 0 0;
+  margin-top: -30px;
+  padding: 30px 20px;
+  position: relative;
+  z-index: 10;
+  text-align: center;
 }
 
-.dog-profile-name {
-  font-size: 32px;
-  color: #ff6b35;
-  margin-bottom: 10px;
+.dog-profile-container .dog-profile-name {
+  font-size: 28px;
+  font-weight: 700;
+  color: #000000;
+  margin: 0 0 8px 0;
 }
 
-.dog-profile-location {
-  font-size: 16px;
-  color: #666;
-  margin-bottom: 20px;
+.dog-profile-container .dog-profile-location {
+  font-size: 15px;
+  color: #666666;
+  margin: 0 0 20px 0;
 }
 
-.dog-characteristics {
+/* Tags */
+.dog-profile-container .dog-tags {
   display: flex;
-  gap: 20px;
-  margin-bottom: 20px;
-  padding: 15px;
-  background-color: #f5f5f5;
-  border-radius: 10px;
-}
-
-.characteristic {
-  flex: 1;
-}
-
-.characteristic-label {
-  display: block;
-  font-size: 12px;
-  color: #999;
-  margin-bottom: 5px;
-}
-
-.characteristic-value {
-  display: block;
-  font-size: 16px;
-  font-weight: bold;
-  color: #333;
-}
-
-.dog-description {
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 10px;
   margin-bottom: 20px;
 }
 
-.dog-description h3 {
-  font-size: 18px;
-  margin-bottom: 10px;
-  color: #333;
-}
-
-.dog-description p {
-  font-size: 14px;
-  line-height: 1.6;
-  color: #666;
-}
-
-.btn-schedule {
-  width: 100%;
-  padding: 15px;
-  background-color: #ff6b35;
-  color: white;
+.dog-profile-container .dog-tag {
+  padding: 8px 16px;
   border: none;
-  border-radius: 10px;
+  border-radius: 20px;
+  font-size: 14px;
+  color: #333333;
+  background-color: #ffd93d;
+}
+
+/* Descripcion */
+.dog-profile-container .dog-description {
+  font-size: 14px;
+  color: #666666;
+  line-height: 1.6;
+  margin: 0 0 20px 0;
+  text-align: center;
+  padding: 0 10px;
+}
+
+/* Boton agendar */
+.dog-profile-container .btn-schedule {
+  display: inline-block;
+  padding: 14px 40px;
+  background-color: #ff6b35;
+  color: #ffffff;
+  border: none;
+  border-radius: 25px;
   font-size: 16px;
-  font-weight: bold;
+  font-weight: 600;
   cursor: pointer;
-  margin-bottom: 20px;
+  transition: all 0.2s ease;
 }
 
-.btn-schedule:hover {
+.dog-profile-container .btn-schedule:hover {
   background-color: #e55a2b;
+  transform: translateY(-2px);
 }
 
-/* Necesidades */
-
-.dog-needs-section {
-  margin-bottom: 30px;
+/* Seccion de necesidades */
+.dog-profile-container .dog-needs-section {
+  padding: 20px;
+  background-color: #ffffff;
 }
 
-.dog-needs-section h2 {
-  font-size: 24px;
-  margin-bottom: 20px;
-  color: #333;
+.dog-profile-container .dog-needs-section h2 {
+  font-size: 22px;
+  font-weight: 700;
+  color: #000000;
+  margin: 0 0 8px 0;
 }
 
-.needs-list {
+.dog-profile-container .needs-subtitle {
+  font-size: 14px;
+  color: #666666;
+  margin: 0 0 16px 0;
+}
+
+.dog-profile-container .needs-list {
   display: flex;
   flex-direction: column;
-  gap: 15px;
+  gap: 12px;
 }
 
-.need-card {
+/* Card de necesidad */
+.dog-profile-container .need-card {
   display: flex;
-  gap: 15px;
-  padding: 15px;
-  background-color: white;
-  border: 1px solid #e0e0e0;
-  border-radius: 10px;
+  align-items: center;
+  background-color: #f8f8f8;
+  border-radius: 16px;
+  padding: 0;
+  overflow: hidden;
   cursor: pointer;
   transition: transform 0.2s;
+  border: none;
 }
 
-.need-card:hover {
+.dog-profile-container .need-card:hover {
   transform: scale(1.02);
-  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
 }
 
-.need-image {
-  width: 80px;
-  height: 80px;
-  object-fit: cover;
-  border-radius: 10px;
+/* Colores de borde izquierdo */
+.dog-profile-container .need-card.color-1 {
+  border-left: 5px solid #f8bbd9;
 }
 
-.need-info {
-  flex: 1;
+.dog-profile-container .need-card.color-2 {
+  border-left: 5px solid #80deea;
 }
 
-.need-name {
-  font-size: 16px;
-  font-weight: bold;
-  color: #333;
-  margin-bottom: 5px;
+.dog-profile-container .need-card.color-3 {
+  border-left: 5px solid #c5e1a5;
 }
 
-.need-description {
-  font-size: 12px;
-  color: #666;
-  margin-bottom: 5px;
+.dog-profile-container .need-card.color-4 {
+  border-left: 5px solid #ffcc80;
+}
+
+.dog-profile-container .need-image-container {
+  width: 100px;
+  height: 100px;
   overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
+  flex-shrink: 0;
+  margin: 10px;
+  border-radius: 12px;
 }
 
-.need-price {
-  font-size: 16px;
-  font-weight: bold;
-  color: #ff6b35;
-}
-
-.no-needs {
-  text-align: center;
-  padding: 40px;
-  color: #999;
-}
-
-/* Estadisticas */
-
-.btn-statistics {
+.dog-profile-container .need-image {
   width: 100%;
-  padding: 15px;
-  background-color: #4CAF50;
-  color: white;
-  border: none;
-  border-radius: 10px;
-  font-size: 16px;
-  font-weight: bold;
-  cursor: pointer;
-  margin-bottom: 20px;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 12px;
 }
 
-.btn-statistics:hover {
-  background-color: #45a049;
-}
-
-/* Accesorios */
-
-.dog-accessories-section {
-  margin-bottom: 30px;
-}
-
-.dog-accessories-section h2 {
-  font-size: 24px;
-  margin-bottom: 20px;
-  color: #333;
-}
-
-.accessories-buttons {
-  display: flex;
-  gap: 10px;
-}
-
-.btn-accessories,
-.btn-gallery {
+.dog-profile-container .need-info {
   flex: 1;
-  padding: 15px;
-  background-color: #2196F3;
-  color: white;
-  border: none;
-  border-radius: 10px;
-  font-size: 14px;
-  font-weight: bold;
+  padding: 12px 12px 12px 0;
+}
+
+.dog-profile-container .need-name {
+  font-size: 16px;
+  font-weight: 700;
+  color: #000000;
+  margin: 0 0 4px 0;
+}
+
+.dog-profile-container .need-description {
+  font-size: 13px;
+  color: #666666;
+  margin: 0 0 8px 0;
+  line-height: 1.4;
+  overflow: visible;
+  white-space: normal;
+}
+
+.dog-profile-container .need-price {
+  font-size: 16px;
+  font-weight: 700;
+  color: #000000;
+  margin: 0;
+}
+
+.dog-profile-container .no-needs {
+  text-align: center;
+  padding: 30px;
+  color: #999999;
+  background-color: #f8f8f8;
+  border-radius: 16px;
+}
+
+/* Seccion de estadisticas */
+.dog-profile-container .dog-statistics-section {
+  padding: 20px;
+  background-color: #ffffff;
+}
+
+.dog-profile-container .dog-statistics-section h2 {
+  font-size: 22px;
+  font-weight: 700;
+  color: #000000;
+  margin: 0 0 16px 0;
+}
+
+.dog-profile-container .btn-statistics {
+  width: 100%;
+  padding: 20px;
+  background-color: #ffffff;
+  border: 1px solid #e0e0e0;
+  border-radius: 16px;
   cursor: pointer;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+  transition: all 0.2s ease;
 }
 
-.btn-accessories:hover,
-.btn-gallery:hover {
-  background-color: #0b7dda;
+.dog-profile-container .btn-statistics:hover {
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  transform: translateY(-2px);
 }
 
-/* DETALLE DE NECESIDAD */
+.dog-profile-container .btn-statistics .stats-dog-image {
+  width: 50%;
+  max-width: 150px;
+  height: auto;
+}
+
+.dog-profile-container .btn-statistics .stats-text {
+  font-size: 13px;
+  color: #666666;
+  text-align: center;
+  line-height: 1.5;
+}
+
+/* Seccion de accesorios */
+.dog-profile-container .dog-accessories-section {
+  padding: 20px;
+  background-color: #ffffff;
+}
+
+.dog-profile-container .dog-accessories-section h2 {
+  font-size: 22px;
+  font-weight: 700;
+  color: #000000;
+  margin: 0 0 8px 0;
+}
+
+.dog-profile-container .accessories-description {
+  font-size: 14px;
+  color: #666666;
+  margin: 0 0 16px 0;
+  line-height: 1.5;
+}
+
+.dog-profile-container .accessories-buttons {
+  display: flex;
+  gap: 12px;
+}
+
+.dog-profile-container .btn-accessories {
+  flex: 1;
+  padding: 12px 20px;
+  background-color: #ff6b35;
+  color: #ffffff;
+  border: 2px solid #ff6b35;
+  border-radius: 25px;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.dog-profile-container .btn-accessories:hover {
+  background-color: #e55a2b;
+  border-color: #e55a2b;
+}
+
+.dog-profile-container .btn-gallery {
+  flex: 1;
+  padding: 12px 20px;
+  background-color: #9c27b0;
+  color: #ffffff;
+  border: 2px solid #9c27b0;
+  border-radius: 25px;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.dog-profile-container .btn-gallery:hover {
+  background-color: #7b1fa2;
+  border-color: #7b1fa2;
+}
+
+/* Responsive - Tablet */
+@media (min-width: 481px) {
+  .dog-profile-container .profile-header {
+    min-height: 380px;
+  }
+  
+  .dog-profile-container .dog-profile-image {
+    height: 340px;
+  }
+  
+  .dog-profile-container .profile-info-card {
+    padding: 40px 30px;
+  }
+  
+  .dog-profile-container .dog-profile-name {
+    font-size: 32px;
+  }
+  
+  .dog-profile-container .need-image-container {
+    width: 110px;
+    height: 110px;
+  }
+}
+
+/* Responsive - Desktop */
+@media (min-width: 769px) {
+  .dog-profile-container .profile-header {
+    min-height: 420px;
+  }
+  
+  .dog-profile-container .dog-profile-image {
+    height: 380px;
+  }
+  
+  .dog-profile-container .profile-info-card {
+    padding: 50px 40px;
+  }
+  
+  .dog-profile-container .dog-needs-section,
+  .dog-profile-container .dog-statistics-section,
+  .dog-profile-container .dog-accessories-section {
+    padding: 30px;
+  }
+  
+  .dog-profile-container .need-image-container {
+    width: 120px;
+    height: 120px;
+  }
+}
+
+/* =============================================
+   DETALLE DE NECESIDAD - padrino-app
+   ============================================= */
 
 .need-detail-container {
-  padding: 20px;
+  padding: 0;
   max-width: 500px;
   margin: 0 auto;
+  background-color: #ffffff;
+  min-height: 100vh;
+  position: relative;
 }
 
-.need-detail-image {
+/* Header con imagen */
+.need-detail-container .need-header {
+  position: relative;
   width: 100%;
-  height: 400px;
+  height: 420px;
   overflow: hidden;
-  border-radius: 10px;
-  margin-bottom: 20px;
 }
 
-.need-detail-image img {
+.need-detail-container .btn-back {
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  background-color: #ffffff;
+  border: none;
+  font-size: 28px;
+  color: #333333;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: absolute;
+  top: 20px;
+  left: 20px;
+  z-index: 10;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.15);
+}
+
+.need-detail-container .need-detail-image {
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  border-radius: 0;
+  margin: 0;
+}
+
+.need-detail-container .need-detail-image img {
   width: 100%;
   height: 100%;
   object-fit: cover;
 }
 
-.need-detail-info {
-  margin-bottom: 30px;
+/* Hueso decorativo */
+.need-detail-container .bone-decoration {
+  position: absolute;
+  top: 350px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 20;
+  width: 200px;
+  height: auto;
 }
 
-.need-detail-name {
-  font-size: 28px;
-  color: #333;
-  margin-bottom: 10px;
-}
-
-.need-detail-category {
-  font-size: 14px;
-  color: #666;
-  margin-bottom: 15px;
-  text-transform: capitalize;
-}
-
-.need-detail-description {
-  font-size: 16px;
-  line-height: 1.6;
-  color: #666;
-  margin-bottom: 20px;
-}
-
-.need-detail-price {
-  font-size: 32px;
-  font-weight: bold;
-  color: #ff6b35;
-  margin-bottom: 20px;
-}
-
-.btn-donate {
+.need-detail-container .bone-decoration img {
   width: 100%;
-  padding: 15px;
-  background-color: #ff6b35;
-  color: white;
+  height: auto;
+  filter: drop-shadow(0 4px 8px rgba(0, 0, 0, 0.1));
+}
+
+/* Card de información */
+.need-detail-container .need-detail-card {
+  background-color: #ffffff;
+  border-radius: 30px 30px 0 0;
+  margin-top: -40px;
+  padding: 60px 25px 40px;
+  position: relative;
+  z-index: 10;
+  text-align: center;
+  min-height: calc(100vh - 380px);
+}
+
+.need-detail-container .need-detail-name {
+  font-size: 26px;
+  font-weight: 700;
+  color: #000000;
+  margin: 0 0 16px 0;
+}
+
+.need-detail-container .need-detail-description {
+  font-size: 15px;
+  line-height: 1.6;
+  color: #666666;
+  margin: 0 0 30px 0;
+  text-align: left;
+}
+
+/* Precio y cantidad */
+.need-detail-container .price-quantity-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 40px;
+  padding: 0 10px;
+}
+
+.need-detail-container .need-detail-price {
+  font-size: 28px;
+  font-weight: 700;
+  color: #000000;
+  margin: 0;
+}
+
+/* Selector de cantidad */
+.need-detail-container .quantity-selector {
+  display: flex;
+  align-items: center;
+  gap: 0;
+}
+
+.need-detail-container .qty-btn {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
   border: none;
-  border-radius: 10px;
-  font-size: 18px;
-  font-weight: bold;
+  font-size: 20px;
+  font-weight: 600;
   cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.2s ease;
 }
 
-.btn-donate:hover {
+.need-detail-container .qty-btn.minus {
+  background-color: #4dd0e1;
+  color: #ffffff;
+}
+
+.need-detail-container .qty-btn.minus:hover {
+  background-color: #26c6da;
+}
+
+.need-detail-container .qty-btn.plus {
+  background-color: #ffd93d;
+  color: #333333;
+}
+
+.need-detail-container .qty-btn.plus:hover {
+  background-color: #ffcc00;
+}
+
+.need-detail-container .qty-value {
+  min-width: 50px;
+  text-align: center;
+  font-size: 18px;
+  font-weight: 600;
+  color: #333333;
+}
+
+/* Botón donar */
+.need-detail-container .btn-donate {
+  width: 70%;
+  max-width: 280px;
+  padding: 16px 40px;
+  background-color: #ff6b35;
+  color: #ffffff;
+  border: none;
+  border-radius: 30px;
+  font-size: 18px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  margin: 0 auto;
+  display: block;
+}
+
+.need-detail-container .btn-donate:hover {
   background-color: #e55a2b;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(255, 107, 53, 0.4);
 }
 
-/* PANTALLA DE PAGO */
+/* Responsive - Tablet */
+@media (min-width: 481px) {
+  .need-detail-container .need-header {
+    height: 480px;
+  }
+  
+  .need-detail-container .bone-decoration {
+    top: 410px;
+    width: 220px;
+  }
+  
+  .need-detail-container .need-detail-card {
+    padding: 70px 35px 50px;
+  }
+  
+  .need-detail-container .need-detail-name {
+    font-size: 30px;
+  }
+  
+  .need-detail-container .need-detail-price {
+    font-size: 32px;
+  }
+}
+
+/* Responsive - Desktop */
+@media (min-width: 769px) {
+  .need-detail-container .need-header {
+    height: 520px;
+  }
+  
+  .need-detail-container .bone-decoration {
+    top: 450px;
+    width: 240px;
+  }
+  
+  .need-detail-container .need-detail-card {
+    padding: 80px 50px 60px;
+  }
+}
+
+/* =============================================
+   PANTALLA DE PAGO - Estilo exacto de la imagen
+   ============================================= */
 
 .payment-container {
-  padding: 20px;
+  padding: 30px 25px;
   max-width: 500px;
   margin: 0 auto;
-}
-
-.payment-title {
-  font-size: 24px;
-  color: #333;
-  margin-bottom: 20px;
-}
-
-.payment-summary {
   background-color: #f5f5f5;
-  padding: 20px;
-  border-radius: 10px;
-  margin-bottom: 30px;
-}
-
-.payment-summary h3 {
-  font-size: 18px;
-  margin-bottom: 15px;
-  color: #333;
-}
-
-.summary-item {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  font-size: 16px;
-}
-
-.summary-price {
-  font-size: 24px;
-  font-weight: bold;
-  color: #ff6b35;
-}
-
-.payment-form {
-  margin-bottom: 20px;
-}
-
-.payment-form h3 {
-  font-size: 18px;
-  margin-bottom: 20px;
-  color: #333;
-}
-
-.form-group {
-  margin-bottom: 20px;
-}
-
-.form-group label {
-  display: block;
-  font-size: 14px;
-  color: #666;
-  margin-bottom: 8px;
-}
-
-.form-group input {
-  width: 100%;
-  padding: 12px;
-  border: 1px solid #ddd;
-  border-radius: 5px;
-  font-size: 16px;
+  min-height: 100vh;
   box-sizing: border-box;
 }
 
-.form-group input:focus {
-  outline: none;
-  border-color: #ff6b35;
-}
-
-.form-row {
-  display: flex;
-  gap: 15px;
-}
-
-.form-row .form-group {
-  flex: 1;
-}
-
-.btn-pay {
-  width: 100%;
-  padding: 15px;
-  background-color: #4CAF50;
-  color: white;
+/* Botón de volver circular */
+.payment-container .payment-btn-back {
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  background-color: #ffffff;
   border: none;
-  border-radius: 10px;
-  font-size: 18px;
-  font-weight: bold;
+  font-size: 28px;
+  color: #333333;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+  margin-bottom: 25px;
+  transition: all 0.2s ease;
+}
+
+.payment-container .payment-btn-back:hover {
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.12);
+  transform: translateY(-1px);
+}
+
+.payment-container .payment-btn-back span {
+  line-height: 1;
+  margin-top: -2px;
+}
+
+/* Título "Elige tu pago" */
+.payment-container .payment-title {
+  font-size: 26px;
+  font-weight: 700;
+  color: #000000;
+  margin: 0 0 30px 0;
+}
+
+.payment-container .payment-title-highlight {
+  color: #FF6B35;
+}
+
+/* Contenedor de métodos de pago */
+.payment-container .payment-methods {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  margin-bottom: 40px;
+}
+
+/* Tarjeta de método de pago */
+.payment-container .payment-method-card {
+  display: block;
   cursor: pointer;
 }
 
-.btn-pay:hover {
-  background-color: #45a049;
+.payment-container .payment-method-card input[type="radio"] {
+  display: none;
 }
 
-.btn-pay:disabled {
+.payment-container .payment-method-content {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  padding: 18px 20px;
+  background-color: #ffffff;
+  border-radius: 16px;
+  border: 2px solid transparent;
+  transition: all 0.2s ease;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+}
+
+.payment-container .payment-method-card input[type="radio"]:checked + .payment-method-content {
+  border-color: #FF6B35;
+  box-shadow: 0 2px 12px rgba(255, 107, 53, 0.2);
+}
+
+.payment-container .payment-method-content:hover {
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+}
+
+.payment-container .payment-method-icon {
+  width: 40px;
+  height: 28px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.payment-container .payment-method-icon svg {
+  max-width: 100%;
+  max-height: 100%;
+}
+
+.payment-container .payment-method-label {
+  font-size: 15px;
+  font-weight: 500;
+  color: #FF6B35;
+}
+
+/* Sección de resumen de pago */
+.payment-container .payment-summary-section {
+  margin-bottom: 35px;
+  padding: 0 5px;
+}
+
+.payment-container .payment-summary-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 12px;
+}
+
+.payment-container .payment-summary-label {
+  font-size: 15px;
+  font-weight: 400;
+  color: #666666;
+}
+
+.payment-container .payment-summary-value {
+  font-size: 15px;
+  font-weight: 600;
+  color: #333333;
+}
+
+.payment-container .payment-summary-total-row {
+  margin-bottom: 15px;
+}
+
+.payment-container .payment-summary-divider {
+  height: 1px;
+  background-color: #e0e0e0;
+  margin-bottom: 20px;
+}
+
+.payment-container .payment-summary-total {
+  text-align: right;
+}
+
+.payment-container .payment-total-amount {
+  font-size: 24px;
+  font-weight: 700;
+  color: #333333;
+}
+
+/* Botón de pagar/donar */
+.payment-container .payment-btn-submit {
+  width: 100%;
+  padding: 18px 30px;
+  background-color: #FF6B35;
+  color: #ffffff;
+  border: none;
+  border-radius: 30px;
+  font-size: 17px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  box-shadow: 0 4px 15px rgba(255, 107, 53, 0.35);
+}
+
+.payment-container .payment-btn-submit:hover {
+  background-color: #E55A2B;
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(255, 107, 53, 0.45);
+}
+
+.payment-container .payment-btn-submit:active {
+  transform: translateY(0);
+}
+
+.payment-container .payment-btn-submit:disabled {
   background-color: #cccccc;
   cursor: not-allowed;
+  box-shadow: none;
+  transform: none;
 }
 
+/* Form container */
+.payment-container #payment-form {
+  margin-top: 20px;
+}
+
+/* Responsive - Tablet */
+@media (min-width: 481px) {
+  .payment-container {
+    padding: 40px 35px;
+  }
+  
+  .payment-container .payment-title {
+    font-size: 30px;
+  }
+  
+  .payment-container .payment-method-content {
+    padding: 20px 25px;
+  }
+  
+  .payment-container .payment-total-amount {
+    font-size: 28px;
+  }
+}
+
+/* Responsive - Desktop */
+@media (min-width: 769px) {
+  .payment-container {
+    padding: 50px 45px;
+    border-radius: 20px;
+    margin: 20px auto;
+    min-height: auto;
+  }
+  
+  .payment-container .payment-title {
+    font-size: 32px;
+  }
+  
+  .payment-container .payment-btn-submit {
+    padding: 20px 40px;
+    font-size: 18px;
+  }
+}
+
+/* Estilos legacy para compatibilidad */
 .payment-note {
   text-align: center;
   font-size: 12px;
   color: #999;
   font-style: italic;
+  margin-top: 20px;
 }
 
-/* PAGO EXITOSO */
+/* =============================================
+   PAGO EXITOSO (Estilo exacto de la imagen)
+   ============================================= */
 
+.payment-success-container {
+  max-width: 500px;
+  margin: 0 auto;
+  background-color: #f5f5f5;
+  min-height: 100vh;
+}
+
+/* Header naranja */
+.payment-success-container .payment-success-header {
+  background-color: #FF6B35;
+  padding: 20px;
+  display: flex;
+  align-items: center;
+}
+
+.payment-success-container .payment-success-logo {
+  height: 45px;
+  width: auto;
+  filter: brightness(0) invert(1);
+}
+
+/* Contenido */
+.payment-success-container .payment-success-content {
+  padding: 60px 30px 50px;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  min-height: calc(100vh - 85px);
+  box-sizing: border-box;
+}
+
+/* Ilustración */
+.payment-success-container .payment-success-illustration {
+  margin-bottom: 40px;
+  margin-top: 80px;
+}
+
+.payment-success-container .payment-success-mascot {
+  font-size: 120px;
+  line-height: 1;
+}
+
+.payment-success-container .payment-success-mascot-img {
+  width: 150px;
+  height: auto;
+}
+
+.payment-success-container .payment-success-image {
+  width: 150px;
+  height: 150px;
+  object-fit: cover;
+  border-radius: 20px;
+}
+
+/* Título */
+.payment-success-container .payment-success-title {
+  font-size: 28px;
+  font-weight: 700;
+  color: #000000;
+  margin: 0 0 20px 0;
+}
+
+.payment-success-container .payment-success-title .highlight {
+  color: #FF6B35;
+}
+
+/* Subtítulo */
+.payment-success-container .payment-success-subtitle {
+  font-size: 16px;
+  font-weight: 400;
+  color: #666666;
+  line-height: 1.5;
+  margin: 0 0 auto 0;
+}
+
+/* Contenido centrado para donaciones (sin botón) */
+.payment-success-container .payment-success-donation {
+  justify-content: center;
+}
+
+.payment-success-container .payment-success-donation .payment-success-illustration {
+  margin-top: 0;
+}
+
+.payment-success-container .payment-success-donation .payment-success-subtitle {
+  margin-bottom: 60px;
+}
+
+/* Botón */
+.payment-success-container .payment-success-btn {
+  width: 100%;
+  max-width: 280px;
+  padding: 16px 30px;
+  background-color: #FF6B35;
+  color: #ffffff;
+  border: none;
+  border-radius: 30px;
+  font-size: 16px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  box-shadow: 0 4px 15px rgba(255, 107, 53, 0.3);
+  margin-top: auto;
+  margin-bottom: 30px;
+}
+
+.payment-success-container .payment-success-btn:hover {
+  background-color: #E55A2B;
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(255, 107, 53, 0.4);
+}
+
+/* Legacy - mantener compatibilidad */
 .payment-success {
   padding: 40px 20px;
   text-align: center;
@@ -643,74 +1409,159 @@ body {
   font-style: italic;
 }
 
-/* AGENDAR CITA */
+/* Responsive - Tablet */
+@media (min-width: 481px) {
+  .payment-success-container .payment-success-content {
+    padding: 80px 40px 60px;
+  }
+  
+  .payment-success-container .payment-success-title {
+    font-size: 32px;
+  }
+  
+  .payment-success-container .payment-success-mascot {
+    font-size: 140px;
+  }
+}
+
+/* Responsive - Desktop */
+@media (min-width: 769px) {
+  .payment-success-container {
+    border-radius: 20px;
+    margin: 20px auto;
+    min-height: auto;
+    overflow: hidden;
+  }
+}
+
+/* =============================================
+   AGENDAR CITA (Estilo exacto de la imagen)
+   ============================================= */
 
 .schedule-container {
-  padding: 20px;
+  padding: 0;
   max-width: 500px;
   margin: 0 auto;
+  background-color: #f5f5f5;
+  min-height: 100vh;
 }
 
-.schedule-title {
-  font-size: 24px;
-  color: #333;
-  margin-bottom: 30px;
-  text-align: center;
-}
-
-/* Calendario */
-
-.calendar-container {
-  background-color: white;
-  border-radius: 15px;
+/* Header naranja */
+.schedule-container .schedule-header {
+  background-color: #FF6B35;
   padding: 20px;
-  margin-bottom: 30px;
-  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+  display: flex;
+  align-items: center;
 }
 
-.calendar-header {
+.schedule-container .schedule-logo {
+  font-size: 28px;
+  color: #FFD93D;
+}
+
+.schedule-container .schedule-logo-img {
+  height: 45px;
+  width: auto;
+  filter: brightness(0) invert(1);
+}
+
+/* Contenido principal */
+.schedule-container .schedule-content {
+  padding: 20px 25px 40px;
+}
+
+/* Botón de volver */
+.schedule-container .schedule-btn-back {
+  width: 45px;
+  height: 45px;
+  border-radius: 50%;
+  background-color: #ffffff;
+  border: none;
+  font-size: 26px;
+  color: #333333;
+  cursor: pointer;
   display: flex;
-  justify-content: space-between;
   align-items: center;
+  justify-content: center;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+  margin-bottom: 20px;
+  transition: all 0.2s ease;
+}
+
+.schedule-container .schedule-btn-back:hover {
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.12);
+  transform: translateY(-1px);
+}
+
+.schedule-container .schedule-btn-back span {
+  line-height: 1;
+  margin-top: -2px;
+}
+
+/* Navegación del calendario */
+.schedule-container .calendar-navigation {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
   margin-bottom: 20px;
 }
 
-.calendar-nav {
-  background-color: #f5f5f5;
-  border: none;
+.schedule-container .calendar-nav-btn {
   width: 40px;
   height: 40px;
   border-radius: 50%;
-  font-size: 20px;
-  cursor: pointer;
-  color: #666;
-}
-
-.calendar-nav:hover {
-  background-color: #e0e0e0;
-}
-
-.calendar-month {
+  background-color: #ffffff;
+  border: 1px solid #e0e0e0;
   font-size: 18px;
-  font-weight: bold;
-  color: #333;
+  color: #333333;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.2s ease;
 }
 
-.calendar-grid {
+.schedule-container .calendar-nav-btn:hover {
+  background-color: #f5f5f5;
+}
+
+.schedule-container .calendar-month-display {
+  padding: 10px 30px;
+  background-color: #ffffff;
+  border: 1px solid #e0e0e0;
+  border-radius: 25px;
+  font-size: 16px;
+  font-weight: 500;
+  color: #333333;
+  min-width: 120px;
+  text-align: center;
+}
+
+/* Card del calendario */
+.schedule-container .calendar-card {
+  background-color: #ffffff;
+  border-radius: 20px;
+  padding: 25px 20px;
+  margin-bottom: 25px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+}
+
+.schedule-container .calendar-grid {
   display: grid;
   grid-template-columns: repeat(7, 1fr);
-  gap: 10px;
+  gap: 8px;
 }
 
-.calendar-day-name {
+.schedule-container .calendar-day-name {
   text-align: center;
-  font-size: 12px;
-  color: #999;
-  font-weight: bold;
-  padding: 10px 0;
+  font-size: 13px;
+  color: #999999;
+  font-weight: 600;
+  padding: 8px 0;
 }
 
-.calendar-day {
+.schedule-container .calendar-day {
   aspect-ratio: 1;
   display: flex;
   align-items: center;
@@ -718,96 +1569,296 @@ body {
   border-radius: 50%;
   cursor: pointer;
   font-size: 14px;
-  color: #333;
+  font-weight: 500;
+  color: #333333;
   transition: all 0.2s;
 }
 
-.calendar-day:hover:not(.disabled):not(.empty) {
+.schedule-container .calendar-day:hover:not(.disabled):not(.calendar-day-other) {
   background-color: #f5f5f5;
 }
 
-.calendar-day.selected {
-  background-color: #ff6b35;
+.schedule-container .calendar-day.selected {
+  background-color: #FF6B35;
   color: white;
-  font-weight: bold;
+  font-weight: 600;
 }
 
-.calendar-day.disabled {
-  color: #ccc;
+.schedule-container .calendar-day.disabled {
+  color: #cccccc;
   cursor: not-allowed;
 }
 
-.calendar-day.empty {
+.schedule-container .calendar-day-other {
+  color: #cccccc;
   cursor: default;
 }
 
-/* Inputs de fecha y hora */
+/* Form group */
+.schedule-container .schedule-form-group {
+  margin-bottom: 20px;
+}
 
-.date-input {
+.schedule-container .schedule-label {
+  display: block;
+  font-size: 14px;
+  font-weight: 600;
+  color: #333333;
+  margin-bottom: 10px;
+}
+
+/* Input de fecha */
+.schedule-container .schedule-date-input {
   width: 100%;
-  padding: 15px;
-  border: 2px solid #e0e0e0;
-  border-radius: 10px;
+  padding: 16px 20px;
+  border: none;
+  border-radius: 15px;
   font-size: 16px;
-  text-align: center;
-  background-color: #f5f5f5;
-  color: #333;
+  background-color: #7DD3E8;
+  color: #333333;
   cursor: default;
-}
-
-.time-container {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 15px;
-  margin-bottom: 30px;
-}
-
-.time-input {
-  width: 100%;
-  padding: 15px;
-  border: 2px solid #e0e0e0;
-  border-radius: 10px;
-  font-size: 16px;
-  text-align: center;
-  background-color: #fff8e1;
   box-sizing: border-box;
 }
 
-.time-input:focus {
-  outline: none;
-  border-color: #ff6b35;
+.schedule-container .schedule-date-input::placeholder {
+  color: #666666;
 }
 
-/* Boton de agendar */
+/* Fila de horarios */
+.schedule-container .schedule-time-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 20px;
+  margin-bottom: 40px;
+}
 
-.btn-schedule-appointment {
+.schedule-container .schedule-time-group {
+  display: flex;
+  flex-direction: column;
+}
+
+/* Inputs de tiempo */
+.schedule-container .schedule-time-input {
   width: 100%;
-  padding: 18px;
-  background-color: #ff6b35;
-  color: white;
+  padding: 16px 15px;
   border: none;
   border-radius: 15px;
-  font-size: 18px;
-  font-weight: bold;
+  font-size: 15px;
+  box-sizing: border-box;
+  text-align: center;
+}
+
+.schedule-container .schedule-time-start {
+  background-color: #FFD93D;
+  color: #333333;
+}
+
+.schedule-container .schedule-time-end {
+  background-color: #FFD93D;
+  color: #333333;
+}
+
+.schedule-container .schedule-time-input:focus {
+  outline: none;
+}
+
+/* Botón de agendar */
+.schedule-container .schedule-btn-submit {
+  width: 100%;
+  max-width: 280px;
+  margin: 0 auto;
+  display: block;
+  padding: 16px 30px;
+  background-color: #FF6B35;
+  color: #ffffff;
+  border: none;
+  border-radius: 30px;
+  font-size: 17px;
+  font-weight: 600;
   cursor: pointer;
-  transition: all 0.3s;
+  transition: all 0.2s ease;
+  box-shadow: 0 4px 15px rgba(255, 107, 53, 0.35);
 }
 
-.btn-schedule-appointment:hover {
-  background-color: #e55a2b;
+.schedule-container .schedule-btn-submit:hover {
+  background-color: #E55A2B;
   transform: translateY(-2px);
-  box-shadow: 0 4px 12px rgba(255, 107, 53, 0.3);
+  box-shadow: 0 6px 20px rgba(255, 107, 53, 0.45);
 }
 
-.btn-schedule-appointment:disabled {
+.schedule-container .schedule-btn-submit:disabled {
   background-color: #cccccc;
   cursor: not-allowed;
   transform: none;
   box-shadow: none;
+  opacity: 0.5;
 }
 
-/* Pantalla de exito */
+/* Legacy - ocultar elementos no usados */
+.schedule-container .schedule-title,
+.schedule-container .calendar-container,
+.schedule-container .calendar-header,
+.schedule-container .calendar-nav,
+.schedule-container .calendar-month,
+.schedule-container .date-input,
+.schedule-container .time-container,
+.schedule-container .time-input,
+.schedule-container .btn-schedule-appointment {
+  display: none;
+}
 
+/* Responsive - Tablet */
+@media (min-width: 481px) {
+  .schedule-container .schedule-content {
+    padding: 25px 35px 50px;
+  }
+  
+  .schedule-container .calendar-card {
+    padding: 30px 25px;
+  }
+  
+  .schedule-container .calendar-day {
+    font-size: 15px;
+  }
+}
+
+/* Responsive - Desktop */
+@media (min-width: 769px) {
+  .schedule-container {
+    border-radius: 20px;
+    margin: 20px auto;
+    min-height: auto;
+    overflow: hidden;
+  }
+  
+  .schedule-container .schedule-content {
+    padding: 30px 45px 60px;
+  }
+  
+  .schedule-container .calendar-card {
+    padding: 35px 30px;
+  }
+}
+
+/* =============================================
+   CITA AGENDADA - CONFIRMACIÓN (Estilo exacto de la imagen)
+   ============================================= */
+
+.schedule-success-container {
+  max-width: 500px;
+  margin: 0 auto;
+  background-color: #f5f5f5;
+  min-height: 100vh;
+}
+
+/* Header naranja */
+.schedule-success-container .schedule-success-header {
+  background-color: #FF6B35;
+  padding: 20px;
+  display: flex;
+  align-items: center;
+}
+
+.schedule-success-container .schedule-success-logo {
+  height: 45px;
+  width: auto;
+  filter: brightness(0) invert(1);
+}
+
+/* Contenido */
+.schedule-success-container .schedule-success-content {
+  padding: 60px 30px 50px;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  min-height: calc(100vh - 85px);
+  box-sizing: border-box;
+}
+
+/* Ilustración */
+.schedule-success-container .schedule-success-illustration {
+  margin-bottom: 40px;
+  margin-top: 60px;
+}
+
+.schedule-success-container .schedule-success-mascot {
+  width: 150px;
+  height: auto;
+}
+
+/* Título */
+.schedule-success-container .schedule-success-title {
+  font-size: 28px;
+  font-weight: 700;
+  color: #000000;
+  margin: 0 0 20px 0;
+  line-height: 1.3;
+}
+
+.schedule-success-container .schedule-success-title .highlight {
+  color: #FF6B35;
+}
+
+/* Subtítulo */
+.schedule-success-container .schedule-success-subtitle {
+  font-size: 16px;
+  font-weight: 400;
+  color: #666666;
+  line-height: 1.6;
+  margin: 0 0 auto 0;
+}
+
+/* Botón */
+.schedule-success-container .schedule-success-btn {
+  width: 100%;
+  max-width: 280px;
+  padding: 16px 30px;
+  background-color: #FF6B35;
+  color: #ffffff;
+  border: none;
+  border-radius: 30px;
+  font-size: 16px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  box-shadow: 0 4px 15px rgba(255, 107, 53, 0.3);
+  margin-top: auto;
+  margin-bottom: 30px;
+}
+
+.schedule-success-container .schedule-success-btn:hover {
+  background-color: #E55A2B;
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(255, 107, 53, 0.4);
+}
+
+/* Responsive - Tablet */
+@media (min-width: 481px) {
+  .schedule-success-container .schedule-success-content {
+    padding: 80px 40px 60px;
+  }
+  
+  .schedule-success-container .schedule-success-title {
+    font-size: 32px;
+  }
+  
+  .schedule-success-container .schedule-success-mascot {
+    width: 170px;
+  }
+}
+
+/* Responsive - Desktop */
+@media (min-width: 769px) {
+  .schedule-success-container {
+    border-radius: 20px;
+    margin: 20px auto;
+    min-height: auto;
+    overflow: hidden;
+  }
+}
+
+/* Legacy - mantener compatibilidad */
 .schedule-success {
   padding: 40px 20px;
   text-align: center;
@@ -862,380 +1913,1051 @@ body {
   background-color: #e55a2b;
 }
 
-/* ESTADÍSTICAS */
+/* =============================================
+   ESTADÍSTICAS - padrino-app
+   ============================================= */
 
 .statistics-container {
-  padding: 20px;
+  padding: 0;
   max-width: 500px;
   margin: 0 auto;
+  background-color: #ffffff;
+  min-height: 100vh;
 }
 
-.statistics-title {
+/* Header amarillo */
+.statistics-container .stats-header {
+  background-color: #ffd93d;
+  padding: 20px;
+  position: relative;
+  height: 120px;
+}
+
+.statistics-container .btn-back {
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  background-color: #ffffff;
+  border: none;
   font-size: 28px;
-  color: #333;
-  margin-bottom: 30px;
+  color: #333333;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: absolute;
+  top: 20px;
+  left: 20px;
+  z-index: 10;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.15);
+}
+
+/* Card de información */
+.statistics-container .stats-info-card {
+  background-color: #ffffff;
+  border-radius: 30px 30px 0 0;
+  margin-top: -30px;
+  padding: 30px 25px 40px;
+  position: relative;
+  z-index: 10;
+  box-shadow: none;
+}
+
+.statistics-container .dog-name {
+  font-size: 28px;
+  font-weight: 700;
+  color: #000000;
+  margin: 0 0 40px 0;
   text-align: center;
 }
 
-.statistics-bars {
+.statistics-container .dog-location {
+  font-size: 15px;
+  color: #666666;
+  margin: 0 0 20px 0;
+  text-align: center;
+}
+
+/* Tags */
+.statistics-container .dog-tags {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 10px;
+  margin-bottom: 30px;
+}
+
+.statistics-container .dog-tag {
+  padding: 10px 20px;
+  border: none;
+  border-radius: 25px;
+  font-size: 14px;
+  font-weight: 500;
+  color: #333333;
+  background-color: #ffd93d;
+}
+
+/* Barras de estadísticas - ESTILO EXACTO DE LA IMAGEN */
+.statistics-container .statistics-bars {
   display: flex;
   flex-direction: column;
-  gap: 30px;
+  gap: 25px;
+  padding: 0 20px;
 }
 
-.stat-item {
-  background-color: #f5f5f5;
-  padding: 20px;
-  border-radius: 15px;
+.statistics-container .stat-item {
+  background-color: transparent;
+  padding: 0;
+  border-radius: 0;
 }
 
-.stat-header {
+.statistics-container .stat-footer {
   display: flex;
-  justify-content: space-between;
   align-items: center;
-  margin-bottom: 10px;
+  gap: 12px;
+  margin-top: 18px;
 }
 
-.stat-label {
-  font-size: 18px;
-  font-weight: bold;
-  color: #333;
+.statistics-container .stat-value {
+  padding: 4px 8px;
+  border: 1.5px solid #333333;
+  border-radius: 6px;
+  font-size: 12px;
+  font-weight: 500;
+  color: #333333;
+  background-color: transparent;
+  min-width: 40px;
+  text-align: center;
 }
 
-.stat-value {
-  font-size: 16px;
-  font-weight: bold;
-  color: #666;
+.statistics-container .stat-label {
+  font-size: 14px;
+  font-weight: 500;
+  color: #333333;
 }
 
-.stat-bar-container {
+.statistics-container .stat-bar-container {
   width: 100%;
-  height: 30px;
-  background-color: #e0e0e0;
-  border-radius: 15px;
-  overflow: hidden;
+  height: 18px;
+  background-color: transparent;
+  border-radius: 12px;
+  overflow: visible;
+  position: relative;
 }
 
-.stat-bar {
+.statistics-container .stat-bar {
   height: 100%;
-  border-radius: 15px;
+  border-radius: 12px;
   transition: width 0.5s ease;
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  min-width: 50px;
 }
 
-.stat-bar-food {
-  background-color: #9c27b0;
+.statistics-container .stat-bar .paw-icon {
+  position: absolute;
+  right: -20px;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 45px;
+  height: auto;
+  transition: all 0.5s ease;
+  z-index: 5;
 }
 
-.stat-bar-health {
-  background-color: #00bcd4;
+/* Colores de las barras - EXACTOS DE LA IMAGEN */
+.statistics-container .stat-bar.stat-bar-food,
+.statistics-container .stat-bar-food {
+  background-color: #9B4DCA !important; /* Morado vibrante */
+  background: linear-gradient(90deg, #9B4DCA 0%, #8E44AD 100%) !important;
 }
 
-.stat-bar-wellbeing {
-  background-color: #ff9800;
+.statistics-container .stat-bar.stat-bar-health,
+.statistics-container .stat-bar-health {
+  background-color: #5BC0EB !important; /* Azul claro */
+  background: linear-gradient(90deg, #7DD3FC 0%, #5BC0EB 100%) !important;
 }
 
-.stat-bar-affection {
-  background-color: #f44336;
+.statistics-container .stat-bar.stat-bar-wellbeing,
+.statistics-container .stat-bar-wellbeing {
+  background-color: #F8BBD9 !important; /* Rosa claro */
+  background: linear-gradient(90deg, #F8BBD9 0%, #F48FB1 100%) !important;
+}
+
+.statistics-container .stat-bar.stat-bar-affection,
+.statistics-container .stat-bar-affection {
+  background-color: #FF8A65 !important; /* Naranja */
+  background: linear-gradient(90deg, #FF8A65 0%, #FF7043 100%) !important;
+}
+
+/* Animación de actualización */
+.statistics-container .stat-item.stat-updated {
+  animation: pulse 0.5s ease;
+}
+
+@keyframes pulse {
+  0%, 100% { transform: scale(1); }
+  50% { transform: scale(1.02); }
+}
+
+/* Notificación de stats */
+.stats-notification {
+  position: fixed;
+  top: 20px;
+  left: 50%;
+  transform: translateX(-50%) translateY(-100px);
+  background-color: #4caf50;
+  color: white;
+  padding: 12px 24px;
+  border-radius: 25px;
+  font-weight: 600;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+  transition: transform 0.3s ease;
+  z-index: 1000;
+}
+
+.stats-notification.show {
+  transform: translateX(-50%) translateY(0);
+}
+
+/* Responsive - Tablet */
+@media (min-width: 481px) {
+  .statistics-container .stats-header {
+    height: 140px;
+  }
+  
+  .statistics-container .stats-info-card {
+    padding: 40px 35px 50px;
+  }
+  
+  .statistics-container .dog-name {
+    font-size: 32px;
+  }
+  
+  .statistics-container .stat-bar .paw-icon {
+    width: 50px;
+  }
+  
+  .statistics-container .statistics-bars {
+    gap: 28px;
+  }
+  
+  .statistics-container .stat-bar-container {
+    height: 20px;
+  }
+}
+
+/* Responsive - Desktop */
+@media (min-width: 769px) {
+  .statistics-container .stats-header {
+    height: 160px;
+  }
+  
+  .statistics-container .stats-info-card {
+    padding: 50px 50px 60px;
+  }
+  
+  .statistics-container .stat-bar .paw-icon {
+    width: 55px;
+  }
+  
+  .statistics-container .statistics-bars {
+    gap: 32px;
+  }
+  
+  .statistics-container .stat-bar-container {
+    height: 22px;
+  }
 }
 /* =============================================
-   ACCESORIOS - LISTA
+   ACCESORIOS - LISTA (Estilo exacto de la imagen)
    ============================================= */
 
 .accessories-container {
-  padding: 20px;
+  padding: 30px 25px;
   max-width: 500px;
   margin: 0 auto;
-}
-
-.accessories-title {
-  font-size: 28px;
-  color: #333;
-  margin-bottom: 10px;
-}
-
-.accessories-subtitle {
-  font-size: 16px;
-  color: #666;
-  margin-bottom: 30px;
-}
-
-.accessories-list {
-  display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  gap: 15px;
-}
-
-.accessory-card {
-  background-color: white;
-  border: 1px solid #e0e0e0;
-  border-radius: 10px;
-  overflow: hidden;
-  cursor: pointer;
-  transition: transform 0.2s, box-shadow 0.2s;
-}
-
-.accessory-card:hover {
-  transform: translateY(-5px);
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-}
-
-.accessory-image-container {
-  width: 100%;
-  height: 150px;
-  overflow: hidden;
   background-color: #f5f5f5;
+  min-height: 100vh;
+  box-sizing: border-box;
 }
 
-.accessory-image {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-}
-
-.accessory-info {
-  padding: 15px;
-}
-
-.accessory-category {
-  font-size: 12px;
-  color: #999;
-  text-transform: uppercase;
-  margin-bottom: 5px;
-}
-
-.accessory-name {
-  font-size: 16px;
-  font-weight: bold;
-  color: #333;
-  margin-bottom: 10px;
-}
-
-.accessory-price {
-  font-size: 18px;
-  font-weight: bold;
-  color: #ff6b35;
-  margin-bottom: 10px;
-}
-
-.btn-view-accessory {
-  width: 100%;
-  padding: 8px;
-  background-color: #ff6b35;
-  color: white;
-  border: none;
-  border-radius: 5px;
-  font-size: 14px;
-  cursor: pointer;
-}
-
-.btn-view-accessory:hover {
-  background-color: #e55a2b;
-}
-
-.no-accessories {
-  text-align: center;
-  padding: 40px;
-  color: #999;
-}
-
-/* =============================================
-   ACCESORIO - DETALLE
-   ============================================= */
-
-.accessory-detail-container {
-  padding: 20px;
-  max-width: 500px;
-  margin: 0 auto;
-}
-
-.accessory-detail-image {
-  width: 100%;
-  height: 400px;
-  overflow: hidden;
-  border-radius: 15px;
-  margin-bottom: 20px;
-  background-color: #f5f5f5;
-}
-
-.accessory-detail-image img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-}
-
-.accessory-detail-info {
-  margin-bottom: 30px;
-}
-
-.accessory-detail-category {
-  font-size: 14px;
-  color: #666;
-  text-transform: uppercase;
-  margin-bottom: 10px;
-}
-
-.accessory-detail-name {
-  font-size: 32px;
-  color: #333;
-  margin-bottom: 15px;
-}
-
-.accessory-detail-description {
-  font-size: 16px;
-  line-height: 1.6;
-  color: #666;
-  margin-bottom: 20px;
-}
-
-.accessory-detail-for {
-  font-size: 16px;
-  color: #666;
-  margin-bottom: 20px;
-}
-
-.accessory-detail-price {
-  font-size: 36px;
-  font-weight: bold;
-  color: #ff6b35;
-  margin-bottom: 20px;
-}
-
-.btn-buy-accessory {
-  width: 100%;
-  padding: 18px;
-  background-color: #ff6b35;
-  color: white;
-  border: none;
-  border-radius: 10px;
-  font-size: 18px;
-  font-weight: bold;
-  cursor: pointer;
-  margin-bottom: 15px;
-}
-
-.btn-buy-accessory:hover {
-  background-color: #e55a2b;
-}
-
-.accessory-note {
-  text-align: center;
-  font-size: 14px;
-  color: #666;
-  font-style: italic;
-}
-
-/* =============================================
-   GALERÍA
-   ============================================= */
-
-.gallery-container {
-  padding: 20px;
-  max-width: 500px;
-  margin: 0 auto;
-}
-
-.gallery-header {
+/* Header con botón y título */
+.accessories-container .accessories-header {
   display: flex;
   align-items: center;
   gap: 15px;
-  margin-bottom: 30px;
-  padding: 20px;
-  background-color: #f5f5f5;
-  border-radius: 15px;
+  margin-bottom: 20px;
 }
 
-.gallery-dog-image {
-  width: 80px;
-  height: 80px;
+/* Botón de volver circular */
+.accessories-container .accessories-btn-back {
+  width: 45px;
+  height: 45px;
   border-radius: 50%;
-  overflow: hidden;
+  background-color: #ffffff;
+  border: none;
+  font-size: 26px;
+  color: #333333;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+  transition: all 0.2s ease;
   flex-shrink: 0;
 }
 
-.gallery-dog-image img {
+.accessories-container .accessories-btn-back:hover {
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.12);
+  transform: translateY(-1px);
+}
+
+.accessories-container .accessories-btn-back span {
+  line-height: 1;
+  margin-top: -2px;
+}
+
+/* Título "Accesorios" */
+.accessories-container .accessories-title {
+  font-size: 26px;
+  font-weight: 700;
+  color: #000000;
+  margin: 0;
+}
+
+/* Descripción */
+.accessories-container .accessories-description {
+  font-size: 14px;
+  font-weight: 400;
+  color: #666666;
+  line-height: 1.5;
+  margin: 0 0 25px 0;
+}
+
+/* Lista de accesorios */
+.accessories-container .accessories-list {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+/* Tarjeta de accesorio */
+.accessories-container .accessory-card {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  background-color: #ffffff;
+  border: none;
+  border-radius: 20px;
+  padding: 15px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+}
+
+.accessories-container .accessory-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
+}
+
+/* Contenedor de imagen circular */
+.accessories-container .accessory-image-container {
+  width: 100px;
+  height: 100px;
+  border-radius: 20px;
+  overflow: hidden;
+  background-color: #E8E4E0;
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.accessories-container .accessory-image {
+  width: 85%;
+  height: 85%;
+  object-fit: contain;
+}
+
+/* Info del accesorio */
+.accessories-container .accessory-info {
+  flex: 1;
+  padding: 0;
+}
+
+/* Nombre del accesorio */
+.accessories-container .accessory-name {
+  font-size: 17px;
+  font-weight: 600;
+  color: #000000;
+  margin: 0 0 6px 0;
+}
+
+/* Precio del accesorio */
+.accessories-container .accessory-price {
+  font-size: 16px;
+  font-weight: 600;
+  color: #333333;
+  margin: 0;
+}
+
+/* Estados de carga y mensajes */
+.accessories-container .loading,
+.accessories-container .error,
+.accessories-container .no-accessories {
+  text-align: center;
+  padding: 40px 20px;
+  color: #666666;
+  background-color: #ffffff;
+  border-radius: 20px;
+}
+
+.accessories-container .error {
+  color: #ff0000;
+}
+
+/* Legacy - ocultar elementos no usados */
+.accessories-container .accessory-category,
+.accessories-container .btn-view-accessory,
+.accessories-container .accessories-subtitle {
+  display: none;
+}
+
+/* Responsive - Tablet */
+@media (min-width: 481px) {
+  .accessories-container {
+    padding: 40px 35px;
+  }
+  
+  .accessories-container .accessories-title {
+    font-size: 30px;
+  }
+  
+  .accessories-container .accessory-image-container {
+    width: 120px;
+    height: 120px;
+  }
+  
+  .accessories-container .accessory-name {
+    font-size: 18px;
+  }
+  
+  .accessories-container .accessory-price {
+    font-size: 17px;
+  }
+}
+
+/* Responsive - Desktop */
+@media (min-width: 769px) {
+  .accessories-container {
+    padding: 50px 45px;
+    border-radius: 20px;
+    margin: 20px auto;
+    min-height: auto;
+  }
+  
+  .accessories-container .accessories-title {
+    font-size: 32px;
+  }
+  
+  .accessories-container .accessory-card {
+    padding: 20px;
+  }
+  
+  .accessories-container .accessory-image-container {
+    width: 130px;
+    height: 130px;
+  }
+}
+
+/* =============================================
+   ACCESORIO - DETALLE (Estilo exacto de la imagen)
+   ============================================= */
+
+.accessory-detail-container {
+  padding: 0;
+  max-width: 500px;
+  margin: 0 auto;
+  background-color: #ffffff;
+  min-height: 100vh;
+  position: relative;
+}
+
+/* Header con imagen del producto */
+.accessory-detail-container .accessory-detail-header {
+  position: relative;
+  width: 100%;
+  height: 380px;
+  background-color: #E8E4E0;
+  overflow: hidden;
+}
+
+/* Botón de volver */
+.accessory-detail-container .accessory-detail-btn-back {
+  position: absolute;
+  top: 20px;
+  left: 20px;
+  width: 45px;
+  height: 45px;
+  border-radius: 50%;
+  background-color: #ffffff;
+  border: none;
+  font-size: 26px;
+  color: #333333;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+  z-index: 10;
+  transition: all 0.2s ease;
+}
+
+.accessory-detail-container .accessory-detail-btn-back:hover {
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.15);
+  transform: translateY(-1px);
+}
+
+.accessory-detail-container .accessory-detail-btn-back span {
+  line-height: 1;
+  margin-top: -2px;
+}
+
+/* Imagen del producto */
+.accessory-detail-container .accessory-detail-image {
   width: 100%;
   height: 100%;
-  object-fit: cover;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: transparent;
+  border-radius: 0;
+  margin-bottom: 0;
 }
 
-.gallery-dog-info {
-  flex: 1;
+.accessory-detail-container .accessory-detail-image img {
+  max-width: 80%;
+  max-height: 85%;
+  object-fit: contain;
 }
 
-.gallery-dog-name {
-  font-size: 24px;
-  color: #ff6b35;
-  margin-bottom: 5px;
+/* Card de información */
+.accessory-detail-container .accessory-detail-card {
+  background-color: #ffffff;
+  border-radius: 35px 35px 0 0;
+  margin-top: -40px;
+  padding: 25px 30px 40px;
+  position: relative;
+  z-index: 5;
+  min-height: 400px;
 }
 
-.gallery-dog-subtitle {
-  font-size: 14px;
-  color: #666;
-  margin-bottom: 5px;
+/* Imagen del hueso decorativo */
+.accessory-detail-container .accessory-detail-bone {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 15px;
 }
 
-.gallery-photo-count {
-  font-size: 12px;
-  color: #999;
+.accessory-detail-container .accessory-detail-bone img {
+  width: 180px;
+  height: auto;
 }
 
-.gallery-grid {
-  display: grid;
-  grid-template-columns: repeat(2, 1fr);
+/* Nombre del producto */
+.accessory-detail-container .accessory-detail-name {
+  font-size: 28px;
+  font-weight: 700;
+  color: #000000;
+  text-align: center;
+  margin: 0 0 20px 0;
+}
+
+/* Descripción */
+.accessory-detail-container .accessory-detail-description {
+  font-size: 15px;
+  font-weight: 400;
+  color: #666666;
+  line-height: 1.5;
+  text-align: left;
+  margin: 0 0 30px 0;
+}
+
+/* Fila de precio y cantidad */
+.accessory-detail-container .accessory-detail-price-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 35px;
+}
+
+/* Precio */
+.accessory-detail-container .accessory-detail-price {
+  font-size: 28px;
+  font-weight: 700;
+  color: #000000;
+  margin: 0;
+  display: flex;
+  align-items: baseline;
+  gap: 4px;
+}
+
+.accessory-detail-container .accessory-detail-price .price-currency {
+  color: #FF6B35;
+  font-weight: 700;
+}
+
+/* Selector de cantidad */
+.accessory-detail-container .accessory-quantity-selector {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  background-color: transparent;
+  padding: 0;
+}
+
+.accessory-detail-container .quantity-btn {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  border: none;
+  font-size: 18px;
+  font-weight: 500;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.2s ease;
+}
+
+.accessory-detail-container .quantity-minus {
+  background-color: #30d6e5;
+  color: #ffffff;
+}
+
+.accessory-detail-container .quantity-plus {
+  background-color: #F9DC5C;
+  color: #333333;
+}
+
+.accessory-detail-container .quantity-btn:hover {
+  transform: scale(1.08);
+  box-shadow: 0 3px 10px rgba(0, 0, 0, 0.15);
+}
+
+.accessory-detail-container .quantity-value {
+  min-width: 24px;
+  text-align: center;
+  font-size: 16px;
+  font-weight: 600;
+  color: #333333;
+}
+
+/* Botones de acción */
+.accessory-detail-container .accessory-detail-actions {
+  display: flex;
+  align-items: center;
   gap: 15px;
 }
 
-.gallery-photo-card {
-  position: relative;
-  aspect-ratio: 1;
-  border-radius: 10px;
-  overflow: hidden;
+/* Botón de chat */
+.accessory-detail-container .accessory-detail-chat-btn {
+  width: 55px;
+  height: 55px;
+  border-radius: 15px;
+  background-color: #6B4C9A;
+  border: none;
   cursor: pointer;
-  transition: transform 0.2s;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #ffffff;
+  transition: all 0.2s ease;
+  flex-shrink: 0;
 }
 
-.gallery-photo-card:hover {
-  transform: scale(1.05);
+.accessory-detail-container .accessory-detail-chat-btn:hover {
+  background-color: #5A3D87;
+  transform: translateY(-2px);
 }
 
-.gallery-photo-image {
+.accessory-detail-container .accessory-detail-chat-btn svg {
+  width: 24px;
+  height: 24px;
+}
+
+/* Botón de comprar */
+.accessory-detail-container .accessory-detail-buy-btn {
+  flex: 1;
+  padding: 18px 30px;
+  background-color: #FF6B35;
+  color: #ffffff;
+  border: none;
+  border-radius: 30px;
+  font-size: 17px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  box-shadow: 0 4px 15px rgba(255, 107, 53, 0.3);
+}
+
+.accessory-detail-container .accessory-detail-buy-btn:hover {
+  background-color: #E55A2B;
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(255, 107, 53, 0.4);
+}
+
+/* Estilos legacy - ocultar */
+.accessory-detail-container .accessory-detail-category,
+.accessory-detail-container .accessory-detail-for,
+.accessory-detail-container .accessory-note,
+.accessory-detail-container .btn-buy-accessory,
+.accessory-detail-container .accessory-detail-info {
+  display: none;
+}
+
+/* Responsive - Tablet */
+@media (min-width: 481px) {
+  .accessory-detail-container .accessory-detail-header {
+    height: 420px;
+  }
+  
+  .accessory-detail-container .accessory-detail-card {
+    padding: 30px 40px 50px;
+  }
+  
+  .accessory-detail-container .accessory-detail-name {
+    font-size: 32px;
+  }
+  
+  .accessory-detail-container .accessory-detail-price {
+    font-size: 32px;
+  }
+  
+  .accessory-detail-container .accessory-detail-bone img {
+    width: 200px;
+  }
+}
+
+/* Responsive - Desktop */
+@media (min-width: 769px) {
+  .accessory-detail-container {
+    border-radius: 20px;
+    margin: 20px auto;
+    overflow: hidden;
+    min-height: auto;
+  }
+  
+  .accessory-detail-container .accessory-detail-header {
+    height: 450px;
+  }
+  
+  .accessory-detail-container .accessory-detail-card {
+    padding: 40px 50px 60px;
+    border-radius: 40px 40px 0 0;
+  }
+  
+  .accessory-detail-container .accessory-detail-name {
+    font-size: 36px;
+  }
+  
+  .accessory-detail-container .accessory-detail-buy-btn {
+    padding: 20px 40px;
+    font-size: 18px;
+  }
+}
+
+/* =============================================
+   GALERÍA (Estilo exacto de la imagen)
+   ============================================= */
+
+.gallery-container {
+  padding: 0;
+  max-width: 500px;
+  margin: 0 auto;
+  background-color: #ffffff;
+  min-height: 100vh;
+  position: relative;
+}
+
+/* Header amarillo */
+.gallery-container .gallery-header {
+  position: relative;
+  width: 100%;
+  height: 380px;
+  background-color: #FFD93D;
+  overflow: visible;
+}
+
+/* Botón de volver */
+.gallery-container .gallery-btn-back {
+  position: absolute;
+  top: 20px;
+  left: 20px;
+  width: 45px;
+  height: 45px;
+  border-radius: 50%;
+  background-color: #ffffff;
+  border: none;
+  font-size: 26px;
+  color: #333333;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+  z-index: 10;
+  transition: all 0.2s ease;
+}
+
+.gallery-container .gallery-btn-back:hover {
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.15);
+  transform: translateY(-1px);
+}
+
+.gallery-container .gallery-btn-back span {
+  line-height: 1;
+  margin-top: -2px;
+}
+
+/* Patitas decorativas - ocultas */
+.gallery-container .gallery-paw {
+  display: none;
+}
+
+.gallery-container .gallery-paw-left,
+.gallery-container .gallery-paw-right {
+  display: none;
+}
+
+/* Contenedor del perro */
+.gallery-container .gallery-dog-hero {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+}
+
+.gallery-container .gallery-dog-blob {
+  display: none;
+}
+
+.gallery-container .gallery-dog-image {
   width: 100%;
   height: 100%;
   object-fit: cover;
 }
 
-.gallery-photo-overlay {
-  position: absolute;
-  bottom: 0;
-  left: 0;
-  right: 0;
-  background: linear-gradient(to top, rgba(0,0,0,0.7), transparent);
-  padding: 10px;
-  color: white;
+/* Card de información */
+.gallery-container .gallery-info-card {
+  background-color: #FFF8E7;
+  border-radius: 35px 35px 0 0;
+  margin-top: -40px;
+  padding: 30px 25px 40px;
+  position: relative;
+  z-index: 5;
+  min-height: 500px;
 }
 
-.gallery-photo-category {
-  font-size: 14px;
-  font-weight: bold;
-  margin-bottom: 2px;
-}
-
-.gallery-photo-date {
-  font-size: 11px;
-  opacity: 0.8;
-}
-
-.no-photos {
+/* Nombre del perro */
+.gallery-container .gallery-dog-name {
+  font-size: 28px;
+  font-weight: 700;
+  color: #000000;
   text-align: center;
-  padding: 60px 20px;
-  background-color: #f5f5f5;
+  margin: 0 0 10px 0;
+}
+
+/* Ubicación */
+.gallery-container .gallery-dog-location {
+  font-size: 15px;
+  color: #666666;
+  text-align: center;
+  margin: 0 0 20px 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 5px;
+}
+
+.gallery-container .gallery-dog-location .location-icon {
+  font-size: 14px;
+}
+
+/* Tags */
+.gallery-container .gallery-tags {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 10px;
+  margin-bottom: 25px;
+}
+
+.gallery-container .gallery-tag {
+  padding: 10px 20px;
+  border: none;
+  border-radius: 25px;
+  font-size: 14px;
+  font-weight: 500;
+  color: #333333;
+  background-color: #FFD93D;
+}
+
+/* Mensaje */
+.gallery-container .gallery-message {
+  font-size: 15px;
+  color: #666666;
+  text-align: center;
+  line-height: 1.5;
+  margin: 0 0 25px 0;
+  padding: 0 10px;
+}
+
+/* Contenedor de fotos */
+.gallery-container .gallery-photos {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  margin-bottom: 30px;
+}
+
+/* Tarjeta de foto */
+.gallery-container .gallery-photo-card {
+  position: relative;
+  border-radius: 20px;
+  overflow: hidden;
+  cursor: pointer;
+  transition: transform 0.2s ease;
+}
+
+.gallery-container .gallery-photo-card:hover {
+  transform: scale(1.02);
+}
+
+/* Foto destacada (primera) con fondo rosa */
+.gallery-container .gallery-photo-featured {
+  background-color: #FFCCE5;
+  padding: 20px;
+}
+
+.gallery-container .gallery-photo-featured .gallery-photo-image {
   border-radius: 15px;
 }
 
-.no-photos p {
+.gallery-container .gallery-photo-image {
+  width: 100%;
+  height: auto;
+  object-fit: cover;
+  display: block;
+}
+
+/* Botón volver al menú */
+.gallery-container .gallery-btn-menu {
+  width: 100%;
+  max-width: 280px;
+  margin: 0 auto;
+  display: block;
+  padding: 16px 30px;
+  background-color: #FF6B35;
+  color: #ffffff;
+  border: none;
+  border-radius: 30px;
   font-size: 16px;
-  color: #666;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  box-shadow: 0 4px 15px rgba(255, 107, 53, 0.3);
+}
+
+.gallery-container .gallery-btn-menu:hover {
+  background-color: #E55A2B;
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(255, 107, 53, 0.4);
+}
+
+/* Botón ir a accesorios */
+.gallery-container .gallery-btn-accessories {
+  padding: 14px 30px;
+  background-color: #FF6B35;
+  color: #ffffff;
+  border: none;
+  border-radius: 25px;
+  font-size: 15px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  margin-top: 15px;
+}
+
+.gallery-container .gallery-btn-accessories:hover {
+  background-color: #E55A2B;
+}
+
+/* Sin fotos */
+.gallery-container .no-photos {
+  text-align: center;
+  padding: 40px 20px;
+  background-color: #ffffff;
+  border-radius: 20px;
+}
+
+.gallery-container .no-photos p {
+  font-size: 16px;
+  color: #666666;
   margin-bottom: 10px;
+}
+
+/* Legacy - ocultar elementos no usados */
+.gallery-container .gallery-dog-info,
+.gallery-container .gallery-dog-subtitle,
+.gallery-container .gallery-photo-count,
+.gallery-container .gallery-grid,
+.gallery-container .gallery-photo-overlay,
+.gallery-container .gallery-photo-category,
+.gallery-container .gallery-photo-date {
+  display: none;
+}
+
+/* Responsive - Tablet */
+@media (min-width: 481px) {
+  .gallery-container .gallery-header {
+    height: 420px;
+  }
+  
+  .gallery-container .gallery-info-card {
+    padding: 35px 35px 50px;
+  }
+  
+  .gallery-container .gallery-dog-name {
+    font-size: 32px;
+  }
+  
+  .gallery-container .gallery-paw {
+    width: 70px;
+  }
+}
+
+/* Responsive - Desktop */
+@media (min-width: 769px) {
+  .gallery-container {
+    border-radius: 20px;
+    margin: 20px auto;
+    overflow: hidden;
+    min-height: auto;
+  }
+  
+  .gallery-container .gallery-header {
+    height: 450px;
+  }
+  
+  .gallery-container .gallery-info-card {
+    padding: 40px 50px 60px;
+    border-radius: 40px 40px 0 0;
+  }
 }
 
 /* Modal de foto grande */
@@ -1405,24 +3127,24 @@ body {
   font-weight: 500;
 }
 
-/* Animacion de actualizacion de estadistica */
-.stat-item {
+/* Animacion de actualizacion de estadistica - SOLO para pantallas que NO son statistics-container */
+.admin-stats .stat-item {
   transition: all 0.3s ease;
 }
 
-.stat-item.stat-updated {
+.admin-stats .stat-item.stat-updated {
   background-color: #fff9c4;
   transform: scale(1.02);
   box-shadow: 0 2px 8px rgba(255, 193, 7, 0.3);
 }
 
-/* Barras de estadisticas con transicion suave */
-.stat-bar {
+/* Barras de estadisticas con transicion suave - admin */
+.admin-stats .stat-bar {
   transition: width 0.5s ease-in-out;
 }
 
-/* Notificacion flotante */
-.stats-notification {
+/* Notificacion flotante - version alternativa para admin */
+.admin-stats .stats-notification {
   position: fixed;
   top: 80px;
   right: 20px;
@@ -1439,44 +3161,44 @@ body {
   transition: all 0.3s ease;
 }
 
-.stats-notification.show {
+.admin-stats .stats-notification.show {
   opacity: 1;
   transform: translateX(0);
 }
 
-/* Ajustes adicionales para estadisticas */
-.statistics-bars {
+/* Ajustes para estadisticas de admin (NO afecta statistics-container) */
+.admin-stats .statistics-bars {
   display: flex;
   flex-direction: column;
   gap: 20px;
 }
 
-.stat-item {
+.admin-stats .stat-item {
   padding: 15px;
   background-color: white;
   border-radius: 10px;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
-.stat-header {
+.admin-stats .stat-header {
   display: flex;
   justify-content: space-between;
   margin-bottom: 10px;
 }
 
-.stat-label {
+.admin-stats .stat-label {
   font-size: 16px;
   font-weight: 500;
   color: #333;
 }
 
-.stat-value {
+.admin-stats .stat-value {
   font-size: 16px;
   font-weight: bold;
   color: #666;
 }
 
-.stat-bar-container {
+.admin-stats .stat-bar-container {
   width: 100%;
   height: 20px;
   background-color: #e0e0e0;
@@ -1484,33 +3206,1501 @@ body {
   overflow: hidden;
 }
 
-.stat-bar {
+.admin-stats .stat-bar {
   height: 100%;
   border-radius: 10px;
 }
 
-.stat-bar-food {
+.admin-stats .stat-bar-food {
   background: linear-gradient(90deg, #ffa726, #ff6f00);
 }
 
-.stat-bar-health {
+.admin-stats .stat-bar-health {
   background: linear-gradient(90deg, #66bb6a, #2e7d32);
 }
 
-.stat-bar-wellbeing {
+.admin-stats .stat-bar-wellbeing {
   background: linear-gradient(90deg, #42a5f5, #1565c0);
 }
 
-.stat-bar-affection {
+.admin-stats .stat-bar-affection {
   background: linear-gradient(90deg, #ec407a, #c2185b);
 }
 
-/* Responsive */
+/* Responsive para admin stats */
 @media (max-width: 600px) {
-  .stats-notification {
+  .admin-stats .stats-notification {
     top: 60px;
     right: 10px;
     left: 10px;
     text-align: center;
+  }
+}
+
+/* =============================================
+   WHO ARE YOU - Mobile First Design
+   ============================================= */
+
+/* Contenedor principal - Mobile First (320px+) */
+.who-are-you-container {
+  min-height: 100vh;
+  width: 100%;
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0;
+  background-color: #ffffff;
+  overflow: hidden;
+}
+
+/* Contenido centrado */
+.who-are-you-content {
+  width: 100%;
+  max-width: 100%;
+  background-color: transparent;
+  padding: 0;
+  text-align: center;
+  position: relative;
+  z-index: 2;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
+  padding: 32px 24px 200px;
+}
+
+/* Sección de bienvenida */
+.who-are-you-content .welcome-section {
+  margin-bottom: 32px;
+  width: 100%;
+}
+
+/* Logo PET LINK estilizado */
+.who-are-you-content .app-logo {
+  margin-bottom: 16px;
+}
+
+.who-are-you-content .app-logo h1 {
+  font-size: 40px;
+  font-weight: 900;
+  color: transparent;
+  margin: 0;
+  letter-spacing: 1px;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+  text-transform: uppercase;
+  position: relative;
+  display: inline-block;
+  line-height: 1.2;
+}
+
+/* Mostrar "PET LINK" en lugar del contenido del h1 */
+.who-are-you-content .app-logo h1::before {
+  content: 'PET LINK';
+  font-size: 40px;
+  font-weight: 900;
+  color: #ff6b35;
+  letter-spacing: 1px;
+  display: block;
+  line-height: 1.2;
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  /* Si tienes logo de imagen, descomenta esto y ajusta: */
+  /* content: ''; */
+  /* background-image: url('/assets/images/petlink-logo.png'); */
+  /* background-size: contain; */
+  /* background-repeat: no-repeat; */
+  /* background-position: center; */
+  /* width: 180px; */
+  /* height: 50px; */
+}
+
+
+/* Agregar texto "Bienvenido!" con CSS */
+.who-are-you-content .welcome-section::before {
+  content: 'Bienvenido!';
+  display: block;
+  font-size: 22px;
+  font-weight: 700;
+  color: #000000;
+  margin-bottom: 8px;
+  letter-spacing: 0.3px;
+}
+
+/* Título "Quien eres?" */
+.who-are-you-title {
+  margin-bottom: 32px;
+  width: 100%;
+}
+
+.who-are-you-title h2 {
+  font-size: 22px;
+  font-weight: 300;
+  color: #000000;
+  margin: 0;
+  letter-spacing: 0.3px;
+}
+
+/* Contenedor de botones */
+.user-options {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  width: 100%;
+  max-width: 320px;
+  margin-top: 0;
+}
+
+/* Botones - Estilo naranja horizontal alargado */
+.user-option-btn {
+  width: 100%;
+  padding: 18px 32px;
+  border: none;
+  border-radius: 50px;
+  font-size: 18px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  box-shadow: 0 2px 8px rgba(255, 107, 53, 0.25);
+  text-align: center;
+  letter-spacing: 0.5px;
+  position: relative;
+  overflow: hidden;
+}
+
+/* Botón Administrador - Naranja sólido */
+.user-option-btn.admin-btn {
+  background-color: #ff6b35;
+  color: #ffffff;
+}
+
+.user-option-btn.admin-btn:active {
+  background-color: #e55a2b;
+  transform: scale(0.98);
+}
+
+.user-option-btn.admin-btn:hover {
+  background-color: #e55a2b;
+  box-shadow: 0 4px 12px rgba(255, 107, 53, 0.35);
+}
+
+/* Botón Padrino - Naranja sólido (mismo estilo) */
+.user-option-btn.padrino-btn {
+  background-color: #ff6b35;
+  color: #ffffff;
+}
+
+.user-option-btn.padrino-btn:active {
+  background-color: #e55a2b;
+  transform: scale(0.98);
+}
+
+.user-option-btn.padrino-btn:hover {
+  background-color: #e55a2b;
+  box-shadow: 0 4px 12px rgba(255, 107, 53, 0.35);
+}
+
+/* Deshabilitado */
+.user-option-btn:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+  transform: none !important;
+}
+
+/* Semicírculo amarillo con perro al fondo */
+.who-are-you-container::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  width: 100%;
+  height: 220px;
+  background-color: #ffffff;
+  border-radius: 50% 50% 0 0 / 100% 100% 0 0;
+  z-index: 1;
+  /* Subir imagen del perro aquí: */
+  /* Coloca la imagen en: padrino-app/public/images/dog-face-whoareyou.png */
+  /* Luego descomenta las siguientes líneas: */
+  /* background-image: url('/images/dog-face-whoareyou.png'); */
+  /* background-size: 160px auto; */
+  /* background-repeat: no-repeat; */
+  /* background-position: center bottom; */
+  /* padding-bottom: 20px; */
+}
+
+/* Tablet (481px - 768px) */
+@media (min-width: 481px) {
+  .who-are-you-content {
+    padding: 48px 32px 240px;
+  }
+
+  .who-are-you-content .app-logo h1::before {
+    font-size: 52px;
+  }
+
+  .who-are-you-content .welcome-section::before {
+    font-size: 28px;
+  }
+
+  .who-are-you-title h2 {
+    font-size: 26px;
+    font-weight: 300;
+  }
+
+  .user-options {
+    max-width: 380px;
+    gap: 20px;
+  }
+
+  .user-option-btn {
+    padding: 20px 40px;
+    font-size: 20px;
+    border-radius: 50px;
+  }
+
+  .who-are-you-container::after {
+    height: 280px;
+  }
+}
+
+/* Desktop (769px+) */
+@media (min-width: 769px) {
+  .who-are-you-content {
+    padding: 64px 40px 300px;
+  }
+
+  .who-are-you-content .app-logo h1::before {
+    font-size: 64px;
+  }
+
+  .who-are-you-content .welcome-section::before {
+    font-size: 32px;
+    margin-bottom: 16px;
+  }
+
+  .who-are-you-title h2 {
+    font-size: 30px;
+    font-weight: 300;
+  }
+
+  .user-options {
+    max-width: 420px;
+    gap: 24px;
+  }
+
+  .user-option-btn {
+    padding: 22px 48px;
+    font-size: 22px;
+    border-radius: 50px;
+  }
+
+  .who-are-you-container::after {
+    height: 320px;
+  }
+}
+
+/* Pantallas grandes (1024px+) */
+@media (min-width: 1024px) {
+  .who-are-you-content {
+    max-width: 500px;
+    padding: 80px 40px 350px;
+  }
+
+  .who-are-you-container::after {
+    height: 380px;
+  }
+}
+
+/* =============================================
+   LOGIN-SIGNUP CONTAINER - Mobile First
+   Pantallas: login-signup.js (padrino)
+   ============================================= */
+
+/* Contenedor principal - Mobile First (320px+) */
+.login-signup-container {
+  min-height: 100vh;
+  width: 100%;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 24px;
+  background-color: #ffffff;
+  overflow: hidden;
+}
+
+/* Sección de bienvenida */
+.login-signup-container .welcome-section {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 0;
+  margin-bottom: 0;
+}
+
+/* Logo contenedor */
+.login-signup-container .app-logo {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 48px;
+  width: 100%;
+}
+
+/* Logo - usar imagen logo.png */
+.login-signup-container .app-logo h1 {
+  font-size: 0;
+  font-weight: 900;
+  color: transparent;
+  margin: 0 auto;
+  padding: 0;
+  letter-spacing: 1px;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+  text-transform: uppercase;
+  position: relative;
+  display: block;
+  width: 200px;
+  height: 234px;
+  min-height: 234px;
+  background-image: url('/images/logo.png');
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-position: center;
+}
+
+/* Contenedor de opciones de autenticación */
+.login-signup-container .auth-options {
+  width: 100%;
+  max-width: 320px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 16px;
+  padding: 0;
+  margin: 0 auto;
+}
+
+/* Cards de autenticación */
+.login-signup-container .auth-card {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  background-color: transparent;
+  border: none;
+  padding: 0;
+  margin: 0;
+  box-shadow: none;
+  text-align: center;
+}
+
+/* Iconos de autenticación (ocultos en el diseño) */
+.login-signup-container .auth-card .auth-icon {
+  display: none;
+}
+
+/* Texto descriptivo de las cards (oculto en el diseño) */
+.login-signup-container .auth-card p {
+  display: none;
+}
+
+/* Botones de autenticación - Estilo pill-shaped naranja */
+.login-signup-container .auth-btn {
+  width: 100%;
+  padding: 18px 32px;
+  border: none;
+  border-radius: 50px;
+  font-size: 18px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  box-shadow: 0 2px 8px rgba(255, 107, 53, 0.25);
+  text-align: center;
+  letter-spacing: 0.5px;
+  position: relative;
+  overflow: hidden;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+  text-transform: none;
+}
+
+/* Botón Login - Naranja sólido */
+.login-signup-container .auth-btn.login-btn {
+  background-color: #ff6b35;
+  color: #ffffff;
+}
+
+.login-signup-container .auth-btn.login-btn:active {
+  background-color: #e55a2b;
+  transform: scale(0.98);
+}
+
+.login-signup-container .auth-btn.login-btn:hover {
+  background-color: #e55a2b;
+  box-shadow: 0 4px 12px rgba(255, 107, 53, 0.35);
+}
+
+/* Botón Sign Up - Naranja sólido (mismo estilo) */
+.login-signup-container .auth-btn.signup-btn {
+  background-color: #ff6b35;
+  color: #ffffff;
+}
+
+.login-signup-container .auth-btn.signup-btn:active {
+  background-color: #e55a2b;
+  transform: scale(0.98);
+}
+
+.login-signup-container .auth-btn.signup-btn:hover {
+  background-color: #e55a2b;
+  box-shadow: 0 4px 12px rgba(255, 107, 53, 0.35);
+}
+
+/* Botón deshabilitado */
+.login-signup-container .auth-btn:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+  transform: none !important;
+}
+
+/* Semicírculo amarillo eliminado - no se usa en login-signup */
+
+/* Tablet (481px - 768px) */
+@media (min-width: 481px) {
+  .login-signup-container {
+    padding: 32px;
+  }
+
+  .login-signup-container .app-logo {
+    margin-bottom: 56px;
+  }
+
+  .login-signup-container .app-logo h1 {
+    width: 260px;
+    height: 304px;
+    min-height: 304px;
+  }
+
+  .login-signup-container .auth-options {
+    max-width: 380px;
+    gap: 20px;
+    padding: 0;
+  }
+
+  .login-signup-container .auth-btn {
+    padding: 20px 40px;
+    font-size: 20px;
+  }
+}
+
+/* Desktop (769px+) */
+@media (min-width: 769px) {
+  .login-signup-container {
+    padding: 40px;
+  }
+
+  .login-signup-container .app-logo {
+    margin-bottom: 64px;
+  }
+
+  .login-signup-container .app-logo h1 {
+    width: 320px;
+    height: 374px;
+    min-height: 374px;
+  }
+
+  .login-signup-container .auth-options {
+    max-width: 420px;
+    gap: 24px;
+    padding: 0;
+  }
+
+  .login-signup-container .auth-btn {
+    padding: 22px 48px;
+    font-size: 22px;
+  }
+}
+
+/* Pantallas grandes (1024px+) */
+@media (min-width: 1024px) {
+  .login-signup-container {
+    max-width: 500px;
+    margin: 0 auto;
+    padding: 48px;
+  }
+
+  .login-signup-container .app-logo {
+    margin-bottom: 72px;
+  }
+}
+
+/* =============================================
+   LOGIN SCREEN - Diseño según imagen
+   Pantallas: render-login.js, login.html
+   Solo aplica cuando hay un #loginForm (solo en login, no en login-signup)
+   ============================================= */
+
+/* Contenedor principal del login - Solo cuando hay #loginForm (solo login screen) */
+.login-signup-container:has(#loginForm) {
+  background-color: #f5f5f5;
+  justify-content: flex-start;
+}
+
+/* Header con botón back - Solo cuando hay #loginForm (login) */
+.login-signup-container:has(#loginForm) .page-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 20px 20px 0;
+  margin-bottom: 0;
+  background-color: transparent;
+  width: 100%;
+  max-width: 100%;
+}
+
+/* Botón back - Circular blanco con flecha negra - Solo cuando hay #loginForm (login) */
+.login-signup-container:has(#loginForm) .back-btn {
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  background-color: #ffffff;
+  border: none;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  font-size: 0;
+  text-indent: -9999px;
+  overflow: hidden;
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  font-size: 20px;
+  color: #000000;
+  padding: 0;
+  margin: 0;
+  transition: all 0.2s ease;
+  flex-shrink: 0;
+}
+
+.login-signup-container:has(#loginForm) .back-btn::before {
+  content: '‹';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  font-size: 28px;
+  font-weight: 300;
+  color: #333333;
+  text-indent: 0;
+  line-height: 1;
+}
+
+.login-signup-container:has(#loginForm) .back-btn:hover {
+  transform: scale(1.05);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+.login-signup-container:has(#loginForm) .back-btn:active {
+  transform: scale(0.95);
+}
+
+/* Ocultar h1 del header (PetLink) - Solo cuando hay #loginForm (login) */
+.login-signup-container:has(#loginForm) .page-header h1 {
+  display: none;
+}
+
+/* Ocultar div vacío del header - Solo cuando hay #loginForm (login) */
+.login-signup-container:has(#loginForm) .page-header div {
+  display: none;
+}
+
+/* Contenedor de opciones de autenticación - Solo cuando hay #loginForm (login) */
+.login-signup-container:has(#loginForm) .auth-options {
+  width: 100%;
+  max-width: 100%;
+  padding: 32px 20px;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  flex: 1;
+}
+
+/* Card de autenticación - Solo cuando hay #loginForm (login) */
+.login-signup-container:has(#loginForm) .auth-card {
+  width: 100%;
+  background-color: transparent;
+  border: none;
+  padding: 0;
+  margin: 0;
+  box-shadow: none;
+  text-align: left;
+}
+
+/* Título del login - "Accede a tu Cuenta" - Solo cuando hay #loginForm (login) */
+.login-signup-container:has(#loginForm) .auth-card h2 {
+  font-size: 32px;
+  font-weight: 700;
+  color: transparent;
+  margin: 0 0 32px 0;
+  padding: 0;
+  line-height: 1.0; /* Line-height más compacto para acercar las líneas */
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+  position: relative;
+  height: auto;
+  min-height: 80px;
+  text-align: left; /* Alineado a la izquierda */
+  width: 100%;
+}
+
+/* Ocultar texto original y crear "Accede a tu" en negro - Solo cuando hay #loginForm (login) */
+.login-signup-container:has(#loginForm) .auth-card h2::before {
+  content: 'Accede a tu';
+  display: block;
+  color: #000000;
+  font-weight: 700;
+  font-size: 32px;
+  line-height: 1.0; /* Line-height compacto */
+  margin-bottom: -4px; /* Margen negativo para acercar más las líneas */
+}
+
+/* Crear "Cuenta" en naranja - Solo cuando hay #loginForm (login) */
+.login-signup-container:has(#loginForm) .auth-card h2::after {
+  content: 'Cuenta';
+  display: block;
+  color: #ff6b35;
+  font-weight: 700;
+  font-size: 32px;
+  line-height: 1.0; /* Line-height compacto */
+  margin-top: -2px; /* Margen negativo para acercar aún más */
+}
+
+/* Formulario - Solo cuando hay page-header (login) */
+.login-signup-container:has(#loginForm) .auth-card form {
+  width: 100%;
+  margin: 0;
+  padding: 0;
+}
+
+/* Grupos de formulario - Solo cuando hay page-header (login) */
+.login-signup-container:has(#loginForm) .auth-card .form-group {
+  margin-bottom: 20px;
+  position: relative;
+  width: 100%;
+}
+
+/* Labels ocultos - Solo cuando hay page-header (login) */
+.login-signup-container:has(#loginForm) .auth-card .form-group label {
+  display: none;
+}
+
+/* Contenedor de input con icono - Solo cuando hay page-header (login) */
+.login-signup-container:has(#loginForm) .auth-card .form-group {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+/* Inputs - Fondo blanco, bordes redondeados, sombra sutil - Solo cuando hay page-header (login) */
+.login-signup-container:has(#loginForm) .auth-card .form-group input {
+  width: 100%;
+  padding: 16px 50px 16px 50px;
+  border: none;
+  border-radius: 12px;
+  font-size: 16px;
+  background-color: #ffffff;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+  color: #333333;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+  box-sizing: border-box;
+  transition: all 0.2s ease;
+}
+
+/* Placeholder naranja - Solo cuando hay page-header (login) */
+.login-signup-container:has(#loginForm) .auth-card .form-group input::placeholder {
+  color: #ff6b35;
+  opacity: 1;
+  font-size: 16px;
+}
+
+/* Focus - borde naranja - Solo cuando hay page-header (login) */
+.login-signup-container:has(#loginForm) .auth-card .form-group input:focus {
+  outline: none;
+  box-shadow: 0 4px 12px rgba(255, 107, 53, 0.2);
+  border: 2px solid #ff6b35;
+  padding: 14px 48px 14px 48px;
+}
+
+/* Ajuste para input password con icono del ojo - Solo cuando hay page-header (login) */
+.login-signup-container:has(#loginForm) #password {
+  padding-right: 50px;
+}
+
+.login-signup-container:has(#loginForm) #password:focus {
+  padding-right: 48px;
+}
+
+/* Icono de usuario (input username) - Solo cuando hay page-header (login) */
+.login-signup-container:has(#loginForm) #username {
+  background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="%23ff6b35"><path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/></svg>');
+  background-repeat: no-repeat;
+  background-position: 16px center;
+  background-size: 24px 24px;
+}
+
+/* Icono de candado (input password) - Solo cuando hay page-header (login) */
+.login-signup-container:has(#loginForm) #password {
+  background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="%23ff6b35"><path d="M18 8h-1V6c0-2.76-2.24-5-5-5S7 3.24 7 6v2H6c-1.1 0-2 .9-2 2v10c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V10c0-1.1-.9-2-2-2zm-6 9c-1.1 0-2-.9-2-2s.9-2 2-2 2 .9 2 2-.9 2-2 2zm3.1-9H8.9V6c0-1.71 1.39-3.1 3.1-3.1 1.71 0 3.1 1.39 3.1 3.1v2z"/></svg>');
+  background-repeat: no-repeat;
+  background-position: 16px center;
+  background-size: 24px 24px;
+}
+
+/* Icono de ojo tachado (password visibility toggle) - Solo cuando hay page-header (login) */
+.login-signup-container:has(#loginForm) .form-group:last-of-type input[type="password"] {
+  background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="%23ff6b35"><path d="M12 7c2.76 0 5 2.24 5 5 0 .65-.13 1.26-.36 1.83l2.92 2.92c1.51-1.26 2.7-2.89 3.43-4.75-1.73-4.39-6-7.5-11-7.5-1.4 0-2.74.25-3.98.7l2.16 2.16C10.74 7.13 11.35 7 12 7zM2 4.27l2.28 2.28.46.46C3.08 8.3 1.78 10.02 1 12c1.73 4.39 6 7.5 11 7.5 1.55 0 3.03-.3 4.38-.84l.42.42L19.73 22 21 20.73 3.27 3 2 4.27zM7.53 9.8l1.55 1.55c-.05.21-.08.43-.08.65 0 1.66 1.34 3 3 3 .22 0 .44-.03.65-.08l1.55 1.55c-.67.33-1.41.53-2.2.53-2.76 0-5-2.24-5-5 0-.79.2-1.53.53-2.2zm4.31-.78l3.15 3.15.02-.16c0-1.66-1.34-3-3-3l-.17.01z"/></svg>'), url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="%23ff6b35"><path d="M18 8h-1V6c0-2.76-2.24-5-5-5S7 3.24 7 6v2H6c-1.1 0-2 .9-2 2v10c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V10c0-1.1-.9-2-2-2zm-6 9c-1.1 0-2-.9-2-2s.9-2 2-2 2 .9 2 2-.9 2-2 2zm3.1-9H8.9V6c0-1.71 1.39-3.1 3.1-3.1 1.71 0 3.1 1.39 3.1 3.1v2z"/></svg>');
+  background-position: right 16px center, left 16px center;
+  background-size: 24px 24px, 24px 24px;
+}
+
+/* Ajuste para cuando el input tiene focus y cambia padding - Solo cuando hay page-header (login) */
+.login-signup-container:has(#loginForm) .auth-card .form-group input:focus {
+  background-position: right 14px center, left 14px center;
+}
+
+/* Ajuste específico para password cuando tiene el icono del ojo - Solo cuando hay page-header (login) */
+.login-signup-container:has(#loginForm) #password:focus {
+  background-position: right 14px center, left 14px center;
+}
+
+/* Botones de acción - Solo cuando hay page-header (login) */
+.login-signup-container:has(#loginForm) .auth-card .action-buttons {
+  margin-top: 24px;
+  margin-bottom: 0;
+  width: 100%;
+}
+
+/* Botón Login - Grande, naranja con gradiente - Solo cuando hay page-header (login) */
+.login-signup-container:has(#loginForm) .auth-btn.login-btn {
+  width: 100%;
+  padding: 18px 32px;
+  border: none;
+  border-radius: 50px; /* Botón completamente redondeado (pill-shaped) */
+  font-size: 18px;
+  font-weight: 700;
+  color: #ffffff;
+  background: linear-gradient(135deg, #ff6b35 0%, #ff8535 100%);
+  cursor: pointer;
+  box-shadow: 0 4px 12px rgba(255, 107, 53, 0.3);
+  transition: all 0.2s ease;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+  text-transform: none;
+  letter-spacing: 0.5px;
+}
+
+.login-signup-container:has(#loginForm) .auth-btn.login-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 16px rgba(255, 107, 53, 0.4);
+  background: linear-gradient(135deg, #ff8535 0%, #ff6b35 100%);
+}
+
+.login-signup-container:has(#loginForm) .auth-btn.login-btn:active {
+  transform: translateY(0);
+  box-shadow: 0 2px 8px rgba(255, 107, 53, 0.3);
+}
+
+.login-signup-container:has(#loginForm) .auth-btn.login-btn:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+  transform: none;
+}
+
+/* Mensajes de error/success - Solo cuando hay page-header (login) */
+.login-signup-container:has(#loginForm) .messages-section {
+  margin-top: 16px;
+  width: 100%;
+}
+
+/* Sección de registro - Texto gris claro abajo - Solo cuando hay page-header (login) */
+.login-signup-container:has(#loginForm) .auth-card > div:last-of-type {
+  margin-top: 32px;
+  text-align: center;
+  width: 100%;
+}
+
+.login-signup-container:has(#loginForm) .auth-card > div:last-of-type small {
+  display: block;
+  font-size: 14px;
+  color: #999999;
+  margin-bottom: 12px;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+  font-weight: 400;
+}
+
+/* Botón "Crea una cuenta" - Estilo texto/link - Solo cuando hay page-header (login) */
+.login-signup-container:has(#loginForm) .auth-card > div:last-of-type .auth-btn.signup-btn {
+  background-color: transparent;
+  color: #999999;
+  border: none;
+  padding: 8px 16px;
+  font-size: 14px;
+  font-weight: 400;
+  box-shadow: none;
+  text-decoration: underline;
+  width: auto;
+  margin: 0 auto;
+}
+
+.login-signup-container:has(#loginForm) .auth-card > div:last-of-type .auth-btn.signup-btn:hover {
+  color: #ff6b35;
+  transform: none;
+  box-shadow: none;
+  background-color: transparent;
+}
+
+.login-signup-container:has(#loginForm) .auth-card > div:last-of-type .auth-btn.signup-btn:active {
+  transform: none;
+}
+
+/* Ocultar div interno de "Crea una cuenta" - Solo cuando hay page-header (login) */
+.login-signup-container:has(#loginForm) .auth-card > div:last-of-type > div {
+  margin: 0;
+}
+
+/* Tablet (481px - 768px) - Solo cuando hay page-header (login) */
+@media (min-width: 481px) {
+  .login-signup-container:has(#loginForm) .page-header {
+    padding: 24px 32px 0;
+  }
+
+  .login-signup-container:has(#loginForm) .back-btn {
+    width: 52px;
+    height: 52px;
+    font-size: 22px;
+  }
+
+  .login-signup-container:has(#loginForm) .auth-options {
+    padding: 40px 32px;
+    max-width: 480px;
+    margin: 0 auto;
+  }
+
+  .login-signup-container:has(#loginForm) .auth-card h2 {
+    font-size: 36px;
+    margin-bottom: 40px;
+    min-height: 90px;
+  }
+
+  .login-signup-container:has(#loginForm) .auth-card h2::before {
+    font-size: 36px;
+    margin-bottom: -4px; /* Mantener espacio compacto en tablet */
+  }
+
+  .login-signup-container:has(#loginForm) .auth-card h2::after {
+    font-size: 36px;
+    margin-top: -2px; /* Mantener espacio compacto en tablet */
+  }
+
+  .login-signup-container:has(#loginForm) .auth-card .form-group input {
+    padding: 18px 18px 18px 56px;
+    font-size: 17px;
+    border-radius: 14px;
+  }
+
+  .login-signup-container:has(#loginForm) .auth-card .form-group input:focus {
+    padding: 16px 16px 16px 54px;
+  }
+
+  .login-signup-container:has(#loginForm) #username {
+    background-position: 18px center;
+    background-size: 26px 26px;
+  }
+
+  .login-signup-container:has(#loginForm) #password {
+    background-position: right 18px center, left 18px center;
+    background-size: 26px 26px, 26px 26px;
+  }
+
+  .login-signup-container:has(#loginForm) .auth-btn.login-btn {
+    padding: 20px 40px;
+    font-size: 19px;
+    border-radius: 50px; /* Mantener botón redondeado en tablet */
+  }
+}
+
+/* Desktop (769px+) - Solo cuando hay page-header (login) */
+@media (min-width: 769px) {
+  .login-signup-container:has(#loginForm) .page-header {
+    padding: 32px 40px 0;
+  }
+
+  .login-signup-container:has(#loginForm) .back-btn {
+    width: 56px;
+    height: 56px;
+    font-size: 24px;
+  }
+
+  .login-signup-container:has(#loginForm) .auth-options {
+    padding: 48px 40px;
+    max-width: 520px;
+    margin: 0 auto;
+  }
+
+  .login-signup-container:has(#loginForm) .auth-card h2 {
+    font-size: 40px;
+    margin-bottom: 48px;
+    min-height: 100px;
+  }
+
+  .login-signup-container:has(#loginForm) .auth-card h2::before {
+    font-size: 40px;
+    margin-bottom: -4px; /* Mantener espacio compacto en desktop */
+  }
+
+  .login-signup-container:has(#loginForm) .auth-card h2::after {
+    font-size: 40px;
+    margin-top: -2px; /* Mantener espacio compacto en desktop */
+  }
+
+  .login-signup-container:has(#loginForm) .auth-card .form-group input {
+    padding: 20px 20px 20px 60px;
+    font-size: 18px;
+    border-radius: 16px;
+  }
+
+  .login-signup-container:has(#loginForm) .auth-card .form-group input:focus {
+    padding: 18px 18px 18px 58px;
+  }
+
+  .login-signup-container:has(#loginForm) #username {
+    background-position: 20px center;
+    background-size: 28px 28px;
+  }
+
+  .login-signup-container:has(#loginForm) #password {
+    background-position: right 20px center, left 20px center;
+    background-size: 28px 28px, 28px 28px;
+  }
+
+  .login-signup-container:has(#loginForm) .auth-btn.login-btn {
+    padding: 22px 48px;
+    font-size: 20px;
+    border-radius: 50px; /* Mantener botón redondeado en desktop */
+  }
+}
+
+/* Pantallas grandes (1024px+) - Solo cuando hay page-header (login) */
+@media (min-width: 1024px) {
+  .login-signup-container:has(#loginForm) {
+    max-width: 600px;
+    margin: 0 auto;
+  }
+
+  .login-signup-container:has(#loginForm) .page-header {
+    max-width: 600px;
+    margin: 0 auto;
+    padding: 40px 0 0;
+  }
+
+  .login-signup-container:has(#loginForm) .auth-options {
+    max-width: 100%;
+    padding: 56px 0;
+  }
+}
+
+/* =============================================
+   SIGNUP SCREEN (PADRINO) - Diseño según imagen
+   Pantallas: signup.js, render-signup.js, signup.html
+   Solo aplica cuando hay un #signupForm (solo en signup, no en otras pantallas)
+   ============================================= */
+
+/* Contenedor principal del signup - Solo cuando hay #signupForm (solo signup screen) */
+.login-signup-container:has(#signupForm) {
+  background-color: #f5f5f5; /* Fondo gris claro */
+  justify-content: flex-start;
+}
+
+/* Header con botón back - Solo cuando hay #signupForm (signup) */
+.login-signup-container:has(#signupForm) .page-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 20px 20px 0;
+  margin-bottom: 0;
+  background-color: transparent;
+  width: 100%;
+  max-width: 100%;
+}
+
+/* Botón back - Circular blanco con flecha negra - Solo cuando hay #signupForm (signup) */
+.login-signup-container:has(#signupForm) .back-btn {
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  background-color: #ffffff;
+  border: none;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  font-size: 0;
+  text-indent: -9999px;
+  overflow: hidden;
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  font-size: 18px;
+  color: #000000;
+  padding: 0;
+  margin: 0;
+  transition: all 0.2s ease;
+  flex-shrink: 0;
+}
+
+.login-signup-container:has(#signupForm) .back-btn::before {
+  content: '‹';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  font-size: 28px;
+  font-weight: 300;
+  color: #333333;
+  text-indent: 0;
+  line-height: 1;
+}
+
+.login-signup-container:has(#signupForm) .back-btn:hover {
+  transform: scale(1.05);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+.login-signup-container:has(#signupForm) .back-btn:active {
+  transform: scale(0.95);
+}
+
+/* Ocultar h1 del header (PetLink) - Solo cuando hay #signupForm (signup) */
+.login-signup-container:has(#signupForm) .page-header h1 {
+  display: none;
+}
+
+/* Ocultar div vacío del header - Solo cuando hay #signupForm (signup) */
+.login-signup-container:has(#signupForm) .page-header div {
+  display: none;
+}
+
+/* Contenedor de opciones de autenticación - Solo cuando hay #signupForm (signup) */
+.login-signup-container:has(#signupForm) .auth-options {
+  width: 100%;
+  max-width: 100%;
+  padding: 32px 20px;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  flex: 1;
+}
+
+/* Card de autenticación - Solo cuando hay #signupForm (signup) */
+.login-signup-container:has(#signupForm) .auth-card {
+  width: 100%;
+  background-color: transparent;
+  border: none;
+  padding: 0;
+  margin: 0;
+  box-shadow: none;
+  text-align: left; /* Alineado a la izquierda */
+}
+
+/* Título del signup - "Crea una cuenta" - Solo cuando hay #signupForm (signup) */
+.login-signup-container:has(#signupForm) .auth-card h2 {
+  font-size: 32px;
+  font-weight: 700;
+  color: transparent;
+  margin: 0 0 32px 0;
+  padding: 0;
+  line-height: 1.0; /* Line-height compacto para acercar las líneas */
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+  position: relative;
+  height: auto;
+  min-height: 60px;
+  text-align: left; /* Alineado a la izquierda */
+  width: 100%;
+}
+
+/* Crear "Crea una" en negro - Solo cuando hay #signupForm (signup) */
+.login-signup-container:has(#signupForm) .auth-card h2::before {
+  content: 'Crea una';
+  display: block;
+  color: #000000;
+  font-weight: 700;
+  font-size: 32px;
+  line-height: 1.0; /* Line-height compacto */
+  margin-bottom: -4px; /* Margen negativo para acercar más las líneas */
+}
+
+/* Crear "cuenta" en naranja - Solo cuando hay #signupForm (signup) */
+.login-signup-container:has(#signupForm) .auth-card h2::after {
+  content: 'cuenta';
+  display: block;
+  color: #ff6b35; /* Naranja */
+  font-weight: 700;
+  font-size: 32px;
+  line-height: 1.0; /* Line-height compacto */
+  margin-top: -2px; /* Margen negativo para acercar aún más */
+}
+
+/* Formulario - Solo cuando hay #signupForm (signup) */
+.login-signup-container:has(#signupForm) .auth-card form {
+  width: 100%;
+  margin: 0;
+  padding: 0;
+}
+
+/* Grupos de formulario - Solo cuando hay #signupForm (signup) */
+.login-signup-container:has(#signupForm) .auth-card .form-group {
+  margin-bottom: 20px;
+  position: relative;
+  width: 100%;
+  display: flex;
+  align-items: center;
+}
+
+/* Labels ocultos - Solo cuando hay #signupForm (signup) */
+.login-signup-container:has(#signupForm) .auth-card .form-group label {
+  display: none;
+}
+
+/* Inputs - Fondo blanco, bordes redondeados, sombra sutil - Solo cuando hay #signupForm (signup) */
+.login-signup-container:has(#signupForm) .auth-card .form-group input {
+  width: 100%;
+  padding: 16px 16px 16px 50px; /* Espacio para icono izquierdo */
+  border: none;
+  border-radius: 12px;
+  font-size: 16px;
+  background-color: #ffffff;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+  color: #333333;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+  box-sizing: border-box;
+  transition: all 0.2s ease;
+}
+
+/* Placeholder naranja - Solo cuando hay #signupForm (signup) */
+.login-signup-container:has(#signupForm) .auth-card .form-group input::placeholder {
+  color: #ff6b35; /* Naranja */
+  opacity: 1;
+  font-size: 16px;
+}
+
+/* Focus - borde naranja - Solo cuando hay #signupForm (signup) */
+.login-signup-container:has(#signupForm) .auth-card .form-group input:focus {
+  outline: none;
+  box-shadow: 0 4px 12px rgba(255, 107, 53, 0.2);
+  border: 2px solid #ff6b35;
+  padding: 14px 14px 14px 48px; /* Ajustar padding cuando hay borde */
+}
+
+/* Icono de usuario (input fullName) - Solo cuando hay #signupForm (signup) */
+.login-signup-container:has(#signupForm) #fullName {
+  background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="%23ff6b35"><path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/></svg>');
+  background-repeat: no-repeat;
+  background-position: 16px center;
+  background-size: 24px 24px;
+}
+
+/* Icono @ (input username) - Solo cuando hay #signupForm (signup) */
+.login-signup-container:has(#signupForm) #username {
+  background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="%23ff6b35"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 3c1.66 0 3 1.34 3 3s-1.34 3-3 3-3-1.34-3-3 1.34-3 3-3zm0 14.2c-2.5 0-4.71-1.28-6-3.22.03-1.99 4-3.08 6-3.08 1.99 0 5.97 1.09 6 3.08-1.29 1.94-3.5 3.22-6 3.22z"/></svg>');
+  background-repeat: no-repeat;
+  background-position: 16px center;
+  background-size: 24px 24px;
+}
+
+/* Icono de sobre/email (input email) - Solo cuando hay #signupForm (signup) */
+.login-signup-container:has(#signupForm) #email {
+  background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="%23ff6b35"><path d="M20 4H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z"/></svg>');
+  background-repeat: no-repeat;
+  background-position: 16px center;
+  background-size: 24px 24px;
+}
+
+/* Icono de teléfono (input phone) - Solo cuando hay #signupForm (signup) */
+.login-signup-container:has(#signupForm) #phone {
+  background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="%23ff6b35"><path d="M6.62 10.79c1.44 2.83 3.76 5.14 6.59 6.59l2.2-2.2c.27-.27.67-.36 1.02-.24 1.12.37 2.33.57 3.57.57.55 0 1 .45 1 1V20c0 .55-.45 1-1 1-9.39 0-17-7.61-17-17 0-.55.45-1 1-1h3.5c.55 0 1 .45 1 1 0 1.25.2 2.45.57 3.57.11.35.03.74-.25 1.02l-2.2 2.2z"/></svg>');
+  background-repeat: no-repeat;
+  background-position: 16px center;
+  background-size: 24px 24px;
+}
+
+/* Icono de candado (input password) - Solo cuando hay #signupForm (signup) */
+.login-signup-container:has(#signupForm) #password {
+  background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="%23ff6b35"><path d="M18 8h-1V6c0-2.76-2.24-5-5-5S7 3.24 7 6v2H6c-1.1 0-2 .9-2 2v10c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V10c0-1.1-.9-2-2-2zm-6 9c-1.1 0-2-.9-2-2s.9-2 2-2 2 .9 2 2-.9 2-2 2zm3.1-9H8.9V6c0-1.71 1.39-3.1 3.1-3.1 1.71 0 3.1 1.39 3.1 3.1v2z"/></svg>');
+  background-repeat: no-repeat;
+  background-position: 16px center;
+  background-size: 24px 24px;
+}
+
+/* Ajuste para cuando el input tiene focus y cambia padding - Solo cuando hay #signupForm (signup) */
+.login-signup-container:has(#signupForm) .auth-card .form-group input:focus {
+  background-position: 14px center, 14px center;
+}
+
+/* Botones de acción - Solo cuando hay #signupForm (signup) */
+.login-signup-container:has(#signupForm) .auth-card .action-buttons {
+  margin-top: 24px;
+  margin-bottom: 0;
+  width: 100%;
+}
+
+/* Botón Register - Grande, naranja pill-shaped - Solo cuando hay #signupForm (signup) */
+.login-signup-container:has(#signupForm) .auth-btn.signup-btn {
+  width: 100%;
+  padding: 18px 32px;
+  border: none;
+  border-radius: 50px; /* Botón completamente redondeado (pill-shaped) */
+  font-size: 18px;
+  font-weight: 700;
+  color: #ffffff;
+  background: linear-gradient(135deg, #ff6b35 0%, #ff8535 100%);
+  cursor: pointer;
+  box-shadow: 0 4px 12px rgba(255, 107, 53, 0.3);
+  transition: all 0.2s ease;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+  text-transform: none;
+  letter-spacing: 0.5px;
+}
+
+.login-signup-container:has(#signupForm) .auth-btn.signup-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 16px rgba(255, 107, 53, 0.4);
+  background: linear-gradient(135deg, #ff8535 0%, #ff6b35 100%);
+}
+
+.login-signup-container:has(#signupForm) .auth-btn.signup-btn:active {
+  transform: translateY(0);
+  box-shadow: 0 2px 8px rgba(255, 107, 53, 0.3);
+}
+
+.login-signup-container:has(#signupForm) .auth-btn.signup-btn:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+  transform: none;
+}
+
+/* Mensajes de error/success - Solo cuando hay #signupForm (signup) */
+.login-signup-container:has(#signupForm) .messages-section {
+  margin-top: 16px;
+  width: 100%;
+}
+
+/* Sección de login link - "Ya tienes una cuenta?" - Solo cuando hay #signupForm (signup) */
+.login-signup-container:has(#signupForm) .auth-card > div:last-of-type {
+  margin-top: 32px;
+  text-align: center;
+  width: 100%;
+}
+
+.login-signup-container:has(#signupForm) .auth-card > div:last-of-type small {
+  display: block;
+  font-size: 14px;
+  color: #999999; /* Gris claro */
+  margin-bottom: 8px;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+  font-weight: 400;
+}
+
+/* Botón "Accede a tu cuenta" - Estilo texto/link - Solo cuando hay #signupForm (signup) */
+.login-signup-container:has(#signupForm) .auth-card > div:last-of-type .auth-btn.login-btn {
+  background-color: transparent;
+  color: #999999; /* Gris claro */
+  border: none;
+  padding: 0;
+  font-size: 14px; /* Mismo tamaño que "¿Ya tienes cuenta?" */
+  font-weight: 400; /* Regular/light en lugar de bold */
+  box-shadow: none;
+  text-decoration: underline;
+  width: auto;
+  margin: 0 auto;
+  cursor: pointer;
+}
+
+.login-signup-container:has(#signupForm) .auth-card > div:last-of-type .auth-btn.login-btn:hover {
+  color: #666666;
+  transform: none;
+  box-shadow: none;
+  background-color: transparent;
+}
+
+.login-signup-container:has(#signupForm) .auth-card > div:last-of-type .auth-btn.login-btn:active {
+  transform: none;
+}
+
+/* Ocultar div interno de "Accede a tu cuenta" - Solo cuando hay #signupForm (signup) */
+.login-signup-container:has(#signupForm) .auth-card > div:last-of-type > div {
+  margin: 0;
+}
+
+/* Tablet (481px - 768px) - Solo cuando hay #signupForm (signup) */
+@media (min-width: 481px) {
+  .login-signup-container:has(#signupForm) .page-header {
+    padding: 24px 32px 0;
+  }
+
+  .login-signup-container:has(#signupForm) .back-btn {
+    width: 44px;
+    height: 44px;
+    font-size: 20px;
+  }
+
+  .login-signup-container:has(#signupForm) .auth-options {
+    padding: 48px 32px;
+    max-width: 480px; /* Centrado */
+    margin: 0 auto;
+  }
+
+  .login-signup-container:has(#signupForm) .auth-card h2 {
+    font-size: 36px;
+    margin-bottom: 40px;
+    min-height: 70px;
+  }
+
+  .login-signup-container:has(#signupForm) .auth-card h2::before {
+    font-size: 36px;
+    margin-bottom: -4px; /* Mantener espacio compacto en tablet */
+  }
+
+  .login-signup-container:has(#signupForm) .auth-card h2::after {
+    font-size: 36px;
+    margin-top: -2px; /* Mantener espacio compacto en tablet */
+  }
+
+  .login-signup-container:has(#signupForm) .auth-card .form-group input {
+    padding: 18px 18px 18px 55px;
+    font-size: 17px;
+    border-radius: 14px;
+  }
+
+  .login-signup-container:has(#signupForm) .auth-card .form-group input:focus {
+    padding: 16px 16px 16px 53px;
+  }
+
+  .login-signup-container:has(#signupForm) #fullName,
+  .login-signup-container:has(#signupForm) #username,
+  .login-signup-container:has(#signupForm) #email,
+  .login-signup-container:has(#signupForm) #phone,
+  .login-signup-container:has(#signupForm) #password {
+    background-position: 18px center;
+    background-size: 26px 26px;
+  }
+
+  .login-signup-container:has(#signupForm) .auth-btn.signup-btn {
+    padding: 20px 40px;
+    font-size: 20px;
+    border-radius: 50px; /* Mantener botón redondeado en tablet */
+  }
+
+  .login-signup-container:has(#signupForm) .auth-card > div:last-of-type small {
+    font-size: 15px;
+  }
+
+  .login-signup-container:has(#signupForm) .auth-card > div:last-of-type .auth-btn.login-btn {
+    font-size: 15px; /* Mismo tamaño que "¿Ya tienes cuenta?" en tablet */
+  }
+}
+
+/* Desktop (769px+) - Solo cuando hay #signupForm (signup) */
+@media (min-width: 769px) {
+  .login-signup-container:has(#signupForm) .page-header {
+    padding: 32px 40px 0;
+  }
+
+  .login-signup-container:has(#signupForm) .back-btn {
+    width: 48px;
+    height: 48px;
+    font-size: 22px;
+  }
+
+  .login-signup-container:has(#signupForm) .auth-options {
+    padding: 64px 40px;
+    max-width: 520px; /* Centrado */
+  }
+
+  .login-signup-container:has(#signupForm) .auth-card h2 {
+    font-size: 40px;
+    margin-bottom: 48px;
+    min-height: 80px;
+  }
+
+  .login-signup-container:has(#signupForm) .auth-card h2::before {
+    font-size: 40px;
+    margin-bottom: -4px; /* Mantener espacio compacto en desktop */
+  }
+
+  .login-signup-container:has(#signupForm) .auth-card h2::after {
+    font-size: 40px;
+    margin-top: -2px; /* Mantener espacio compacto en desktop */
+  }
+
+  .login-signup-container:has(#signupForm) .auth-card .form-group input {
+    padding: 20px 20px 20px 60px;
+    font-size: 18px;
+    border-radius: 16px;
+  }
+
+  .login-signup-container:has(#signupForm) .auth-card .form-group input:focus {
+    padding: 18px 18px 18px 58px;
+  }
+
+  .login-signup-container:has(#signupForm) #fullName,
+  .login-signup-container:has(#signupForm) #username,
+  .login-signup-container:has(#signupForm) #email,
+  .login-signup-container:has(#signupForm) #phone,
+  .login-signup-container:has(#signupForm) #password {
+    background-position: 20px center;
+    background-size: 28px 28px;
+  }
+
+  .login-signup-container:has(#signupForm) .auth-btn.signup-btn {
+    padding: 22px 48px;
+    font-size: 22px;
+    border-radius: 50px; /* Mantener botón redondeado en desktop */
+  }
+
+  .login-signup-container:has(#signupForm) .auth-card > div:last-of-type small {
+    font-size: 16px;
+  }
+
+  .login-signup-container:has(#signupForm) .auth-card > div:last-of-type .auth-btn.login-btn {
+    font-size: 16px; /* Mismo tamaño que "¿Ya tienes cuenta?" en desktop */
+  }
+}
+
+/* Pantallas grandes (1024px+) - Solo cuando hay #signupForm (signup) */
+@media (min-width: 1024px) {
+  .login-signup-container:has(#signupForm) {
+    max-width: 600px;
+    margin: 0 auto;
+  }
+
+  .login-signup-container:has(#signupForm) .page-header {
+    max-width: 600px;
+    margin: 0 auto;
+    padding: 40px 0 0;
+  }
+
+  .login-signup-container:has(#signupForm) .auth-options {
+    max-width: 100%;
+    padding: 80px 50px;
   }
 }

@@ -9,6 +9,12 @@ export default function renderAdminSignup() {
   
   app.innerHTML = `
     <div class="signup-container">
+      <header class="page-header" style="width:100%; max-width:800px;">
+        <button id="backBtn" class="back-btn">← Volver</button>
+        <h1 style="margin:0 auto;">PetLink</h1>
+        <div style="width:80px;"></div>
+      </header>
+
       <div class="signup-form">
         <h1>Registro de Administrador</h1>
         
@@ -83,12 +89,20 @@ export default function renderAdminSignup() {
           
           <div class="form-actions">
             <button type="submit" id="signupBtn">Registrar</button>
-            <button type="button" id="loginBtn">Accede a tu cuenta</button>
           </div>
         </form>
         
-        <div id="errorMessage" class="error-message" style="display: none;"></div>
-        <div id="successMessage" class="success-message" style="display: none;"></div>
+        <div class="messages-section" style="margin-top:12px;">
+          <div id="errorMessage" class="error-message" style="display:none;"></div>
+          <div id="successMessage" class="success-message" style="display:none;"></div>
+        </div>
+
+        <div style="margin-top:16px; text-align:center;">
+          <small>¿Ya tienes cuenta?</small>
+          <div style="margin-top:8px;">
+            <button type="button" id="loginBtn" style="padding:10px 16px; width:auto;">Accede a tu cuenta</button>
+          </div>
+        </div>
       </div>
     </div>
   `;
@@ -99,12 +113,20 @@ export default function renderAdminSignup() {
 function setupEventListeners() {
   const signupForm = document.getElementById('signupForm');
   const loginBtn = document.getElementById('loginBtn');
+  const backBtn = document.getElementById('backBtn');
   
   // Formulario de registro
   signupForm.addEventListener('submit', handleSignup);
   
   // click botón de login
   loginBtn.addEventListener('click', handleLogin);
+  
+  // click botón de volver
+  if (backBtn) {
+    backBtn.addEventListener('click', () => {
+      router.navigateTo('/admin-login-signup');
+    });
+  }
   
   // validación
   setupRealTimeValidation();

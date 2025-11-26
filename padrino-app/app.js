@@ -1,6 +1,9 @@
 // Este es el CEREBRO de la aplicacion (conecta todo)
 
 import router from './utils/router.js';
+import renderLoginSignup from './screens/login-signup.js';
+import renderLogin from './screens/render-login.js';
+import renderSignup from './screens/render-signup.js';
 import { renderHome } from './screens/home.js';
 import { renderDogProfile } from './screens/dog-profile.js';
 import { renderNeedDetail } from './screens/need-detail.js';
@@ -13,8 +16,18 @@ import { renderGallery } from './screens/gallery.js';
 
 // Configurar las rutas
 function setupRoutes() {
+  // Ruta por defecto - Pantalla inicial login-signup
+  router.addRoute('/', renderLoginSignup);
+  
+  // Ruta de login-signup para padrinos
+  router.addRoute('/login-signup', renderLoginSignup);
+  
+  // Rutas de autenticación
+  router.addRoute('/login', renderLogin);
+  router.addRoute('/signup', renderSignup);
+  
   // Ruta del HOME
-  router.addRoute('/', renderHome);
+  router.addRoute('/home', renderHome);
   
   // Ruta del perfil del perro
   router.addRoute('/dog/:id', (params) => {

@@ -318,27 +318,518 @@ textarea {
    GESTIÓN DE PERROS
    ============================================= */
 
+/* =============================================
+   DOG-MANAGEMENT - Estilo según imagen
+   Pantalla: dog-management.js
+   ============================================= */
+
 .dog-management-container {
-  padding: 20px;
+  padding: 0;
+  min-height: 100vh;
+  background-color: #f5f5f5;
+  display: flex;
+  flex-direction: column;
 }
 
-/* Ocultar información extra en dog-management - solo mostrar nombre y edad */
+/* Header naranja con logo */
+.dog-management-container .page-header {
+  width: 100%;
+  background-color: #ff6b35; /* Naranja */
+  padding: 16px 20px;
+  margin: 0;
+  position: relative;
+  z-index: 10;
+  min-height: 80px;
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+}
+
+/* Logo blanco en el header */
+.dog-management-container .page-header::before {
+  content: '';
+  display: block;
+  width: 56px;
+  height: 56px;
+  background-image: url('/images/logo.png');
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-position: center;
+  margin-right: 12px;
+  filter: brightness(0) invert(1); /* Convertir logo a blanco */
+  transition: all 0.3s ease;
+  flex-shrink: 0;
+}
+
+/* Ocultar h1 original del header */
+.dog-management-container .page-header h1 {
+  display: none;
+}
+
+/* Ocultar botón y título del header */
+.dog-management-container .page-header .back-btn {
+  display: none;
+}
+
+.dog-management-container .page-header h1 {
+  display: none;
+}
+
+/* Contenido principal */
+.dog-management-container .management-content {
+  flex: 1;
+  padding: 20px;
+  padding-top: 20px;
+  position: relative;
+  z-index: 1;
+  background-color: #f5f5f5;
+}
+
+/* Sección de título y botón de volver - Debajo del header */
+.dog-management-container .management-content::before {
+  content: '';
+  display: block;
+  margin-bottom: 20px;
+}
+
+/* Botón back - Circular blanco debajo del header */
+.dog-management-container .management-content .back-btn {
+  position: relative;
+  width: 40px;
+  height: 40px;
+  background-color: #ffffff;
+  border: 1px solid #e0e0e0;
+  border-radius: 50%;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 20px;
+  color: #333333;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  z-index: 100;
+  cursor: pointer;
+  line-height: 1;
+  padding: 0;
+  margin: 0;
+  margin-right: 12px;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+  transition: all 0.2s ease;
+  text-indent: -9999px;
+  overflow: visible;
+  flex-shrink: 0;
+  vertical-align: middle;
+  pointer-events: auto !important;
+  user-select: none;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+}
+
+.dog-management-container .management-content .back-btn::before {
+  content: '←';
+  text-indent: 0;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  font-size: 20px;
+  color: #333333;
+  pointer-events: none;
+}
+
+.dog-management-container .management-content .back-btn:hover {
+  transform: scale(1.05);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+.dog-management-container .management-content .back-btn:active {
+  transform: scale(0.95);
+}
+
+/* Título "Editar mascotas" al lado del botón */
+.dog-management-container .title-section {
+  display: flex;
+  align-items: center;
+  margin-bottom: 20px;
+  gap: 12px;
+  position: relative;
+  z-index: 10;
+}
+
+.dog-management-container .title-section .title-text {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.dog-management-container .title-section .title-text .title-part1 {
+  font-size: 24px;
+  font-weight: 700;
+  color: #ff6b35;
+}
+
+.dog-management-container .title-section .title-text .title-part2 {
+  font-size: 24px;
+  font-weight: 700;
+  color: #000000;
+}
+
+/* Sección de búsqueda */
+.dog-management-container .search-section {
+  margin-bottom: 20px;
+  margin-top: 0;
+}
+
+.dog-management-container .search-container {
+  position: relative;
+  display: flex;
+  align-items: center;
+  width: 100%;
+}
+
+.dog-management-container .search-input {
+  width: 100%;
+  padding: 14px 16px 14px 45px;
+  border: 1px solid #e0e0e0;
+  border-radius: 25px;
+  font-size: 15px;
+  font-weight: 400;
+  color: #000000;
+  background-color: #ffffff;
+  box-sizing: border-box;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+  transition: all 0.2s ease;
+  padding-right: 80px;
+}
+
+.dog-management-container .search-input:focus {
+  outline: none;
+  border-color: #ff6b35;
+  box-shadow: 0 0 0 2px rgba(255, 107, 53, 0.1);
+}
+
+.dog-management-container .search-input::placeholder {
+  color: #999999;
+}
+
+/* Icono de lupa naranja */
+.dog-management-container .search-container::before {
+  content: '';
+  position: absolute;
+  left: 16px;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 20px;
+  height: 20px;
+  z-index: 1;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='%23ff6b35' viewBox='0 0 24 24'%3E%3Cpath d='M15.5 14h-.79l-.28-.27A6.471 6.471 0 0 0 16 9.5 6.5 6.5 0 1 0 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z'/%3E%3C/svg%3E");
+  background-size: contain;
+  background-repeat: no-repeat;
+}
+
+/* Botón Limpiar */
+.dog-management-container .clear-search-btn {
+  position: absolute;
+  right: 12px;
+  top: 50%;
+  transform: translateY(-50%);
+  background: none;
+  border: none;
+  color: #666666;
+  font-size: 14px;
+  font-weight: 400;
+  cursor: pointer;
+  padding: 4px 8px;
+  z-index: 2;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+  transition: color 0.2s ease;
+}
+
+.dog-management-container .clear-search-btn:hover {
+  color: #ff6b35;
+}
+
+/* Sección de filtros */
+.dog-management-container .filters-section {
+  margin-bottom: 24px;
+}
+
+.dog-management-container .filter-buttons {
+  display: flex;
+  gap: 12px;
+  flex-wrap: nowrap;
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: none; /* Firefox */
+  -ms-overflow-style: none; /* IE/Edge */
+}
+
+.dog-management-container .filter-buttons::-webkit-scrollbar {
+  display: none; /* Chrome/Safari */
+}
+
+.dog-management-container .filter-btn {
+  padding: 10px 20px;
+  border: none;
+  border-radius: 20px;
+  font-size: 14px;
+  font-weight: 500;
+  color: #000000;
+  background-color: #ffeb3b; /* Amarillo más intenso como en la imagen */
+  cursor: pointer;
+  transition: all 0.2s ease;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+
+.dog-management-container .filter-btn:hover {
+  background-color: #ffd700;
+  transform: translateY(-1px);
+}
+
+.dog-management-container .filter-btn.active {
+  background-color: #ffd700; /* Amarillo más oscuro para el activo */
+  font-weight: 600;
+}
+
+/* Lista de perros */
+.dog-management-container .dogs-section {
+  margin-top: 0;
+}
+
+.dog-management-container .dogs-list {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+/* Cards de perros */
+.dog-management-container .dog-card {
+  background-color: #ffffff;
+  border-radius: 16px;
+  padding: 16px;
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+  transition: all 0.2s ease;
+}
+
+.dog-management-container .dog-card:hover {
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  transform: translateY(-2px);
+}
+
+.dog-management-container .card-header {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  flex: 1;
+}
+
+/* Imagen circular del perro */
+.dog-management-container .dog-image {
+  width: 80px;
+  height: 80px;
+  border-radius: 50%;
+  overflow: hidden;
+  flex-shrink: 0;
+  background-color: #f5f5f5;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.dog-management-container .dog-image img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 50%;
+}
+
+.dog-management-container .dog-image .no-image {
+  font-size: 40px;
+  color: #cccccc;
+}
+
+/* Información del perro */
+.dog-management-container .dog-info {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+/* "Mi nombre es" encima del nombre */
+.dog-management-container .dog-info h3::before {
+  content: 'Mi nombre es';
+  font-size: 14px;
+  font-weight: 700;
+  color: #000000;
+  display: block;
+  text-transform: none;
+  margin-bottom: 2px;
+}
+
+/* Nombre del perro en naranja y mayúsculas */
+.dog-management-container .dog-info h3 {
+  font-size: 18px;
+  font-weight: 700;
+  color: #ff6b35;
+  text-transform: uppercase;
+  margin: 0;
+  line-height: 1.2;
+}
+
+/* Edad del perro */
+.dog-management-container .dog-age {
+  font-size: 14px;
+  font-weight: 400;
+  color: #000000;
+  margin: 0;
+  margin-top: 2px;
+  line-height: 1.4;
+}
+
+/* Ocultar donaciones en las cards */
 .dog-management-container .donation-count {
   display: none !important;
 }
 
+/* Ocultar card-body */
 .dog-management-container .card-body {
   display: none !important;
 }
 
-.dog-management-container .dog-info h3 {
-  font-size: 16px;
-  margin-bottom: 4px;
+/* Botón Editar */
+.dog-management-container .card-actions {
+  display: flex;
+  align-items: center;
 }
 
-.dog-management-container .dog-age {
-  font-size: 13px;
-  color: #666;
+.dog-management-container .edit-btn {
+  padding: 10px 24px;
+  background-color: #ff6b35;
+  color: #ffffff;
+  border: none;
+  border-radius: 12px;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+}
+
+.dog-management-container .edit-btn:hover {
+  background-color: #ff5722;
+  transform: translateY(-1px);
+  box-shadow: 0 2px 8px rgba(255, 107, 53, 0.3);
+}
+
+.dog-management-container .edit-btn:active {
+  transform: translateY(0);
+}
+
+/* Mensajes */
+.dog-management-container .messages-section {
+  margin-top: 20px;
+}
+
+.dog-management-container .success-message,
+.dog-management-container .error-message {
+  padding: 12px 16px;
+  border-radius: 8px;
+  font-size: 14px;
+  margin-bottom: 12px;
+}
+
+.dog-management-container .success-message {
+  background-color: #d4edda;
+  color: #155724;
+  border: 1px solid #c3e6cb;
+}
+
+.dog-management-container .error-message {
+  background-color: #f8d7da;
+  color: #721c24;
+  border: 1px solid #f5c6cb;
+}
+
+.dog-management-container .loading-message,
+.dog-management-container .no-dogs {
+  text-align: center;
+  padding: 40px 20px;
+  color: #666666;
+  font-size: 16px;
+}
+
+/* Responsive - Tablet (min-width: 481px) */
+@media (min-width: 481px) {
+  .dog-management-container .page-header {
+    padding: 20px 24px;
+  }
+
+  .dog-management-container .management-content .back-btn {
+    width: 44px;
+    height: 44px;
+    font-size: 22px;
+  }
+
+  .dog-management-container .title-section .title-part1,
+  .dog-management-container .title-section .title-part2 {
+    font-size: 28px;
+  }
+
+  .dog-management-container .management-content {
+    padding: 24px;
+    padding-top: 20px;
+  }
+
+  .dog-management-container .dog-image {
+    width: 100px;
+    height: 100px;
+  }
+}
+
+/* Responsive - Desktop (min-width: 769px) */
+@media (min-width: 769px) {
+  .dog-management-container {
+    max-width: 600px;
+    margin: 0 auto;
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+  }
+
+  .dog-management-container .page-header {
+    padding: 24px 30px;
+  }
+
+  .dog-management-container .management-content .back-btn {
+    width: 48px;
+    height: 48px;
+    font-size: 24px;
+  }
+
+  .dog-management-container .title-section .title-part1,
+  .dog-management-container .title-section .title-part2 {
+    font-size: 32px;
+  }
+
+  .dog-management-container .management-content {
+    padding: 30px;
+    padding-top: 20px;
+  }
+
+  .dog-management-container .dog-image {
+    width: 120px;
+    height: 120px;
+  }
+}
+
+/* Responsive - Desktop Large (min-width: 1024px) */
+@media (min-width: 1024px) {
+  .dog-management-container {
+    max-width: 700px;
+  }
 }
 
 .page-header {
@@ -347,21 +838,41 @@ textarea {
 
 .btn-back,
 .back-btn {
-  background-color: transparent;
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  background-color: #ffffff;
   border: none;
-  font-size: 16px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
   cursor: pointer;
-  margin-bottom: 20px;
-  color: #666;
-  padding: 0;
   display: inline-flex;
   align-items: center;
-  gap: 5px;
+  justify-content: center;
+  padding: 0;
+  margin-bottom: 20px;
+  transition: box-shadow 0.2s ease;
+}
+
+.btn-back::before,
+.back-btn::before {
+  content: '‹';
+  font-size: 28px;
+  font-weight: 300;
+  color: #333;
+  line-height: 1;
 }
 
 .btn-back:hover,
 .back-btn:hover {
-  color: #333;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+/* Ocultar el texto dentro del botón, solo mostrar el ícono */
+.btn-back span,
+.back-btn span,
+.btn-back svg,
+.back-btn svg {
+  display: none;
 }
 
 .page-header h1 {
@@ -470,430 +981,510 @@ textarea {
    ============================================= */
 
 .dog-profile-container {
-  padding: 20px;
+  padding: 0;
+  min-height: 100vh;
+  background-color: #ffffff;
 }
 
-.dog-details-section {
-  margin-bottom: 30px;
+/* Header con botón volver */
+.dog-profile-container .page-header {
+  position: absolute;
+  top: 20px;
+  left: 20px;
+  z-index: 100;
 }
 
-/* Imagen del perro en perfil - RECTANGULAR */
-.dog-profile-container .dog-image,
-.dog-info-section .dog-image {
-  width: 100% !important;
-  max-width: 100% !important;
-  height: 250px !important;
-  border-radius: 15px !important;
-  overflow: hidden;
-  background-color: #f5f5f5;
-  margin-bottom: 20px;
+.dog-profile-container .page-header h1 {
+  display: none;
+}
+
+.dog-profile-container .page-header .back-btn {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background-color: #ffffff;
+  border: none;
   display: flex;
   align-items: center;
   justify-content: center;
-  flex-shrink: 0;
+  cursor: pointer;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  font-size: 0;
+  color: transparent;
+  position: relative;
 }
 
-.dog-profile-container .dog-image img,
-.dog-info-section .dog-image img {
-  width: 100% !important;
-  height: 100% !important;
-  max-width: 100% !important;
-  max-height: 100% !important;
-  object-fit: cover;
-  border-radius: 0 !important;
-}
-
-.dog-profile-container .dog-image #dogImage,
-.dog-info-section .dog-image #dogImage {
-  width: 100%;
-  height: 100%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-.dog-profile-container .dog-image #dogImage img,
-.dog-info-section .dog-image #dogImage img {
-  width: 100% !important;
-  height: 100% !important;
-  border-radius: 0 !important;
-  object-fit: cover;
-}
-
-.dog-image-container {
-  width: 100%;
-  height: 300px;
-  border-radius: 10px;
-  overflow: hidden;
-  margin-bottom: 20px;
-  background-color: #f5f5f5;
-}
-
-.dog-profile-image {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-}
-
-.no-image-placeholder {
-  width: 100%;
-  height: 100%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 80px;
-  background-color: #ff6b35;
-}
-
-.dog-info-main h2 {
-  font-size: 32px;
-  color: #ff6b35;
-  margin-bottom: 15px;
-}
-
-.dog-info-main p {
-  font-size: 16px;
-  color: #666;
-  margin-bottom: 10px;
-  line-height: 1.6;
-}
-
-.dog-info-main strong {
-  color: #333;
-}
-
-/* Necesidades */
-
-.needs-section {
-  margin-bottom: 30px;
-}
-
-.section-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-bottom: 20px;
-}
-
-.section-header h2 {
+.dog-profile-container .page-header .back-btn::before {
+  content: '‹';
   font-size: 24px;
-  color: #333;
+  color: #333333;
+  position: absolute;
 }
 
-.add-btn {
-  padding: 12px 24px;
-  background-color: #4CAF50;
-  color: white;
-  border: none;
-  border-radius: 10px;
-  font-size: 15px;
-  font-weight: bold;
-  cursor: pointer;
-  box-shadow: 0 2px 8px rgba(76, 175, 80, 0.3);
-  transition: all 0.3s ease;
-  display: inline-flex;
-  align-items: center;
-  gap: 8px;
-}
-
-.add-btn:hover {
-  background-color: #45a049;
-  transform: translateY(-2px);
-  box-shadow: 0 4px 12px rgba(76, 175, 80, 0.4);
-}
-
-.add-btn:active {
-  transform: translateY(0);
-  box-shadow: 0 2px 6px rgba(76, 175, 80, 0.3);
-}
-
-.add-btn::before {
-  content: '+';
-  font-size: 20px;
-  font-weight: bold;
-  line-height: 1;
-}
-
-/* Botón "Agregar artículo" / "Añadir Necesidad" */
-.add-need-btn {
-  padding: 12px 24px;
-  background-color: #4CAF50;
-  color: white;
-  border: none;
-  border-radius: 10px;
-  font-size: 15px;
-  font-weight: bold;
-  cursor: pointer;
-  box-shadow: 0 2px 8px rgba(76, 175, 80, 0.3);
-  transition: all 0.3s ease;
-  display: inline-flex;
-  align-items: center;
-  gap: 8px;
-}
-
-.add-need-btn:hover {
-  background-color: #45a049;
-  transform: translateY(-2px);
-  box-shadow: 0 4px 12px rgba(76, 175, 80, 0.4);
-}
-
-.add-need-btn:active {
-  transform: translateY(0);
-  box-shadow: 0 2px 6px rgba(76, 175, 80, 0.3);
-}
-
-.add-need-btn::before {
-  content: '+';
-  font-size: 20px;
-  font-weight: bold;
-  line-height: 1;
-}
-
-.needs-list {
+/* Contenido principal */
+.dog-profile-container .profile-content {
   display: flex;
   flex-direction: column;
-  gap: 15px;
+  background-color: #ffffff;
 }
 
-.need-card {
+/* Sección de info del perro */
+.dog-profile-container .dog-info-section {
   display: flex;
   flex-direction: column;
-  gap: 10px;
-  padding: 15px;
-  background-color: white;
-  border: 1px solid #e0e0e0;
-  border-radius: 10px;
-  transition: transform 0.2s, box-shadow 0.2s;
 }
 
-.need-card:hover {
-  transform: scale(1.02);
-  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+/* Header del perro con imagen - Rectangular que cubre todo el fondo */
+.dog-profile-container .dog-header {
+  position: relative;
 }
 
-.need-card .card-header {
-  display: flex;
-  gap: 12px;
-  align-items: center;
+.dog-profile-container .dog-image {
+  width: 100% !important;
+  height: 350px !important;
+  min-height: 350px !important;
+  overflow: hidden !important;
+  background-color: #cccccc !important;
+  border-radius: 0 !important;
+  position: relative !important;
+  display: block !important;
 }
 
-.need-card .need-info {
-  flex: 1;
+.dog-profile-container .dog-image > *,
+.dog-profile-container .dog-image #dogImage,
+.dog-profile-container .dog-image .dog-image-placeholder,
+.dog-profile-container .dog-image div {
+  position: absolute !important;
+  top: 0 !important;
+  left: 0 !important;
+  right: 0 !important;
+  bottom: 0 !important;
+  width: 100% !important;
+  height: 100% !important;
+  min-width: 100% !important;
+  min-height: 100% !important;
+  max-width: none !important;
+  max-height: none !important;
+  background-color: transparent !important;
+  border-radius: 0 !important;
+  display: block !important;
+  margin: 0 !important;
+  padding: 0 !important;
 }
 
-.need-card .need-info h4 {
-  font-size: 14px;
-  color: #333;
-  font-weight: bold;
-  margin-bottom: 5px;
+.dog-profile-container .dog-image img {
+  position: absolute !important;
+  top: 0 !important;
+  left: 0 !important;
+  right: 0 !important;
+  bottom: 0 !important;
+  width: 100% !important;
+  height: 100% !important;
+  min-width: 100% !important;
+  min-height: 100% !important;
+  max-width: none !important;
+  max-height: none !important;
+  object-fit: cover !important;
+  display: block !important;
+  border-radius: 0 !important;
+  margin: 0 !important;
+  padding: 0 !important;
 }
 
-.need-card .need-price,
-.need-info .need-price {
-  font-size: 16px;
-  font-weight: bold;
-  color: #ff6b35;
+/* Info básica del perro */
+.dog-profile-container .dog-basic-info {
+  background-color: #ffffff;
+  border-radius: 30px 30px 0 0;
+  margin-top: -30px;
+  padding: 30px 20px 20px;
+  text-align: center;
+  position: relative;
+  z-index: 10;
+}
+
+.dog-profile-container .dog-basic-info h2 {
+  font-size: 28px;
+  font-weight: 700;
+  color: #000000;
+  margin: 0 0 8px 0;
+}
+
+.dog-profile-container .dog-basic-info p {
+  font-size: 15px;
+  color: #666666;
   margin: 0;
 }
 
-.need-card .card-body {
-  padding-top: 10px;
-  border-top: 1px solid #f0f0f0;
+/* Detalles del perro - Tags */
+.dog-profile-container .dog-details {
+  background-color: #ffffff;
+  padding: 0 20px 20px;
 }
 
-.need-image-square {
-  width: 60px !important;
-  height: 60px !important;
-  min-width: 60px !important;
-  min-height: 60px !important;
-  border-radius: 8px;
-  overflow: hidden;
-  background-color: #f5f5f5;
-  flex-shrink: 0;
+.dog-profile-container .details-tags {
   display: flex;
-  align-items: center;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 10px;
+  margin-bottom: 20px;
+}
+
+.dog-profile-container .detail-tag {
+  padding: 8px 16px;
+  border: none;
+  border-radius: 20px;
+  font-size: 14px;
+  color: #333333;
+  background-color: #ffeb3b;
+}
+
+.dog-profile-container .description-section {
+  text-align: center;
+  padding: 0 10px;
+}
+
+.dog-profile-container .description-section p {
+  font-size: 14px;
+  color: #666666;
+  line-height: 1.6;
+  margin: 0;
+}
+
+/* Disponibilidad para citas */
+.dog-profile-container .appointment-availability {
+  background-color: #ffffff;
+  padding: 20px;
+  text-align: center;
+}
+
+.dog-profile-container .appointment-availability h3 {
+  font-size: 16px;
+  font-weight: 600;
+  color: #333333;
+  margin: 0 0 12px 0;
+}
+
+.dog-profile-container .availability-status {
+  display: flex;
   justify-content: center;
 }
 
-.need-image-square img {
-  width: 100% !important;
-  height: 100% !important;
-  object-fit: cover;
-  display: block;
+.dog-profile-container .status-text {
+  background-color: #9c27b0;
+  color: #ffffff;
+  padding: 10px 30px;
+  border-radius: 25px;
+  font-size: 14px;
+  font-weight: 500;
 }
 
-.need-content {
-  flex: 1;
+/* Sección de Necesidades */
+.dog-profile-container .needs-section {
+  background-color: #ffffff;
+  padding: 20px;
+  margin-top: 0;
 }
 
-.card-header {
+.dog-profile-container .needs-section .section-header {
+  margin-bottom: 16px;
+}
+
+.dog-profile-container .needs-section .section-header h3 {
+  font-size: 22px;
+  font-weight: 700;
+  color: #000000;
+  margin: 0;
+}
+
+/* Lista de necesidades */
+.dog-profile-container .needs-list {
   display: flex;
-  justify-content: space-between;
+  flex-direction: column;
+  gap: 12px;
+}
+
+/* Card de necesidad */
+.dog-profile-container .need-card {
+  display: flex;
   align-items: center;
+  background-color: #f8f8f8;
+  border-radius: 16px;
+  padding: 0;
+  overflow: hidden;
+}
+
+/* Borde de color a la izquierda - colores alternados */
+.dog-profile-container .need-card:nth-child(3n+1) {
+  border-left: 5px solid #f8bbd9;
+}
+
+.dog-profile-container .need-card:nth-child(3n+2) {
+  border-left: 5px solid #80deea;
+}
+
+.dog-profile-container .need-card:nth-child(3n) {
+  border-left: 5px solid #b3e5fc;
+}
+
+.dog-profile-container .need-card .need-image {
+  width: 100px;
+  height: 100px;
+  overflow: hidden;
+  flex-shrink: 0;
+  margin: 10px;
+  border-radius: 12px;
+}
+
+.dog-profile-container .need-card .need-image img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.dog-profile-container .need-card .need-image .no-image {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: #e0e0e0;
+  font-size: 28px;
+}
+
+.dog-profile-container .need-card .need-info {
+  flex: 1;
+  padding: 12px 0;
+}
+
+.dog-profile-container .need-card .need-info h4 {
+  font-size: 16px;
+  font-weight: 700;
+  color: #000000;
+  margin: 0 0 4px 0;
+}
+
+.dog-profile-container .need-card .need-info .need-description {
+  font-size: 13px;
+  color: #666666;
+  margin: 0 0 8px 0;
+  line-height: 1.4;
+}
+
+.dog-profile-container .need-card .need-info .need-price {
+  font-size: 16px;
+  font-weight: 700;
+  color: #000000;
+  margin: 0;
+}
+
+.dog-profile-container .need-card .card-actions {
+  padding: 0 16px;
+}
+
+.dog-profile-container .need-card .delete-need-btn {
+  background: transparent;
+  border: none;
+  font-size: 24px;
+  cursor: pointer;
+  color: #999999;
+  padding: 8px;
+}
+
+.dog-profile-container .need-card .delete-need-btn:hover {
+  color: #f44336;
+}
+
+/* Contenedor del botón agregar artículo */
+.dog-profile-container .add-need-container {
+  display: flex;
+  justify-content: center;
+  margin-top: 20px;
+}
+
+.dog-profile-container .add-need-btn {
+  padding: 12px 20px;
+  background: linear-gradient(135deg, #f8bbd9 0%, #fce4ec 100%);
+  color: #333333;
+  border: none;
+  border-radius: 25px;
+  font-size: 15px;
+  font-weight: 500;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  transition: all 0.3s ease;
+}
+
+.dog-profile-container .add-need-btn::before {
+  display: none;
+}
+
+.dog-profile-container .add-need-btn .plus-icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 24px;
+  height: 24px;
+  background-color: #ffffff;
+  color: #f48fb1;
+  border-radius: 50%;
+  font-size: 16px;
+  font-weight: bold;
+}
+
+.dog-profile-container .add-need-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(244, 143, 177, 0.3);
+}
+
+/* Sin necesidades */
+.dog-profile-container .no-needs {
+  text-align: center;
+  padding: 20px;
+  color: #666666;
+}
+
+/* Sección de Estadísticas */
+.dog-profile-container .actions-section {
+  background-color: #ffffff;
+  padding: 20px;
+  margin-top: 0;
+  border: none;
+}
+
+.dog-profile-container .actions-section h3 {
+  font-size: 22px;
+  font-weight: 700;
+  color: #000000;
+  margin: 0 0 16px 0;
+}
+
+.dog-profile-container .action-buttons {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+/* Botón Estadísticas con imagen */
+.dog-profile-container .statistics-btn {
+  width: 100%;
+  padding: 20px;
+  background-color: #ffffff;
+  border: 1px solid #e0e0e0;
+  border-radius: 16px;
+  cursor: pointer;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+  transition: all 0.2s ease;
+}
+
+.dog-profile-container .statistics-btn:hover {
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  transform: translateY(-2px);
+}
+
+.dog-profile-container .statistics-btn .stats-dog-image {
+  width: 60%;
+  max-width: 180px;
+  height: auto;
+}
+
+.dog-profile-container .statistics-btn .stats-text {
+  font-size: 13px;
+  color: #666666;
+  text-align: center;
+  line-height: 1.5;
+}
+
+/* Botón Eliminar perro */
+.dog-profile-container .delete-btn {
+  width: 100%;
+  padding: 16px;
+  background-color: #f44336;
+  color: #ffffff;
+  border: none;
+  border-radius: 25px;
+  font-size: 16px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.dog-profile-container .delete-btn:hover {
+  background-color: #d32f2f;
+}
+
+/* Mensajes */
+.dog-profile-container .messages-section {
+  padding: 20px;
+  background-color: #ffffff;
+}
+
+.dog-profile-container .success-message,
+.dog-profile-container .error-message {
+  padding: 12px 16px;
+  border-radius: 8px;
   margin-bottom: 10px;
 }
 
-.card-header h4 {
-  font-size: 14px;
-  color: #333;
-  font-weight: bold;
+.dog-profile-container .success-message {
+  background-color: #d4edda;
+  color: #155724;
 }
 
-.status-badge {
-  padding: 4px 12px;
-  border-radius: 12px;
-  font-size: 12px;
-  font-weight: bold;
-  color: white;
+.dog-profile-container .error-message {
+  background-color: #f8d7da;
+  color: #721c24;
 }
 
-.status-badge.pending,
-.status-badge.pendiente {
-  background-color: #ffc107;
+/* Loading */
+.dog-profile-container .loading-section {
+  padding: 40px 20px;
+  text-align: center;
 }
 
-.status-badge.completed,
-.status-badge.completada {
-  background-color: #4CAF50;
+/* Responsive - Tablet */
+@media (min-width: 481px) {
+  .dog-profile-container .dog-image {
+    height: 350px;
+  }
+  
+  .dog-profile-container .details-tags {
+    gap: 12px;
+  }
+  
+  .dog-profile-container .need-card .need-image {
+    width: 110px;
+    height: 110px;
+  }
 }
 
-.status-badge.urgent,
-.status-badge.urgente {
-  background-color: #f44336;
-}
-
-.card-body p {
-  font-size: 12px;
-  color: #666;
-  margin-bottom: 5px;
-  line-height: 1.5;
-}
-
-.card-body strong {
-  color: #333;
-  font-size: 13px;
-}
-
-/* Ocultar categoría y estado en las cards de necesidades */
-.need-card .detail-item:has(.label:contains("Categoría")),
-.need-card .detail-item:has(.label:contains("Estado")) {
-  display: none;
-}
-
-/* Método alternativo más compatible */
-.card-body .detail-item .label {
-  font-weight: 500;
-  color: #666;
-}
-
-/* Ocultar específicamente categoría, estado Y el label "Descripción:" */
-.need-details .detail-item:nth-child(2),
-.need-details .detail-item:nth-child(3) {
-  display: none;
-}
-
-/* Ocultar solo el label "Descripción:" pero mantener el texto */
-.need-details .detail-item:first-child .label {
-  display: none;
-}
-
-/* Hacer que el texto de la descripción ocupe todo el espacio */
-.need-details .detail-item:first-child {
-  display: block;
-}
-
-.need-details .detail-item:first-child .value {
-  display: block;
-  font-size: 12px;
-  color: #666;
-  line-height: 1.5;
-}
-
-.card-actions {
-  margin-top: 10px;
-  display: flex;
-  gap: 10px;
-}
-
-.delete-need-btn {
-  padding: 8px 16px;
-  background-color: #f44336;
-  color: white;
-  border: none;
-  border-radius: 5px;
-  font-size: 12px;
-  cursor: pointer;
-  transition: background-color 0.2s;
-}
-
-.delete-need-btn:hover {
-  background-color: #d32f2f;
-}
-
-/* Imágenes de necesidades en formato cuadrado - MÁS PEQUEÑAS */
-.need-card .need-image,
-.needs-list .need-image {
-  width: 60px !important;
-  height: 60px !important;
-  min-width: 60px !important;
-  min-height: 60px !important;
-  max-width: 60px !important;
-  max-height: 60px !important;
-  border-radius: 8px !important;
-  overflow: hidden;
-  background-color: #f5f5f5;
-  flex-shrink: 0;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-.need-card .need-image img,
-.needs-list .need-image img {
-  width: 100% !important;
-  height: 100% !important;
-  max-width: 100% !important;
-  max-height: 100% !important;
-  object-fit: cover;
-  display: block;
-  border-radius: 0 !important;
-}
-
-/* Acciones */
-
-.actions-section {
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
-  margin-bottom: 30px;
-}
-
-.action-btn {
-  width: 100%;
-  padding: 15px;
-  border: none;
-  border-radius: 10px;
-  font-size: 16px;
-  font-weight: bold;
-  cursor: pointer;
-}
-
-.primary-btn {
-  background-color: #4CAF50;
-  color: white;
-}
-
-.primary-btn:hover {
-  background-color: #45a049;
-}
-
-.delete-btn {
-  background-color: #f44336;
-  color: white;
-}
-
-.delete-btn:hover {
-  background-color: #d32f2f;
+/* Responsive - Desktop */
+@media (min-width: 769px) {
+  .dog-profile-container .dog-image {
+    height: 400px;
+  }
+  
+  .dog-profile-container .dog-basic-info {
+    padding: 40px 30px 30px;
+  }
+  
+  .dog-profile-container .dog-basic-info h2 {
+    font-size: 32px;
+  }
+  
+  .dog-profile-container .needs-section,
+  .dog-profile-container .actions-section {
+    padding: 30px;
+  }
+  
+  .dog-profile-container .need-card .need-image {
+    width: 120px;
+    height: 120px;
+  }
 }
 
 /* =============================================
@@ -901,7 +1492,7 @@ textarea {
    ============================================= */
 
 .add-dog-container {
-  padding: 20px;
+  padding: 0;
 }
 
 .add-dog-container h1 {
@@ -965,14 +1556,412 @@ textarea {
    PRODUCTOS/NECESIDADES
    ============================================= */
 
+/* =============================================
+   PRODUCTS-MANAGE - Estilo según imagen
+   Pantalla: products-manage.js
+   ============================================= */
+
 .products-manage-container {
-  padding: 20px;
+  padding: 0;
+  min-height: 100vh;
+  background-color: #f5f5f5;
+  display: flex;
+  flex-direction: column;
 }
 
-.products-manage-container h1 {
+/* Header naranja con logo */
+.products-manage-container .page-header {
+  width: 100%;
+  background-color: #ff6b35; /* Naranja */
+  padding: 16px 20px;
+  margin: 0;
+  position: relative;
+  z-index: 10;
+  min-height: 80px;
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+}
+
+/* Logo blanco en el header */
+.products-manage-container .page-header::before {
+  content: '';
+  display: block;
+  width: 56px;
+  height: 56px;
+  background-image: url('/images/logo.png');
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-position: center;
+  margin-right: 12px;
+  filter: brightness(0) invert(1); /* Convertir logo a blanco */
+  transition: all 0.3s ease;
+  flex-shrink: 0;
+}
+
+/* Ocultar h1 original del header */
+.products-manage-container .page-header h1 {
+  display: none;
+}
+
+/* Botón back - Circular blanco debajo del header */
+.products-manage-container .page-header .back-btn {
+  position: absolute;
+  top: 110px;
+  left: 20px;
+  width: 40px;
+  height: 40px;
+  background-color: #ffffff;
+  border: none;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 20px;
+  color: #333333;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  z-index: 20;
+  cursor: pointer;
+  line-height: 1;
+  padding: 0;
+  margin: 0;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+  transition: all 0.2s ease;
+  text-indent: -9999px;
+  overflow: hidden;
+}
+
+.products-manage-container .page-header .back-btn::before {
+  content: '←';
+  text-indent: 0;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  font-size: 20px;
+  color: #333333;
+}
+
+.products-manage-container .page-header .back-btn:hover {
+  transform: scale(1.05);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+.products-manage-container .page-header .back-btn:active {
+  transform: scale(0.95);
+}
+
+/* Contenido principal */
+.products-manage-container .products-content {
+  flex: 1;
+  padding: 20px;
+  padding-top: 70px;
+  position: relative;
+  z-index: 1;
+  background-color: #f5f5f5;
+}
+
+/* Ocultar form-section h2 original */
+.products-manage-container .form-section h2 {
+  font-size: 0;
+  margin-bottom: 24px;
+  line-height: 1.3;
+  display: block;
+  position: relative;
+}
+
+/* Título "Añade sus necesidades" */
+.products-manage-container .form-section h2::before {
+  content: 'Añade sus ';
   font-size: 28px;
-  color: #ff6b35;
+  font-weight: 700;
+  color: #000000;
+  display: inline;
+}
+
+.products-manage-container .form-section h2::after {
+  content: 'necesidades';
+  font-size: 28px;
+  font-weight: 700;
+  color: #ff6b35; /* Naranja */
+  display: inline;
+}
+
+/* Formulario */
+.products-manage-container form {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+}
+
+/* Grupos de formulario */
+.products-manage-container .form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
   margin-bottom: 20px;
+}
+
+/* Ocultar campo de estado */
+.products-manage-container .form-group:has(#estado) {
+  display: none !important;
+}
+
+/* Labels */
+.products-manage-container .form-group label {
+  font-size: 14px;
+  font-weight: 500;
+  color: #000000;
+  margin: 0;
+}
+
+/* Inputs y textarea */
+.products-manage-container .form-group input[type="text"],
+.products-manage-container .form-group input[type="number"],
+.products-manage-container .form-group textarea {
+  width: 100%;
+  padding: 12px 16px;
+  border: none;
+  border-radius: 12px;
+  font-size: 15px;
+  font-weight: 400;
+  color: #000000;
+  background-color: #ffffff;
+  box-sizing: border-box;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+  transition: all 0.2s ease;
+}
+
+.products-manage-container .form-group input[type="text"]:focus,
+.products-manage-container .form-group input[type="number"]:focus,
+.products-manage-container .form-group textarea:focus {
+  outline: none;
+  box-shadow: 0 0 0 2px rgba(255, 107, 53, 0.2);
+}
+
+.products-manage-container .form-group input[type="text"]::placeholder,
+.products-manage-container .form-group input[type="number"]::placeholder,
+.products-manage-container .form-group textarea::placeholder {
+  color: #999999;
+}
+
+.products-manage-container .form-group textarea {
+  resize: vertical;
+  min-height: 100px;
+}
+
+/* Estilos para el botón de agregar imagen */
+.products-manage-container .form-group label[for="image"] {
+  display: none !important;
+}
+
+.products-manage-container .form-group:has(input[type="file"]) {
+  position: relative;
+  cursor: pointer;
+  margin-top: 8px;
+}
+
+/* Ocultar el input de imagen original pero mantenerlo funcional */
+.products-manage-container .form-group input[type="file"] {
+  position: absolute;
+  opacity: 0;
+  width: 100%;
+  height: 100%;
+  top: 0;
+  left: 0;
+  cursor: pointer;
+  z-index: 10;
+  margin: 0;
+  padding: 0;
+}
+
+/* Botón personalizado "Agregar imagen" - Estilo temático */
+.products-manage-container .form-group:has(input[type="file"])::after {
+  content: 'Agregar imagen';
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  padding: 14px 48px 14px 20px;
+  background-color: #f5f5f5;
+  border: 2px dashed #cccccc;
+  border-radius: 12px;
+  font-size: 15px;
+  font-weight: 500;
+  color: #666666;
+  margin-top: 0;
+  cursor: pointer;
+  box-sizing: border-box;
+  position: relative;
+  transition: all 0.3s ease;
+  pointer-events: none;
+}
+
+.products-manage-container .form-group:has(input[type="file"]):hover::after {
+  background-color: #ffebee;
+  border-color: #ff6b35;
+  color: #ff6b35;
+}
+
+/* Icono + en círculo naranja a la derecha del botón */
+.products-manage-container .form-group:has(input[type="file"])::before {
+  content: '+';
+  position: absolute;
+  right: 20px;
+  top: 61%;
+  transform: translateY(-50%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 28px;
+  height: 28px;
+  background-color: #ff6b35;
+  color: #ffffff;
+  border-radius: 50%;
+  font-size: 18px;
+  font-weight: 300;
+  line-height: 1;
+  z-index: 1;
+  pointer-events: none;
+  transition: all 0.3s ease;
+  box-shadow: 0 2px 4px rgba(255, 107, 53, 0.3);
+}
+
+.products-manage-container .form-group:has(input[type="file"]):hover::before {
+  background-color: #ff5722;
+  transform: translateY(-50%) scale(1.1);
+  box-shadow: 0 4px 8px rgba(255, 107, 53, 0.4);
+}
+
+/* Botones de acción */
+.products-manage-container .form-actions {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  margin-top: 32px;
+  margin-bottom: 20px;
+}
+
+/* Ocultar botón "Limpiar Formulario" */
+.products-manage-container .clear-btn {
+  display: none !important;
+}
+
+/* Botón "Agregar y finalizar" - Morado oscuro */
+.products-manage-container .submit-btn {
+  width: 100%;
+  padding: 16px 24px;
+  background-color: #6a1b9a; /* Morado oscuro */
+  color: #ffffff;
+  border: none;
+  border-radius: 25px;
+  font-size: 16px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+}
+
+.products-manage-container .submit-btn:hover {
+  background-color: #5a1588;
+}
+
+.products-manage-container .submit-btn:active {
+  transform: scale(0.98);
+}
+
+.products-manage-container .submit-btn:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+/* Mensajes */
+.products-manage-container .messages-section {
+  margin-top: 20px;
+}
+
+.products-manage-container .success-message,
+.products-manage-container .error-message {
+  padding: 12px 16px;
+  border-radius: 8px;
+  font-size: 14px;
+  margin-bottom: 12px;
+}
+
+.products-manage-container .success-message {
+  background-color: #d4edda;
+  color: #155724;
+  border: 1px solid #c3e6cb;
+}
+
+.products-manage-container .error-message {
+  background-color: #f8d7da;
+  color: #721c24;
+  border: 1px solid #f5c6cb;
+}
+
+/* Responsive - Tablet (min-width: 481px) */
+@media (min-width: 481px) {
+  .products-manage-container .page-header {
+    padding: 20px 24px;
+  }
+
+  .products-manage-container .page-header .back-btn {
+    width: 44px;
+    height: 44px;
+    font-size: 22px;
+    top: 105px;
+    left: 24px;
+  }
+
+  .products-manage-container .products-content {
+    padding: 24px;
+    padding-top: 100px;
+  }
+
+  .products-manage-container .form-section h2::before,
+  .products-manage-container .form-section h2::after {
+    font-size: 32px;
+  }
+}
+
+/* Responsive - Desktop (min-width: 769px) */
+@media (min-width: 769px) {
+  .products-manage-container {
+    max-width: 600px;
+    margin: 0 auto;
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+  }
+
+  .products-manage-container .page-header {
+    padding: 24px 30px;
+  }
+
+  .products-manage-container .page-header .back-btn {
+    width: 48px;
+    height: 48px;
+    font-size: 24px;
+    top: 110px;
+    left: 30px;
+  }
+
+  .products-manage-container .products-content {
+    padding: 30px;
+    padding-top: 110px;
+  }
+
+  .products-manage-container .form-section h2::before,
+  .products-manage-container .form-section h2::after {
+    font-size: 36px;
+  }
+}
+
+/* Responsive - Desktop Large (min-width: 1024px) */
+@media (min-width: 1024px) {
+  .products-manage-container {
+    max-width: 700px;
+  }
 }
 
 .products-list,
@@ -1537,126 +2526,169 @@ textarea {
    ESTADÍSTICAS - Igual que padrino-app
    ============================================= */
 
-.estadistics-container,
+/* =============================================
+   ESTADÍSTICAS DEL PERRO - dog-estadistics
+   ============================================= */
+
 .statistics-container {
+  padding: 0;
+  min-height: 100vh;
+  background-color: #ffffff;
+}
+
+/* Header con botón volver */
+.statistics-container .stats-header {
+  background-color: #ffeb3b;
   padding: 20px;
-  max-width: 500px;
-  margin: 0 auto;
+  position: relative;
 }
 
-.estadistics-title,
-.statistics-title {
-  font-size: 28px;
-  color: #333;
-  margin-bottom: 30px;
+.statistics-container .btn-back {
+  width: 48px;
+  height: 48px;
+}
+
+/* Info del perro */
+.statistics-container .stats-dog-info {
+  background-color: #ffffff;
+  border-radius: 30px 30px 0 0;
+  margin-top: -20px;
+  padding: 30px 20px 20px;
   text-align: center;
+  position: relative;
+  z-index: 10;
 }
 
-/* Indicador de tiempo real */
-.realtime-indicator {
+.statistics-container .stats-dog-name {
+  font-size: 28px;
+  font-weight: 700;
+  color: #000000;
+  margin: 0 0 8px 0;
+}
+
+.statistics-container .stats-dog-location {
+  font-size: 15px;
+  color: #666666;
+  margin: 0 0 20px 0;
+}
+
+.statistics-container .stats-dog-tags {
   display: flex;
-  align-items: center;
+  flex-wrap: wrap;
   justify-content: center;
-  gap: 8px;
-  margin-bottom: 20px;
-  padding: 10px;
-  background-color: #e8f5e9;
-  border-radius: 8px;
+  gap: 10px;
 }
 
-.realtime-dot {
-  width: 10px;
-  height: 10px;
-  background-color: #4caf50;
-  border-radius: 50%;
-  animation: pulse 2s infinite;
-}
-
-@keyframes pulse {
-  0%, 100% {
-    opacity: 1;
-    transform: scale(1);
-  }
-  50% {
-    opacity: 0.5;
-    transform: scale(1.2);
-  }
-}
-
-.realtime-text {
+.statistics-container .stats-tag {
+  padding: 8px 16px;
+  border: none;
+  border-radius: 20px;
   font-size: 14px;
-  color: #2e7d32;
-  font-weight: 500;
+  color: #333333;
+  background-color: #ffeb3b;
 }
 
 /* Barras de estadísticas */
-.statistics-bars {
+.statistics-container .statistics-bars {
   display: flex;
   flex-direction: column;
   gap: 30px;
+  padding: 20px;
+  background-color: #ffffff;
 }
 
-.stat-item {
-  background-color: #f5f5f5;
-  padding: 20px;
-  border-radius: 15px;
+.statistics-container .stat-item {
+  background-color: transparent;
+  padding: 0;
+  border-radius: 0;
   transition: all 0.3s ease;
 }
 
 /* Animación cuando se actualiza una estadística */
-.stat-item.stat-updated {
-  background-color: #fff9c4;
+.statistics-container .stat-item.stat-updated {
   transform: scale(1.02);
-  box-shadow: 0 2px 8px rgba(255, 193, 7, 0.3);
 }
 
-.stat-header {
+/* Wrapper de la barra con patita */
+.statistics-container .stat-bar-wrapper {
   display: flex;
-  justify-content: space-between;
   align-items: center;
-  margin-bottom: 10px;
+  gap: 0;
+  position: relative;
 }
 
-.stat-label {
-  font-size: 18px;
-  font-weight: bold;
-  color: #333;
-}
-
-.stat-value {
-  font-size: 16px;
-  font-weight: bold;
-  color: #666;
-}
-
-.stat-bar-container {
-  width: 100%;
-  height: 30px;
+.statistics-container .stat-bar-container {
+  flex: 1;
+  height: 24px;
   background-color: #e0e0e0;
-  border-radius: 15px;
-  overflow: hidden;
+  border-radius: 12px;
+  overflow: visible;
+  position: relative;
 }
 
-.stat-bar {
+.statistics-container .stat-bar {
   height: 100%;
-  border-radius: 15px;
+  border-radius: 12px;
   transition: width 0.5s ease-in-out;
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  min-width: 50px;
 }
 
-.stat-bar-food {
+/* Patita al final de la barra - se mueve con ella */
+.statistics-container .stat-paw {
+  width: 50px;
+  height: 50px;
+  object-fit: contain;
+  position: absolute;
+  right: -20px;
+  top: 50%;
+  transform: translateY(-50%);
+  z-index: 5;
+  transition: all 0.5s ease-in-out;
+}
+
+/* Colores de las barras */
+.statistics-container .stat-bar-food {
   background-color: #9c27b0;
 }
 
-.stat-bar-health {
-  background-color: #00bcd4;
+.statistics-container .stat-bar-health {
+  background-color: #4dd0e1;
 }
 
-.stat-bar-wellbeing {
-  background-color: #ff9800;
+.statistics-container .stat-bar-wellbeing {
+  background-color: #f8bbd9;
 }
 
-.stat-bar-affection {
-  background-color: #f44336;
+.statistics-container .stat-bar-affection {
+  background-color: #ff7043;
+}
+
+/* Info debajo de la barra */
+.statistics-container .stat-info {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-top: 15px;
+}
+
+.statistics-container .stat-value {
+  font-size: 12px;
+  font-weight: 600;
+  color: #333333;
+  background-color: #f5f5f5;
+  padding: 2px 6px;
+  border-radius: 4px;
+  border: 1px solid #e0e0e0;
+}
+
+.statistics-container .stat-label {
+  font-size: 14px;
+  font-weight: 500;
+  color: #333333;
 }
 
 /* Notificación flotante de actualización */
@@ -1680,6 +2712,52 @@ textarea {
 .stats-notification.show {
   opacity: 1;
   transform: translateX(0);
+}
+
+/* Responsive - Tablet */
+@media (min-width: 481px) {
+  .statistics-container .stats-dog-info {
+    padding: 40px 30px 30px;
+  }
+  
+  .statistics-container .stats-dog-name {
+    font-size: 32px;
+  }
+  
+  .statistics-container .statistics-bars {
+    padding: 30px;
+  }
+  
+  .statistics-container .stat-paw {
+    width: 60px;
+    height: 60px;
+  }
+}
+
+/* Responsive - Desktop */
+@media (min-width: 769px) {
+  .statistics-container {
+    max-width: 600px;
+    margin: 0 auto;
+  }
+  
+  .statistics-container .stats-dog-info {
+    padding: 50px 40px 40px;
+  }
+  
+  .statistics-container .statistics-bars {
+    padding: 40px;
+    gap: 20px;
+  }
+  
+  .statistics-container .stat-bar-container {
+    height: 28px;
+  }
+  
+  .statistics-container .stat-paw {
+    width: 70px;
+    height: 70px;
+  }
 }
 
 /* =============================================
@@ -2021,4 +3099,4232 @@ img[class*="dog"],
   .action-buttons button {
     width: 100%;
   }
+}
+
+/* =============================================
+   WHO ARE YOU - Mobile First Design
+   ============================================= */
+
+/* Contenedor principal - Mobile First (320px+) */
+.who-are-you-container {
+  min-height: 100vh;
+  width: 100%;
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0;
+  background-color: #ffffff;
+  overflow: hidden;
+}
+
+/* Contenido centrado */
+.who-are-you-content {
+  width: 100%;
+  max-width: 100%;
+  background-color: transparent;
+  padding: 0;
+  text-align: center;
+  position: relative;
+  z-index: 2;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
+  padding: 32px 24px 200px;
+}
+
+/* Sección de bienvenida */
+.who-are-you-content .welcome-section {
+  margin-bottom: 16px;
+  width: 100%;
+}
+
+/* Logo PET LINK estilizado */
+.who-are-you-content .app-logo {
+  margin-bottom: 0;
+}
+
+.who-are-you-content .app-logo h1 {
+  font-size: 40px;
+  font-weight: 900;
+  color: transparent;
+  margin: 0 auto;
+  letter-spacing: 1px;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+  text-transform: uppercase;
+  position: relative;
+  display: block;
+  line-height: 1.2;
+  width: 200px;
+  height: auto;
+  min-height: 234px;
+}
+
+/* Mostrar logo de imagen */
+.who-are-you-content .app-logo h1::before {
+  content: '';
+  display: block;
+  background-image: url('/images/logo.png'); 
+  background-size: contain; 
+  background-repeat: no-repeat; 
+  background-position: center; 
+  width: 200px;
+  height: 234px; /* Mantiene proporción 178:208 */
+  margin: 0;
+  position: absolute;
+  top: 0;
+  left: 0;
+}
+
+/* Si tienes logo de imagen, descomenta esto y ajusta: */
+/* .who-are-you-content .app-logo h1::before {
+  content: '';
+  display: block;
+  background-image: url('/assets/images/petlink-logo.png');
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-position: center;
+  width: 180px;
+  height: 50px;
+  margin: 0 auto;
+} */
+
+/* Agregar texto "Bienvenido!" con CSS - debajo del logo */
+.who-are-you-content .app-logo::after {
+  content: 'Bienvenido!';
+  display: block;
+  font-size: 22px;
+  font-weight: 700;
+  color: #000000;
+  margin-top: 24px;
+  letter-spacing: 0.3px;
+  text-align: center;
+  position: relative;
+}
+
+/* Título "Quien eres?" */
+.who-are-you-title {
+  margin-bottom: 32px;
+  width: 100%;
+}
+
+.who-are-you-title h2 {
+  font-size: 22px;
+  font-weight: 300;
+  color: #000000;
+  margin: 0;
+  letter-spacing: 0.3px;
+}
+
+/* Contenedor de botones */
+.user-options {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  width: 100%;
+  max-width: 320px;
+  margin-top: 0;
+}
+
+/* Botones - Estilo naranja horizontal alargado */
+.user-option-btn {
+  width: 100%;
+  padding: 18px 32px;
+  border: none;
+  border-radius: 50px;
+  font-size: 18px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  box-shadow: 0 2px 8px rgba(255, 107, 53, 0.25);
+  text-align: center;
+  letter-spacing: 0.5px;
+  position: relative;
+  overflow: hidden;
+}
+
+/* Botón Administrador - Naranja sólido */
+.user-option-btn.admin-btn {
+  background-color: #ff6b35;
+  color: #ffffff;
+}
+
+.user-option-btn.admin-btn:active {
+  background-color: #e55a2b;
+  transform: scale(0.98);
+}
+
+.user-option-btn.admin-btn:hover {
+  background-color: #e55a2b;
+  box-shadow: 0 4px 12px rgba(255, 107, 53, 0.35);
+}
+
+/* Botón Padrino - Naranja sólido (mismo estilo) */
+.user-option-btn.padrino-btn {
+  background-color: #ff6b35;
+  color: #ffffff;
+}
+
+.user-option-btn.padrino-btn:active {
+  background-color: #e55a2b;
+  transform: scale(0.98);
+}
+
+.user-option-btn.padrino-btn:hover {
+  background-color: #e55a2b;
+  box-shadow: 0 4px 12px rgba(255, 107, 53, 0.35);
+}
+
+/* Deshabilitado */
+.user-option-btn:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+  transform: none !important;
+}
+
+/* Semicírculo amarillo con perro al fondo */
+.who-are-you-container::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  width: 100%;
+  height: 220px;
+  background-color: #ffd93d;
+  border-radius: 50% 50% 0 0 / 100% 100% 0 0;
+  z-index: 1;
+  /* Subir imagen del perro aquí: */
+  /* Coloca la imagen en: admin-app/public/images/dog-face-whoareyou.png */
+  /* Luego descomenta las siguientes líneas: */
+  background-image: url('/images/dog-inicio.png'); 
+  background-size: 360px auto; 
+  background-repeat: no-repeat; 
+  background-position: center bottom; 
+  padding-bottom: 20px; 
+}
+
+/* Tablet (481px - 768px) */
+@media (min-width: 481px) {
+  .who-are-you-content {
+    padding: 48px 32px 240px;
+  }
+
+  .who-are-you-content .app-logo h1 {
+    width: 260px;
+    min-height: 304px;
+  }
+
+  .who-are-you-content .app-logo h1::before {
+    width: 260px;
+    height: 304px; /* Mantiene proporción 178:208 */
+  }
+
+  .who-are-you-content .app-logo::after {
+    font-size: 28px;
+    margin-top: 28px;
+  }
+  
+  .who-are-you-content .welcome-section {
+    margin-bottom: 18px;
+  }
+
+  .who-are-you-title h2 {
+    font-size: 26px;
+    font-weight: 300;
+  }
+
+  .user-options {
+    max-width: 380px;
+    gap: 20px;
+  }
+
+  .user-option-btn {
+    padding: 20px 40px;
+    font-size: 20px;
+    border-radius: 50px;
+  }
+
+  .who-are-you-container::after {
+    height: 280px;
+  }
+}
+
+/* Desktop (769px+) */
+@media (min-width: 769px) {
+  .who-are-you-content {
+    padding: 64px 40px 300px;
+  }
+
+  .who-are-you-content .app-logo h1 {
+    width: 320px;
+    min-height: 374px;
+  }
+
+  .who-are-you-content .app-logo h1::before {
+    width: 320px;
+    height: 374px; /* Mantiene proporción 178:208 */
+  }
+
+  .who-are-you-content .app-logo::after {
+    font-size: 32px;
+    margin-top: 32px;
+  }
+  
+  .who-are-you-content .welcome-section {
+    margin-bottom: 20px;
+  }
+
+  .who-are-you-title h2 {
+    font-size: 30px;
+    font-weight: 300;
+  }
+
+  .user-options {
+    max-width: 420px;
+    gap: 24px;
+  }
+
+  .user-option-btn {
+    padding: 22px 48px;
+    font-size: 22px;
+    border-radius: 50px;
+  }
+
+  .who-are-you-container::after {
+    height: 320px;
+  }
+}
+
+/* Pantallas grandes (1024px+) */
+@media (min-width: 1024px) {
+  .who-are-you-content {
+    max-width: 500px;
+    padding: 80px 40px 350px;
+  }
+
+  .who-are-you-container::after {
+    height: 380px;
+  }
+}
+
+/* =============================================
+   LOGIN-SIGNUP CONTAINER - Mobile First
+   Pantallas: admin-login-signup.js y login-signup.js
+   ============================================= */
+
+/* Contenedor principal - Mobile First (320px+) */
+.login-signup-container {
+  min-height: 100vh;
+  width: 100%;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 24px;
+  background-color: #ffffff;
+  overflow: hidden;
+}
+
+/* Sección de bienvenida */
+.login-signup-container .welcome-section {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 0;
+  margin-bottom: 0;
+}
+
+/* Logo contenedor */
+.login-signup-container .app-logo {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 48px;
+  width: 100%;
+}
+
+/* Logo - usar imagen logo.png */
+.login-signup-container .app-logo h1 {
+  font-size: 0;
+  font-weight: 900;
+  color: transparent;
+  margin: 0 auto;
+  padding: 0;
+  letter-spacing: 1px;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+  text-transform: uppercase;
+  position: relative;
+  display: block;
+  width: 200px;
+  height: 234px;
+  min-height: 234px;
+  background-image: url('/images/logo.png');
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-position: center;
+}
+
+/* Subtítulo del logo (oculto en el diseño) */
+.login-signup-container .app-logo .app-subtitle {
+  display: none;
+}
+
+/* Mensaje de bienvenida (oculto en el diseño) */
+.login-signup-container .welcome-message {
+  display: none;
+}
+
+/* Contenedor de opciones de autenticación */
+.login-signup-container .auth-options {
+  width: 100%;
+  max-width: 320px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 16px;
+  padding: 0;
+  margin: 0 auto;
+}
+
+/* Cards de autenticación */
+.login-signup-container .auth-card {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  background-color: transparent;
+  border: none;
+  padding: 0;
+  margin: 0;
+  box-shadow: none;
+  text-align: center;
+}
+
+/* Iconos de autenticación (ocultos en el diseño) */
+.login-signup-container .auth-card .auth-icon {
+  display: none;
+}
+
+/* Títulos de las cards (ocultos en el diseño) */
+.login-signup-container .auth-card h3 {
+  display: none;
+}
+
+/* Texto descriptivo de las cards (oculto en el diseño) */
+.login-signup-container .auth-card p {
+  display: none;
+}
+
+/* Botones de autenticación - Estilo pill-shaped naranja */
+.login-signup-container .auth-btn {
+  width: 100%;
+  padding: 18px 32px;
+  border: none;
+  border-radius: 50px;
+  font-size: 18px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  box-shadow: 0 2px 8px rgba(255, 107, 53, 0.25);
+  text-align: center;
+  letter-spacing: 0.5px;
+  position: relative;
+  overflow: hidden;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+  text-transform: none;
+}
+
+/* Botón Login - Naranja sólido */
+.login-signup-container .auth-btn.login-btn {
+  background-color: #ff6b35;
+  color: #ffffff;
+}
+
+.login-signup-container .auth-btn.login-btn:active {
+  background-color: #e55a2b;
+  transform: scale(0.98);
+}
+
+.login-signup-container .auth-btn.login-btn:hover {
+  background-color: #e55a2b;
+  box-shadow: 0 4px 12px rgba(255, 107, 53, 0.35);
+}
+
+/* Botón Sign Up - Naranja sólido (mismo estilo) */
+.login-signup-container .auth-btn.signup-btn {
+  background-color: #ff6b35;
+  color: #ffffff;
+}
+
+.login-signup-container .auth-btn.signup-btn:active {
+  background-color: #e55a2b;
+  transform: scale(0.98);
+}
+
+.login-signup-container .auth-btn.signup-btn:hover {
+  background-color: #e55a2b;
+  box-shadow: 0 4px 12px rgba(255, 107, 53, 0.35);
+}
+
+/* Botón deshabilitado */
+.login-signup-container .auth-btn:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+  transform: none !important;
+}
+
+/* Footer info (oculto en el diseño) */
+.login-signup-container .footer-info {
+  display: none;
+}
+
+/* Semicírculo amarillo eliminado - no se usa en login-signup */
+
+/* Tablet (481px - 768px) */
+@media (min-width: 481px) {
+  .login-signup-container {
+    padding: 32px;
+  }
+
+  .login-signup-container .app-logo {
+    margin-bottom: 56px;
+  }
+
+  .login-signup-container .app-logo h1 {
+    width: 260px;
+    height: 304px;
+    min-height: 304px;
+  }
+
+  .login-signup-container .auth-options {
+    max-width: 380px;
+    gap: 20px;
+    padding: 0;
+  }
+
+  .login-signup-container .auth-btn {
+    padding: 20px 40px;
+    font-size: 20px;
+  }
+}
+
+/* Desktop (769px+) */
+@media (min-width: 769px) {
+  .login-signup-container {
+    padding: 40px;
+  }
+
+  .login-signup-container .app-logo {
+    margin-bottom: 64px;
+  }
+
+  .login-signup-container .app-logo h1 {
+    width: 320px;
+    height: 374px;
+    min-height: 374px;
+  }
+
+  .login-signup-container .auth-options {
+    max-width: 420px;
+    gap: 24px;
+    padding: 0;
+  }
+
+  .login-signup-container .auth-btn {
+    padding: 22px 48px;
+    font-size: 22px;
+  }
+}
+
+/* Pantallas grandes (1024px+) */
+@media (min-width: 1024px) {
+  .login-signup-container {
+    max-width: 500px;
+    margin: 0 auto;
+    padding: 48px;
+  }
+
+  .login-signup-container .app-logo {
+    margin-bottom: 72px;
+  }
+}
+
+/* =============================================
+   ADMIN LOGIN SCREEN - Diseño según imagen
+   Pantalla: admin-login.js
+   Solo aplica cuando hay un #loginForm dentro de .login-container
+   ============================================= */
+
+/* Contenedor principal del admin login - Solo cuando hay #loginForm */
+.login-container:has(#loginForm) {
+  min-height: 100vh;
+  width: 100%;
+  background-color: #f5f5f5; /* Fondo gris claro */
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center; /* Centrado vertical */
+  position: relative;
+}
+
+/* Header con botón back - Solo cuando hay #loginForm */
+.login-container:has(#loginForm) .page-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 20px 20px 0;
+  margin-bottom: 0;
+  background-color: transparent;
+  width: 100%;
+  max-width: 100%;
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 10;
+}
+
+/* Botón back - Circular blanco con flecha negra - Solo cuando hay #loginForm */
+.login-container:has(#loginForm) .back-btn {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background-color: #ffffff;
+  border: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  font-size: 18px;
+  color: #000000;
+  padding: 0;
+  margin: 0;
+  transition: all 0.2s ease;
+  flex-shrink: 0;
+}
+
+.login-container:has(#loginForm) .back-btn:hover {
+  transform: scale(1.05);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+.login-container:has(#loginForm) .back-btn:active {
+  transform: scale(0.95);
+}
+
+/* Ocultar h1 del header (PetLink) - Solo cuando hay #loginForm */
+.login-container:has(#loginForm) .page-header h1 {
+  display: none;
+}
+
+/* Ocultar div vacío del header - Solo cuando hay #loginForm */
+.login-container:has(#loginForm) .page-header div {
+  display: none;
+}
+
+/* Formulario de login - Solo cuando hay #loginForm */
+.login-container:has(#loginForm) .login-form {
+  width: 100%;
+  max-width: 100%;
+  background-color: transparent;
+  padding: 32px 20px; /* Mobile padding */
+  border-radius: 0;
+  box-shadow: none;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  position: relative;
+}
+
+/* Ocultar título original y crear nuevo - Solo cuando hay #loginForm */
+.login-container:has(#loginForm) .login-form h1 {
+  font-size: 32px;
+  font-weight: 700;
+  color: transparent;
+  margin: 0 0 32px 0;
+  padding: 0;
+  line-height: 1.0; /* Line-height compacto para acercar las líneas */
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+  position: relative;
+  height: auto;
+  min-height: 60px;
+  text-align: left; /* Alineado a la izquierda */
+  width: 100%;
+}
+
+/* Crear "Accede a tu" en negro - Solo cuando hay #loginForm */
+.login-container:has(#loginForm) .login-form h1::before {
+  content: 'Accede a tu';
+  display: block;
+  color: #000000;
+  font-weight: 700;
+  font-size: 32px;
+  line-height: 1.0; /* Line-height compacto */
+  margin-bottom: -4px; /* Margen negativo para acercar más las líneas */
+}
+
+/* Crear "Cuenta" en naranja - Solo cuando hay #loginForm */
+.login-container:has(#loginForm) .login-form h1::after {
+  content: 'Cuenta';
+  display: block;
+  color: #ff6b35; /* Naranja */
+  font-weight: 700;
+  font-size: 32px;
+  line-height: 1.0; /* Line-height compacto */
+  margin-top: -2px; /* Margen negativo para acercar aún más */
+}
+
+/* Formulario - Solo cuando hay #loginForm */
+.login-container:has(#loginForm) #loginForm {
+  width: 100%;
+  margin: 0;
+  padding: 0;
+}
+
+/* Grupos de formulario - Solo cuando hay #loginForm */
+.login-container:has(#loginForm) .form-group {
+  margin-bottom: 20px;
+  position: relative;
+  width: 100%;
+  display: flex;
+  align-items: center;
+}
+
+/* Labels ocultos - Solo cuando hay #loginForm */
+.login-container:has(#loginForm) .form-group label {
+  display: none;
+}
+
+/* Inputs - Fondo blanco, bordes redondeados, sombra sutil - Solo cuando hay #loginForm */
+.login-container:has(#loginForm) .form-group input {
+  width: 100%;
+  padding: 16px 16px 16px 50px; /* Espacio para icono izquierdo */
+  border: none;
+  border-radius: 12px;
+  font-size: 16px;
+  background-color: #ffffff;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+  color: #333333;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+  box-sizing: border-box;
+  transition: all 0.2s ease;
+}
+
+/* Placeholder naranja - Solo cuando hay #loginForm */
+.login-container:has(#loginForm) .form-group input::placeholder {
+  color: #ff6b35; /* Naranja */
+  opacity: 1;
+  font-size: 16px;
+}
+
+/* Focus - borde naranja - Solo cuando hay #loginForm */
+.login-container:has(#loginForm) .form-group input:focus {
+  outline: none;
+  box-shadow: 0 4px 12px rgba(255, 107, 53, 0.2);
+  border: 2px solid #ff6b35;
+  padding: 14px 14px 14px 48px; /* Ajustar padding cuando hay borde */
+}
+
+/* Icono de usuario (input username) - Solo cuando hay #loginForm */
+.login-container:has(#loginForm) #username {
+  background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="%23ff6b35"><path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/></svg>');
+  background-repeat: no-repeat;
+  background-position: 16px center;
+  background-size: 24px 24px;
+}
+
+/* Icono de candado (input password) - Solo cuando hay #loginForm */
+.login-container:has(#loginForm) #password {
+  background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="%23ff6b35"><path d="M18 8h-1V6c0-2.76-2.24-5-5-5S7 3.24 7 6v2H6c-1.1 0-2 .9-2 2v10c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V10c0-1.1-.9-2-2-2zm-6 9c-1.1 0-2-.9-2-2s.9-2 2-2 2 .9 2 2-.9 2-2 2zm3.1-9H8.9V6c0-1.71 1.39-3.1 3.1-3.1 1.71 0 3.1 1.39 3.1 3.1v2z"/></svg>');
+  background-repeat: no-repeat;
+  background-position: 16px center;
+  background-size: 24px 24px;
+  padding-right: 50px; /* Espacio para icono de ojo */
+}
+
+/* Icono de ojo tachado (password visibility toggle) - Solo cuando hay #loginForm */
+.login-container:has(#loginForm) #password {
+  background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="%23ff6b35"><path d="M12 7c2.76 0 5 2.24 5 5 0 .65-.13 1.26-.36 1.83l2.92 2.92c1.51-1.26 2.7-2.89 3.43-4.75-1.73-4.39-6-7.5-11-7.5-1.4 0-2.74.25-3.98.7l2.16 2.16C10.74 7.13 11.35 7 12 7zM2 4.27l2.28 2.28.46.46C3.08 8.3 1.78 10.02 1 12c1.73 4.39 6 7.5 11 7.5 1.55 0 3.03-.3 4.38-.84l.42.42L19.73 22 21 20.73 3.27 3 2 4.27zM7.53 9.8l1.55 1.55c-.05.21-.08.43-.08.65 0 1.66 1.34 3 3 3 .22 0 .44-.03.65-.08l1.55 1.55c-.67.33-1.41.53-2.2.53-2.76 0-5-2.24-5-5 0-.79.2-1.53.53-2.2zm4.31-.78l3.15 3.15.02-.16c0-1.66-1.34-3-3-3l-.17.01z"/></svg>'), url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="%23ff6b35"><path d="M18 8h-1V6c0-2.76-2.24-5-5-5S7 3.24 7 6v2H6c-1.1 0-2 .9-2 2v10c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V10c0-1.1-.9-2-2-2zm-6 9c-1.1 0-2-.9-2-2s.9-2 2-2 2 .9 2 2-.9 2-2 2zm3.1-9H8.9V6c0-1.71 1.39-3.1 3.1-3.1 1.71 0 3.1 1.39 3.1 3.1v2z"/></svg>');
+  background-position: right 16px center, left 16px center;
+  background-size: 24px 24px, 24px 24px;
+}
+
+/* Ajuste para cuando el input tiene focus y cambia padding - Solo cuando hay #loginForm */
+.login-container:has(#loginForm) .form-group input:focus {
+  background-position: right 14px center, left 14px center;
+}
+
+/* Botones de acción - Solo cuando hay #loginForm */
+.login-container:has(#loginForm) .form-actions {
+  margin-top: 24px;
+  margin-bottom: 0;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+}
+
+/* Botón Login - Grande, naranja pill-shaped - Solo cuando hay #loginForm */
+.login-container:has(#loginForm) #loginBtn {
+  width: 100%;
+  padding: 18px 32px;
+  border: none;
+  border-radius: 50px; /* Botón completamente redondeado (pill-shaped) */
+  font-size: 18px;
+  font-weight: 700;
+  color: #ffffff;
+  background: linear-gradient(135deg, #ff6b35 0%, #ff8535 100%);
+  cursor: pointer;
+  box-shadow: 0 4px 12px rgba(255, 107, 53, 0.3);
+  transition: all 0.2s ease;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+  text-transform: none;
+  letter-spacing: 0.5px;
+  margin-bottom: 0;
+}
+
+.login-container:has(#loginForm) #loginBtn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 16px rgba(255, 107, 53, 0.4);
+  background: linear-gradient(135deg, #ff8535 0%, #ff6b35 100%);
+}
+
+.login-container:has(#loginForm) #loginBtn:active {
+  transform: translateY(0);
+  box-shadow: 0 2px 8px rgba(255, 107, 53, 0.3);
+}
+
+.login-container:has(#loginForm) #loginBtn:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+  transform: none;
+}
+
+/* Botón "Crear Cuenta" - Ocultar y reemplazar con texto - Solo cuando hay #loginForm */
+.login-container:has(#loginForm) #signupBtn {
+  display: none; /* Ocultar botón original */
+}
+
+/* Sección de registro - Crear texto "Aun no estas registrado?" y "Crea una cuenta" - Solo cuando hay #loginForm */
+.login-container:has(#loginForm) .form-actions::after {
+  content: 'Aun no estas registrado?\ACrea una cuenta';
+  white-space: pre;
+  display: block;
+  margin-top: 32px;
+  text-align: center;
+  width: 100%;
+  font-size: 14px;
+  color: #999999; /* Gris claro */
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+  font-weight: 400;
+  line-height: 1.6;
+}
+
+/* Mensajes de error - Solo cuando hay #loginForm */
+.login-container:has(#loginForm) #errorMessage {
+  margin-top: 16px;
+  width: 100%;
+  font-size: 14px;
+  padding: 10px;
+  border-radius: 8px;
+  background-color: #ffe0e0;
+  color: #cc0000;
+}
+
+/* Tablet (481px - 768px) - Solo cuando hay #loginForm */
+@media (min-width: 481px) {
+  .login-container:has(#loginForm) .page-header {
+    padding: 24px 32px 0;
+  }
+
+  .login-container:has(#loginForm) .back-btn {
+    width: 44px;
+    height: 44px;
+    font-size: 20px;
+  }
+
+  .login-container:has(#loginForm) .login-form {
+    padding: 48px 32px;
+    max-width: 480px; /* Centrado */
+    margin: 0 auto;
+  }
+
+  .login-container:has(#loginForm) .login-form h1 {
+    font-size: 36px;
+    margin-bottom: 40px;
+    min-height: 70px;
+  }
+
+  .login-container:has(#loginForm) .login-form h1::before {
+    font-size: 36px;
+    margin-bottom: -4px; /* Mantener espacio compacto en tablet */
+  }
+
+  .login-container:has(#loginForm) .login-form h1::after {
+    font-size: 36px;
+    margin-top: -2px; /* Mantener espacio compacto en tablet */
+  }
+
+  .login-container:has(#loginForm) .form-group input {
+    padding: 18px 18px 18px 55px;
+    font-size: 17px;
+    border-radius: 14px;
+  }
+
+  .login-container:has(#loginForm) .form-group input:focus {
+    padding: 16px 16px 16px 53px;
+  }
+
+  .login-container:has(#loginForm) #username {
+    background-position: 18px center;
+    background-size: 26px 26px;
+  }
+
+  .login-container:has(#loginForm) #password {
+    background-position: right 18px center, left 18px center;
+    background-size: 26px 26px, 26px 26px;
+  }
+
+  .login-container:has(#loginForm) #loginBtn {
+    padding: 20px 40px;
+    font-size: 20px;
+    border-radius: 50px; /* Mantener botón redondeado en tablet */
+  }
+
+  .login-container:has(#loginForm) .form-actions::after {
+    font-size: 15px;
+  }
+}
+
+/* Desktop (769px+) - Solo cuando hay #loginForm */
+@media (min-width: 769px) {
+  .login-container:has(#loginForm) .page-header {
+    padding: 32px 40px 0;
+  }
+
+  .login-container:has(#loginForm) .back-btn {
+    width: 48px;
+    height: 48px;
+    font-size: 22px;
+  }
+
+  .login-container:has(#loginForm) .login-form {
+    padding: 64px 40px;
+    max-width: 520px; /* Centrado */
+  }
+
+  .login-container:has(#loginForm) .login-form h1 {
+    font-size: 40px;
+    margin-bottom: 48px;
+    min-height: 80px;
+  }
+
+  .login-container:has(#loginForm) .login-form h1::before {
+    font-size: 40px;
+    margin-bottom: -4px; /* Mantener espacio compacto en desktop */
+  }
+
+  .login-container:has(#loginForm) .login-form h1::after {
+    font-size: 40px;
+    margin-top: -2px; /* Mantener espacio compacto en desktop */
+  }
+
+  .login-container:has(#loginForm) .form-group input {
+    padding: 20px 20px 20px 60px;
+    font-size: 18px;
+    border-radius: 16px;
+  }
+
+  .login-container:has(#loginForm) .form-group input:focus {
+    padding: 18px 18px 18px 58px;
+  }
+
+  .login-container:has(#loginForm) #username {
+    background-position: 20px center;
+    background-size: 28px 28px;
+  }
+
+  .login-container:has(#loginForm) #password {
+    background-position: right 20px center, left 20px center;
+    background-size: 28px 28px, 28px 28px;
+  }
+
+  .login-container:has(#loginForm) #loginBtn {
+    padding: 22px 48px;
+    font-size: 22px;
+    border-radius: 50px; /* Mantener botón redondeado en desktop */
+  }
+
+  .login-container:has(#loginForm) .form-actions::after {
+    font-size: 16px;
+  }
+}
+
+/* Pantallas grandes (1024px+) - Solo cuando hay #loginForm */
+@media (min-width: 1024px) {
+  .login-container:has(#loginForm) .page-header {
+    max-width: 600px;
+    margin: 0 auto;
+    padding: 40px 0 0;
+  }
+
+  .login-container:has(#loginForm) .login-form {
+    max-width: 600px;
+    padding: 80px 50px;
+  }
+}
+
+/* =============================================
+   ADMIN SIGNUP SCREEN - Diseño según imagen
+   Pantalla: admin-signup.js
+   Solo aplica cuando hay un #signupForm dentro de .signup-container
+   ============================================= */
+
+/* Contenedor principal del admin signup - Solo cuando hay #signupForm */
+.signup-container:has(#signupForm) {
+  min-height: 100vh;
+  width: 100%;
+  background-color: #f5f5f5; /* Fondo gris claro */
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: flex-start; /* Igual que padrino */
+  position: relative;
+}
+
+/* Header con botón back - Solo cuando hay #signupForm */
+.signup-container:has(#signupForm) .page-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 20px 20px 0;
+  margin-bottom: 0;
+  background-color: transparent;
+  width: 100%;
+  max-width: 100%;
+  position: relative; /* Posición relativa para que esté en el flujo normal */
+  z-index: 10;
+}
+
+/* Botón back - Circular blanco con flecha negra - Solo cuando hay #signupForm */
+.signup-container:has(#signupForm) .back-btn {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background-color: #ffffff;
+  border: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  font-size: 18px;
+  color: #000000;
+  padding: 0;
+  margin: 0;
+  transition: all 0.2s ease;
+  flex-shrink: 0;
+}
+
+.signup-container:has(#signupForm) .back-btn:hover {
+  transform: scale(1.05);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+.signup-container:has(#signupForm) .back-btn:active {
+  transform: scale(0.95);
+}
+
+/* Ocultar h1 del header (PetLink) - Solo cuando hay #signupForm */
+.signup-container:has(#signupForm) .page-header h1 {
+  display: none;
+}
+
+/* Ocultar div vacío del header - Solo cuando hay #signupForm */
+.signup-container:has(#signupForm) .page-header div {
+  display: none;
+}
+
+/* Contenedor de formulario - Solo cuando hay #signupForm */
+.signup-container:has(#signupForm) .signup-form {
+  width: 100%;
+  max-width: 100%;
+  padding: 32px 20px;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  flex: 1;
+  background-color: transparent;
+  border-radius: 0;
+  box-shadow: none;
+}
+
+/* Ocultar título original y crear nuevo - Solo cuando hay #signupForm */
+.signup-container:has(#signupForm) .signup-form h1 {
+  font-size: 32px;
+  font-weight: 700;
+  color: transparent;
+  margin: 0 0 32px 0;
+  padding: 0;
+  line-height: 1.0; /* Line-height compacto para acercar las líneas */
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+  position: relative;
+  height: auto;
+  min-height: 60px;
+  text-align: left; /* Alineado a la izquierda */
+  width: 100%;
+}
+
+/* Crear "Crea una" en negro - Solo cuando hay #signupForm */
+.signup-container:has(#signupForm) .signup-form h1::before {
+  content: 'Crea una';
+  display: block;
+  color: #000000;
+  font-weight: 700;
+  font-size: 32px;
+  line-height: 1.0; /* Line-height compacto */
+  margin-bottom: -20px; /* Margen negativo muy grande para juntarlos al máximo */
+}
+
+/* Crear "cuenta" en naranja - Solo cuando hay #signupForm */
+.signup-container:has(#signupForm) .signup-form h1::after {
+  content: 'cuenta';
+  display: block;
+  color: #ff6b35; /* Naranja */
+  font-weight: 700;
+  font-size: 32px;
+  line-height: 1.0; /* Line-height compacto */
+  margin-top: -18px; /* Margen negativo muy grande para juntarlos al máximo */
+}
+
+/* Formulario - Solo cuando hay #signupForm */
+.signup-container:has(#signupForm) #signupForm {
+  width: 100%;
+  margin: 0;
+  padding: 0;
+}
+
+/* Grupos de formulario - Solo cuando hay #signupForm */
+.signup-container:has(#signupForm) .form-group {
+  margin-bottom: 20px;
+  position: relative;
+  width: 100%;
+  display: flex;
+  align-items: center;
+}
+
+/* Labels ocultos - Solo cuando hay #signupForm */
+.signup-container:has(#signupForm) .form-group label {
+  display: none;
+}
+
+/* Inputs - Fondo blanco, bordes redondeados, sombra sutil - Solo cuando hay #signupForm */
+.signup-container:has(#signupForm) .form-group input {
+  width: 100%;
+  padding: 16px 16px 16px 50px; /* Espacio para icono izquierdo */
+  border: none;
+  border-radius: 12px;
+  font-size: 16px;
+  background-color: #ffffff;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+  color: #333333;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+  box-sizing: border-box;
+  transition: all 0.2s ease;
+}
+
+/* Placeholder naranja - Solo cuando hay #signupForm */
+.signup-container:has(#signupForm) .form-group input::placeholder {
+  color: #ff6b35; /* Naranja */
+  opacity: 1;
+  font-size: 16px;
+}
+
+/* Focus - borde naranja - Solo cuando hay #signupForm */
+.signup-container:has(#signupForm) .form-group input:focus {
+  outline: none;
+  box-shadow: 0 4px 12px rgba(255, 107, 53, 0.2);
+  border: 2px solid #ff6b35;
+  padding: 14px 14px 14px 48px; /* Ajustar padding cuando hay borde */
+}
+
+/* Icono de usuario (input foundationName) - Solo cuando hay #signupForm */
+.signup-container:has(#signupForm) #foundationName {
+  background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="%23ff6b35"><path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/></svg>');
+  background-repeat: no-repeat;
+  background-position: 16px center;
+  background-size: 24px 24px;
+}
+
+/* Icono de usuario (input name) - Solo cuando hay #signupForm */
+.signup-container:has(#signupForm) #name {
+  background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="%23ff6b35"><path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/></svg>');
+  background-repeat: no-repeat;
+  background-position: 16px center;
+  background-size: 24px 24px;
+}
+
+/* Icono @ (input username) - Solo cuando hay #signupForm */
+.signup-container:has(#signupForm) #username {
+  background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="%23ff6b35"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 3c1.66 0 3 1.34 3 3s-1.34 3-3 3-3-1.34-3-3 1.34-3 3-3zm0 14.2c-2.5 0-4.71-1.28-6-3.22.03-1.99 4-3.08 6-3.08 1.99 0 5.97 1.09 6 3.08-1.29 1.94-3.5 3.22-6 3.22z"/></svg>');
+  background-repeat: no-repeat;
+  background-position: 16px center;
+  background-size: 24px 24px;
+}
+
+/* Icono de sobre/email (input email) - Solo cuando hay #signupForm */
+.signup-container:has(#signupForm) #email {
+  background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="%23ff6b35"><path d="M20 4H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z"/></svg>');
+  background-repeat: no-repeat;
+  background-position: 16px center;
+  background-size: 24px 24px;
+}
+
+/* Icono de candado (input password) - Solo cuando hay #signupForm */
+.signup-container:has(#signupForm) #password {
+  background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="%23ff6b35"><path d="M18 8h-1V6c0-2.76-2.24-5-5-5S7 3.24 7 6v2H6c-1.1 0-2 .9-2 2v10c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V10c0-1.1-.9-2-2-2zm-6 9c-1.1 0-2-.9-2-2s.9-2 2-2 2 .9 2 2-.9 2-2 2zm3.1-9H8.9V6c0-1.71 1.39-3.1 3.1-3.1 1.71 0 3.1 1.39 3.1 3.1v2z"/></svg>');
+  background-repeat: no-repeat;
+  background-position: 16px center;
+  background-size: 24px 24px;
+}
+
+/* Icono de candado (input confirmPassword) - Solo cuando hay #signupForm */
+.signup-container:has(#signupForm) #confirmPassword {
+  background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="%23ff6b35"><path d="M18 8h-1V6c0-2.76-2.24-5-5-5S7 3.24 7 6v2H6c-1.1 0-2 .9-2 2v10c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V10c0-1.1-.9-2-2-2zm-6 9c-1.1 0-2-.9-2-2s.9-2 2-2 2 .9 2 2-.9 2-2 2zm3.1-9H8.9V6c0-1.71 1.39-3.1 3.1-3.1 1.71 0 3.1 1.39 3.1 3.1v2z"/></svg>');
+  background-repeat: no-repeat;
+  background-position: 16px center;
+  background-size: 24px 24px;
+}
+
+/* Ajuste para cuando el input tiene focus y cambia padding - Solo cuando hay #signupForm */
+.signup-container:has(#signupForm) .form-group input:focus {
+  background-position: 14px center, 14px center;
+}
+
+/* Botones de acción - Solo cuando hay #signupForm */
+.signup-container:has(#signupForm) .form-actions {
+  margin-top: 24px;
+  margin-bottom: 0;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+}
+
+/* Botón Register - Grande, naranja pill-shaped - Solo cuando hay #signupForm */
+.signup-container:has(#signupForm) #signupBtn {
+  width: 100%;
+  padding: 18px 32px;
+  border: none;
+  border-radius: 50px; /* Botón completamente redondeado (pill-shaped) */
+  font-size: 18px;
+  font-weight: 700;
+  color: #ffffff;
+  background: linear-gradient(135deg, #ff6b35 0%, #ff8535 100%);
+  cursor: pointer;
+  box-shadow: 0 4px 12px rgba(255, 107, 53, 0.3);
+  transition: all 0.2s ease;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+  text-transform: none;
+  letter-spacing: 0.5px;
+  margin-bottom: 0;
+}
+
+.signup-container:has(#signupForm) #signupBtn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 16px rgba(255, 107, 53, 0.4);
+  background: linear-gradient(135deg, #ff8535 0%, #ff6b35 100%);
+}
+
+.signup-container:has(#signupForm) #signupBtn:active {
+  transform: translateY(0);
+  box-shadow: 0 2px 8px rgba(255, 107, 53, 0.3);
+}
+
+.signup-container:has(#signupForm) #signupBtn:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+  transform: none;
+}
+
+/* Botón "Accede a tu cuenta" - NO ocultar, solo estilizar - Solo cuando hay #signupForm */
+/* El botón debe mostrarse, solo se estiliza en la sección de abajo */
+
+/* Sección de login link - "Ya tienes una cuenta?" - Solo cuando hay #signupForm */
+.signup-container:has(#signupForm) .signup-form > div:last-of-type {
+  margin-top: 32px;
+  text-align: center;
+  width: 100%;
+}
+
+.signup-container:has(#signupForm) .signup-form > div:last-of-type small {
+  display: block;
+  font-size: 14px;
+  color: #999999; /* Gris claro */
+  margin-bottom: 8px;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+  font-weight: 400;
+}
+
+/* Botón "Accede a tu cuenta" - Estilo texto/link - Solo cuando hay #signupForm */
+.signup-container:has(#signupForm) #loginBtn {
+  background-color: transparent !important;
+  color: #999999 !important; /* Gris claro */
+  border: none !important;
+  padding: 0 !important;
+  font-size: 14px !important; /* Mismo tamaño que "¿Ya tienes cuenta?" */
+  font-weight: 400 !important; /* Regular/light */
+  box-shadow: none !important;
+  text-decoration: underline !important;
+  width: auto !important;
+  margin: 0 auto !important;
+  cursor: pointer;
+  display: block !important; /* Asegurar que se muestre */
+}
+
+.signup-container:has(#signupForm) #loginBtn:hover {
+  color: #666666 !important;
+  transform: none !important;
+  box-shadow: none !important;
+  background-color: transparent !important;
+}
+
+.signup-container:has(#signupForm) #loginBtn:active {
+  transform: none !important;
+}
+
+/* Mensajes de error/success - Solo cuando hay #signupForm */
+.signup-container:has(#signupForm) .messages-section {
+  margin-top: 16px;
+  width: 100%;
+}
+
+.signup-container:has(#signupForm) #errorMessage {
+  background-color: #ffe0e0;
+  color: #cc0000;
+  font-size: 14px;
+  padding: 10px;
+  border-radius: 8px;
+}
+
+.signup-container:has(#signupForm) #successMessage {
+  background-color: #e0ffe0;
+  color: #008000;
+  font-size: 14px;
+  padding: 10px;
+  border-radius: 8px;
+}
+
+/* Tablet (481px - 768px) - Solo cuando hay #signupForm */
+@media (min-width: 481px) {
+  .signup-container:has(#signupForm) .page-header {
+    padding: 24px 32px 0;
+  }
+
+  .signup-container:has(#signupForm) .back-btn {
+    width: 44px;
+    height: 44px;
+    font-size: 20px;
+  }
+
+  .signup-container:has(#signupForm) .signup-form {
+    padding: 48px 32px;
+    max-width: 480px; /* Centrado */
+    margin: 0 auto;
+  }
+
+  .signup-container:has(#signupForm) .signup-form > div:last-of-type small {
+    font-size: 15px;
+  }
+
+  .signup-container:has(#signupForm) #loginBtn {
+    font-size: 15px !important; /* Mismo tamaño que "¿Ya tienes cuenta?" en tablet */
+  }
+
+  .signup-container:has(#signupForm) .signup-form h1 {
+    font-size: 36px;
+    margin-bottom: 40px;
+    min-height: 70px;
+  }
+
+  .signup-container:has(#signupForm) .signup-form h1::before {
+    font-size: 36px;
+    margin-bottom: -20px; /* Espacio mínimo en tablet */
+  }
+
+  .signup-container:has(#signupForm) .signup-form h1::after {
+    font-size: 36px;
+    margin-top: -18px; /* Espacio mínimo en tablet */
+  }
+
+  .signup-container:has(#signupForm) .form-group input {
+    padding: 18px 18px 18px 55px;
+    font-size: 17px;
+    border-radius: 14px;
+  }
+
+  .signup-container:has(#signupForm) .form-group input:focus {
+    padding: 16px 16px 16px 53px;
+  }
+
+  .signup-container:has(#signupForm) #foundationName,
+  .signup-container:has(#signupForm) #name,
+  .signup-container:has(#signupForm) #username,
+  .signup-container:has(#signupForm) #email,
+  .signup-container:has(#signupForm) #password,
+  .signup-container:has(#signupForm) #confirmPassword {
+    background-position: 18px center;
+    background-size: 26px 26px;
+  }
+
+  .signup-container:has(#signupForm) #signupBtn {
+    padding: 20px 40px;
+    font-size: 20px;
+    border-radius: 50px; /* Mantener botón redondeado en tablet */
+  }
+
+}
+
+/* Desktop (769px+) - Solo cuando hay #signupForm */
+@media (min-width: 769px) {
+  .signup-container:has(#signupForm) .page-header {
+    padding: 32px 40px 0;
+  }
+
+  .signup-container:has(#signupForm) .back-btn {
+    width: 48px;
+    height: 48px;
+    font-size: 22px;
+  }
+
+  .signup-container:has(#signupForm) .signup-form {
+    padding: 64px 40px;
+    max-width: 520px; /* Centrado */
+  }
+
+  .signup-container:has(#signupForm) .signup-form > div:last-of-type small {
+    font-size: 16px;
+  }
+
+  .signup-container:has(#signupForm) #loginBtn {
+    font-size: 16px !important; /* Mismo tamaño que "¿Ya tienes cuenta?" en desktop */
+  }
+
+  .signup-container:has(#signupForm) .signup-form h1 {
+    font-size: 40px;
+    margin-bottom: 48px;
+    min-height: 80px;
+  }
+
+  .signup-container:has(#signupForm) .signup-form h1::before {
+    font-size: 40px;
+    margin-bottom: -20px; /* Espacio mínimo en desktop */
+  }
+
+  .signup-container:has(#signupForm) .signup-form h1::after {
+    font-size: 40px;
+    margin-top: -18px; /* Espacio mínimo en desktop */
+  }
+
+  .signup-container:has(#signupForm) .form-group input {
+    padding: 20px 20px 20px 60px;
+    font-size: 18px;
+    border-radius: 16px;
+  }
+
+  .signup-container:has(#signupForm) .form-group input:focus {
+    padding: 18px 18px 18px 58px;
+  }
+
+  .signup-container:has(#signupForm) #foundationName,
+  .signup-container:has(#signupForm) #name,
+  .signup-container:has(#signupForm) #username,
+  .signup-container:has(#signupForm) #email,
+  .signup-container:has(#signupForm) #password,
+  .signup-container:has(#signupForm) #confirmPassword {
+    background-position: 20px center;
+    background-size: 28px 28px;
+  }
+
+  .signup-container:has(#signupForm) #signupBtn {
+    padding: 22px 48px;
+    font-size: 22px;
+    border-radius: 50px; /* Mantener botón redondeado en desktop */
+  }
+
+}
+
+/* Pantallas grandes (1024px+) - Solo cuando hay #signupForm */
+@media (min-width: 1024px) {
+  .signup-container:has(#signupForm) .page-header {
+    max-width: 600px;
+    margin: 0 auto;
+    padding: 40px 0 0;
+  }
+
+  .signup-container:has(#signupForm) .signup-form {
+    max-width: 600px;
+    padding: 80px 50px;
+  }
+}
+
+/* =============================================
+   DASHBOARD - Diseño exacto según imagen
+   Pantalla: dashboard.js (Administrador)
+   ============================================= */
+
+.dashboard-container {
+  min-height: 100vh;
+  width: 100%;
+  padding: 0;
+  margin: 0;
+  background: linear-gradient(to bottom, #ffffff, #ffeb3b); /* Gradiente vertical de blanco a amarillo */
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  position: relative;
+}
+
+/* Banda naranja superior con logo */
+.dashboard-container .dashboard-header {
+  width: 100%;
+  background-color: #ff6b35; /* Naranja */
+  padding: 16px 20px;
+  margin: 0;
+  position: relative;
+  z-index: 10;
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+/* Ocultar contenido original del header excepto el botón de logout */
+.dashboard-container .dashboard-header .header-content h1,
+.dashboard-container .dashboard-header .user-info .welcome-text,
+.dashboard-container .dashboard-header .user-info .foundation-text {
+  display: none;
+}
+
+/* Hacer visible el botón de logout */
+.dashboard-container .dashboard-header .user-info {
+  display: block;
+  position: absolute;
+  top: auto;
+  left: auto;
+  right: 0;
+  bottom: 0;
+}
+
+.dashboard-container .dashboard-header {
+  position: relative;
+}
+
+/* Logo blanco en la banda naranja */
+.dashboard-container .dashboard-header::before {
+  content: '';
+  display: block;
+  width: 48px;
+  height: 48px;
+  background-image: url('/images/logo.png');
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-position: center;
+  margin-right: 0;
+  filter: brightness(0) invert(1); /* Hacer el logo blanco */
+  flex-shrink: 0;
+}
+
+/* Contenido principal centrado */
+.dashboard-container .dashboard-content {
+  width: 100%;
+  padding: 60px 20px 100px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  flex: 1;
+}
+
+.dashboard-container .dashboard-menu {
+  width: 100%;
+  max-width: 600px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 40px;
+}
+
+/* Título "Que haremos hoy?" - En una sola línea */
+.dashboard-container .dashboard-menu h2 {
+  font-size: 32px;
+  font-weight: 700;
+  margin: 0;
+  text-align: center;
+  white-space: nowrap;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+  letter-spacing: 0;
+  line-height: 1.2;
+}
+
+/* Ocultar texto original del h2 */
+.dashboard-container .dashboard-menu h2 {
+  color: transparent;
+  font-size: 0;
+}
+
+/* "Que haremos" en negro */
+.dashboard-container .dashboard-menu h2::before {
+  content: 'Que haremos';
+  display: inline;
+  color: #000000;
+  font-size: 32px;
+  font-weight: 700;
+  margin-right: 4px;
+}
+
+/* "hoy?" en naranja - inline para estar junto */
+.dashboard-container .dashboard-menu h2::after {
+  content: 'hoy?';
+  display: inline !important;
+  color: #ff6b35;
+  font-size: 32px;
+  font-weight: 700;
+  margin-left: 0;
+  letter-spacing: 0;
+}
+
+/* Grid de menu cards - 2x2 */
+.dashboard-container .menu-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 20px;
+  width: 100%;
+  max-width: 500px;
+}
+
+.dashboard-container .menu-card {
+  background-color: #ffffff;
+  border-radius: 16px;
+  padding: 24px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  min-height: 180px;
+  position: relative;
+}
+
+.dashboard-container .menu-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+}
+
+/* Ocultar h3, p y botones originales */
+.dashboard-container .menu-card h3,
+.dashboard-container .menu-card p,
+.dashboard-container .menu-card .menu-btn {
+  display: none;
+}
+
+/* Iconos de las cards usando las imágenes proporcionadas */
+
+/* Card 1: Editar Catálogo - Icono de libreta roja con lápiz */
+.dashboard-container .menu-card:nth-child(1)::before {
+  content: '';
+  display: block;
+  width: 80px;
+  height: 80px;
+  background-image: url('/images/catalogo.png');
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-position: center;
+  margin-bottom: 12px;
+}
+
+/* Card 2: Agregar Mascota - Icono de perro naranja con plus amarillo */
+.dashboard-container .menu-card:nth-child(2)::before {
+  content: '';
+  display: block;
+  width: 80px;
+  height: 80px;
+  background-image: url('/images/agregar-mascota.png');
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-position: center;
+  margin-bottom: 12px;
+}
+
+/* Card 3: Donaciones - Icono de dólar amarillo */
+.dashboard-container .menu-card:nth-child(3)::before {
+  content: '';
+  display: block;
+  width: 80px;
+  height: 80px;
+  background-image: url('/images/donacion.png');
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-position: center;
+  margin-bottom: 12px;
+}
+
+/* Card 4: Solicitudes de citas - Icono de calendario azul con check */
+.dashboard-container .menu-card:nth-child(4)::before {
+  content: '';
+  display: block;
+  width: 80px;
+  height: 80px;
+  background-image: url('/images/citas.png');
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-position: center;
+  margin-bottom: 12px;
+}
+
+/* Títulos de las cards - Crear usando pseudo-elementos */
+.dashboard-container .menu-card:nth-child(1)::after {
+  content: 'Editar Catálogo';
+  display: block;
+  font-size: 16px;
+  font-weight: 600;
+  color: #333333;
+  margin-top: 8px;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+}
+
+.dashboard-container .menu-card:nth-child(2)::after {
+  content: 'Agregar Mascota';
+  display: block;
+  font-size: 16px;
+  font-weight: 600;
+  color: #333333;
+  margin-top: 8px;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+}
+
+.dashboard-container .menu-card:nth-child(3)::after {
+  content: 'Donación';
+  display: block;
+  font-size: 16px;
+  font-weight: 600;
+  color: #333333;
+  margin-top: 8px;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+}
+
+.dashboard-container .menu-card:nth-child(4)::after {
+  content: 'Solicitudes de citas';
+  display: block;
+  font-size: 16px;
+  font-weight: 600;
+  color: #333333;
+  margin-top: 8px;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+}
+
+/* Botón Cerrar Sesión - Abajo derecha */
+.dashboard-container #logoutBtn {
+  position: fixed !important;
+  bottom: 30px !important;
+  right: 20px !important;
+  left: auto !important;
+  padding: 0 !important;
+  background-color: transparent !important;
+  border: none !important;
+  font-size: 16px !important;
+  font-weight: 500 !important;
+  color: #ff6b35 !important;
+  cursor: pointer !important;
+  z-index: 1000 !important;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif !important;
+  display: flex !important;
+  align-items: center !important;
+  gap: 8px !important;
+  transition: all 0.2s ease !important;
+  margin: 0 !important;
+  transform: none !important;
+  width: auto !important;
+  height: auto !important;
+}
+
+.dashboard-container #logoutBtn:hover {
+  color: #e55a2b !important;
+  transform: translateY(-2px) !important;
+}
+
+.dashboard-container #logoutBtn:active {
+  transform: translateY(0) !important;
+}
+
+/* Asegurar que el texto del botón sea visible */
+.dashboard-container #logoutBtn {
+  visibility: visible !important;
+  opacity: 1 !important;
+}
+
+/* Icono de flecha antes del texto "Cerrar sesión" */
+.dashboard-container #logoutBtn::before {
+  content: '←';
+  display: inline-block;
+  font-size: 16px;
+  color: #ff6b35;
+}
+
+/* Responsive Dashboard */
+@media (min-width: 481px) {
+  .dashboard-container .menu-grid {
+    max-width: 600px;
+    gap: 24px;
+  }
+
+  .dashboard-container .menu-card {
+    min-height: 200px;
+    padding: 28px;
+  }
+
+  .dashboard-container .menu-card::before {
+    width: 90px !important;
+    height: 90px !important;
+  }
+
+  .dashboard-container .dashboard-menu h2::before,
+  .dashboard-container .dashboard-menu h2::after {
+    font-size: 36px;
+  }
+}
+
+@media (min-width: 769px) {
+  .dashboard-container .dashboard-menu {
+    max-width: 700px;
+  }
+
+  .dashboard-container .dashboard-menu h2::before,
+  .dashboard-container .dashboard-menu h2::after {
+    font-size: 40px;
+  }
+}
+
+@media (min-width: 1024px) {
+  .dashboard-container .menu-grid {
+    max-width: 800px;
+  }
+
+  .dashboard-container .menu-card {
+    min-height: 220px;
+  }
+
+  .dashboard-container .menu-card::before {
+    width: 100px !important;
+    height: 100px !important;
+  }
+}
+
+/* =============================================
+   APPOINTMENTS MANAGE SCREEN - Diseño exacto según imagen
+   Pantalla: appointments-manage.js
+   ============================================= */
+
+.appointments-manage-container {
+  min-height: 100vh;
+  width: 100%;
+  background-color: #f5f5f5; /* Fondo gris claro */
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  position: relative;
+}
+
+/* Header naranja superior */
+.appointments-manage-container .page-header {
+  width: 100%;
+  background-color: #ff6b35; /* Naranja */
+  padding: 16px 20px;
+  margin: 0;
+  position: relative;
+  z-index: 10;
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+/* Logo blanco estilizado en el header */
+.appointments-manage-container .page-header::before {
+  content: '';
+  display: block;
+  width: 48px;
+  height: 48px;
+  background-image: url('/images/logo.png');
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-position: center;
+  margin-right: 0;
+  filter: brightness(0) invert(1); /* Hacer el logo blanco */
+  flex-shrink: 0;
+}
+
+/* Ocultar h1 original del header */
+.appointments-manage-container .page-header h1 {
+  display: none;
+}
+
+/* Botón back - Estilizar y posicionar */
+.appointments-manage-container .page-header .back-btn {
+  position: absolute;
+  top: 100px;
+  left: 20px;
+  width: 40px;
+  height: 40px;
+  background-color: #ffffff;
+  border: none;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 20px;
+  color: #333333;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  z-index: 20;
+  cursor: pointer;
+  line-height: 1;
+  padding: 0;
+  margin: 0;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+  transition: all 0.2s ease;
+}
+
+.appointments-manage-container .page-header .back-btn:hover {
+  transform: scale(1.05);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+.appointments-manage-container .page-header .back-btn:active {
+  transform: scale(0.95);
+}
+
+/* Ocultar texto del botón, solo mostrar flecha */
+.appointments-manage-container .page-header .back-btn {
+  text-indent: -9999px;
+  overflow: hidden;
+}
+
+.appointments-manage-container .page-header .back-btn::before {
+  content: '←';
+  text-indent: 0;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  font-size: 20px;
+  color: #333333;
+}
+
+/* Contenido principal */
+.appointments-manage-container .appointments-content {
+  width: 100%;
+  padding: 0;
+  margin: 0;
+  position: relative;
+  z-index: 1;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+/* Título "Citas de juego" */
+.appointments-manage-container .appointments-section .section-header {
+  display: block;
+  padding: 0 20px 8px;
+  margin-top: 28px;
+  background-color: #f5f5f5;
+  white-space: nowrap;
+  text-align: center;
+}
+
+/* Ocultar el h2 original */
+.appointments-manage-container .appointments-section .section-header h2 {
+  display: none;
+}
+
+/* Ocultar count-badge */
+.appointments-manage-container .appointments-section .section-header .count-badge {
+  display: none;
+}
+
+/* Crear "Citas de" en negro */
+.appointments-manage-container .appointments-section .section-header::before {
+  content: 'Citas de';
+  display: inline;
+  font-size: 28px;
+  font-weight: 700;
+  color: #000000;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+  line-height: 1.2;
+  white-space: nowrap;
+  margin-right: 4px;
+}
+
+/* Crear "juego" en naranja */
+.appointments-manage-container .appointments-section .section-header::after {
+  content: 'juego';
+  display: inline;
+  font-size: 28px;
+  font-weight: 700;
+  color: #ff6b35; /* Naranja */
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+  line-height: 1.2;
+  margin-left: 0;
+  letter-spacing: 0;
+}
+
+/* Sección de búsqueda */
+.appointments-manage-container .appointments-section .search-section {
+  width: 100%;
+  padding: 0 20px 20px;
+  background-color: #f5f5f5;
+  padding-top: 15px;
+}
+
+.appointments-manage-container .search-container {
+  position: relative;
+  width: 100%;
+}
+
+.appointments-manage-container .search-input {
+  width: 100%;
+  padding: 14px 16px 14px 45px;
+  border: none;
+  border-radius: 25px;
+  font-size: 15px;
+  background-color: #ffffff;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+  color: #333333;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+  box-sizing: border-box;
+  transition: all 0.2s ease;
+  background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="%23ff6b35"><path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z"/></svg>');
+  background-repeat: no-repeat;
+  background-position: 12px center;
+  background-size: 22px 22px;
+}
+
+.appointments-manage-container .search-input::placeholder {
+  color: #999999;
+  opacity: 1;
+  font-size: 15px;
+}
+
+.appointments-manage-container .search-input:focus {
+  outline: none;
+  box-shadow: 0 4px 12px rgba(255, 107, 53, 0.2);
+  border: 2px solid #ff6b35;
+  padding: 12px 14px 12px 43px;
+}
+
+.appointments-manage-container .clear-search-btn {
+  position: absolute;
+  right: 10px;
+  top: 50%;
+  transform: translateY(-50%);
+  background-color: transparent;
+  border: none;
+  color: #999999;
+  font-size: 14px;
+  cursor: pointer;
+  padding: 5px;
+  transition: color 0.2s ease;
+}
+
+.appointments-manage-container .clear-search-btn:hover {
+  color: #666666;
+}
+
+/* Lista de citas */
+.appointments-manage-container .appointments-list {
+  padding: 0 20px 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  width: 100%;
+  max-width: 100%;
+  margin: 0 auto;
+  flex: 1;
+}
+
+/* Card de cita - Se adapta al contenido, todo dentro */
+.appointments-manage-container .appointment-card {
+  background-color: #ffffff;
+  border-radius: 16px;
+  padding: 0;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  display: flex;
+  flex-direction: row;
+  align-items: stretch;
+  overflow: hidden; /* Asegurar que nada se salga */
+  position: relative;
+  min-height: auto; /* Adaptarse al contenido */
+  height: auto; /* Altura automática */
+  box-sizing: border-box; /* Incluir padding en las dimensiones */
+}
+
+/* Ocultar appointment-status */
+.appointments-manage-container .appointment-card .appointment-status {
+  display: none;
+}
+
+/* Card header - Contiene la imagen del perro - Se adapta al contenido */
+.appointments-manage-container .appointment-card .card-header {
+  width: 100px;
+  min-width: 100px;
+  max-width: 100px;
+  padding: 0;
+  background-color: transparent;
+  flex-shrink: 0;
+  position: relative;
+  display: flex;
+  align-items: stretch; /* Estirar para que coincida con la altura del contenido */
+  justify-content: center;
+  overflow: hidden;
+}
+
+/* Contenedor de la imagen del perro - Movido un poco a la derecha */
+.appointments-manage-container .appointment-card .card-header .dog-info {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 16px 8px 16px 16px; /* Más padding izquierdo para mover la imagen a la derecha */
+  position: relative;
+}
+
+/* Blob de color ELIMINADO - Cards limpias sin formas de color */
+.appointments-manage-container .appointment-card .card-header .dog-info::before {
+  display: none;
+}
+
+/* Imagen del perro - CÍRCULO PERFECTO sobre el blob - Ajustado para la segunda imagen */
+.appointments-manage-container .appointment-card .card-header .dog-info .dog-image {
+  position: relative;
+  z-index: 2;
+  width: 90px;
+  height: 90px;
+  min-width: 90px;
+  min-height: 90px;
+  border-radius: 50%;
+  overflow: hidden;
+  border: 3px solid rgba(255, 255, 255, 0.9);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+}
+
+.appointments-manage-container .appointment-card .card-header .dog-info .dog-image img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  aspect-ratio: 1 / 1;
+  border-radius: 50%;
+}
+
+/* Placeholder si no hay imagen */
+.appointments-manage-container .appointment-card .card-header .dog-info .dog-image .no-image {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 44px;
+  background-color: #f5f5f5;
+  border-radius: 50%;
+}
+
+/* Panel blanco - Lado derecho (card-body) - Más padding para que nada se vea pegado a los bordes */
+.appointments-manage-container .appointment-card .card-body {
+  flex: 1;
+  padding: 20px 20px 20px 10px; /* Padding generoso para que el contenido no se vea pegado */
+  background-color: #ffffff;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between; /* Distribuir espacio correctamente */
+  align-items: stretch;
+  min-height: auto;
+  height: auto;
+  overflow: hidden; /* Asegurar que nada se salga */
+  position: relative;
+  box-sizing: border-box;
+}
+
+/* Contenedor de contenido - Espaciado reducido entre nombre y texto */
+.appointments-manage-container .appointment-card .card-body .card-content {
+  display: flex;
+  flex-direction: column;
+  gap: 5px; /* Espaciado reducido entre nombre y texto */
+  flex: 0 0 auto; /* No crecer, solo el tamaño del contenido */
+  min-height: 0;
+  overflow: visible;
+  margin-bottom: 0;
+  padding-bottom: 0;
+  padding-top: 4px; /* Pequeño padding superior para separar del borde */
+  padding-right: 4px; /* Pequeño padding derecho para separar del borde */
+}
+
+/* Nombre del perro en naranja y bold */
+.appointments-manage-container .appointment-card .card-body .card-content .dog-name {
+  font-size: 20px;
+  font-weight: 700;
+  color: #ff6b35; /* Naranja */
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+  margin: 0;
+  margin-bottom: 0; /* Sin margen adicional, el gap controla el espacio */
+  line-height: 1.2;
+  text-transform: uppercase;
+}
+
+/* Usuario/Padrino - Estilo del nombre del usuario */
+.appointments-manage-container .appointment-card .card-body .card-content .padrino-name {
+  font-size: 14px;
+  color: #000000;
+  font-weight: 400;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+  margin: 0;
+  line-height: 1.4;
+}
+
+/* Contenedor de detalles - Sin fondo gris */
+.appointments-manage-container .appointment-card .card-body .card-content .appointment-details {
+  display: flex !important;
+  flex-direction: column !important;
+  gap: 4px; /* Gap consistente */
+  margin-top: 0;
+  margin-bottom: 0 !important;
+  background-color: transparent !important;
+  padding: 0 !important;
+  border-radius: 0 !important;
+  border: none !important;
+  box-shadow: none !important;
+}
+
+/* Ocultar teléfono y notas */
+.appointments-manage-container .appointment-card .card-body .appointment-details .detail-item:nth-child(3),
+.appointments-manage-container .appointment-card .card-body .appointment-details .detail-item:nth-child(4) {
+  display: none;
+}
+
+/* Detail items - Fecha y hora */
+.appointments-manage-container .appointment-card .card-body .appointment-details .detail-item {
+  display: block;
+  font-size: 14px;
+  color: #000000;
+  font-weight: 400;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+  line-height: 1.4;
+  margin: 0;
+}
+
+.appointments-manage-container .appointment-card .card-body .appointment-details .detail-item .label {
+  display: inline !important;
+  font-size: 12px !important;
+  color: #000000 !important;
+  font-weight: 400 !important;
+  margin-right: 2px;
+  text-transform: capitalize !important; /* Primera letra mayúscula, resto minúsculas: "Fecha:" y "Hora:" */
+}
+
+.appointments-manage-container .appointment-card .card-body .appointment-details .detail-item .value {
+  display: inline;
+  font-size: 14px;
+  color: #000000;
+  font-weight: 400;
+}
+
+/* =============================================
+   DONATIONS VIEW SCREEN - Diseño según imagen
+   Pantalla: donations-view.js (Administrador)
+   ============================================= */
+
+/* Contenedor principal - Encapsulado para no afectar otras pantallas */
+.donations-view-container {
+  min-height: 100vh;
+  width: 100%;
+  background-color: #f5f5f5; /* Fondo gris claro */
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  position: relative;
+}
+
+/* Header naranja superior */
+.donations-view-container .page-header {
+  width: 100%;
+  background-color: #ff6b35; /* Naranja */
+  padding: 16px 20px;
+  margin: 0;
+  position: relative;
+  z-index: 10;
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+/* Logo "P" blanco en el header - Cargar logo aquí: /admin-app/public/images/logo.png */
+.donations-view-container .page-header::before {
+  content: '';
+  display: block;
+  width: 48px;
+  height: 48px;
+  background-image: url('/images/logo.png');
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-position: center;
+  margin-right: 0;
+  filter: brightness(0) invert(1); /* Hacer el logo blanco */
+  flex-shrink: 0;
+}
+
+/* Ocultar h1 original del header */
+.donations-view-container .page-header h1 {
+  display: none;
+}
+
+/* Botón back - Circular blanco */
+.donations-view-container .page-header .back-btn {
+  position: absolute;
+  top: 95px; /* Bajar un poco más el botón (antes 75px) */
+  left: 20px;
+  width: 40px;
+  height: 40px;
+  background-color: #ffffff;
+  border: none;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 20px;
+  color: #333333;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  z-index: 20;
+  cursor: pointer;
+  line-height: 1;
+  padding: 0;
+  margin: 0;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+  transition: all 0.2s ease;
+}
+
+.donations-view-container .page-header .back-btn:hover {
+  transform: scale(1.05);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+.donations-view-container .page-header .back-btn:active {
+  transform: scale(0.95);
+}
+
+/* Ocultar texto del botón, solo mostrar flecha */
+.donations-view-container .page-header .back-btn {
+  text-indent: -9999px;
+  overflow: hidden;
+}
+
+.donations-view-container .page-header .back-btn::before {
+  content: '←';
+  text-indent: 0;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  font-size: 20px;
+  color: #333333;
+}
+
+/* Contenido principal */
+.donations-view-container .donations-content {
+  width: 100%;
+  padding: 0;
+  margin: 0;
+  position: relative;
+  z-index: 1;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  background-color: #f5f5f5;
+}
+
+/* Título "Ver Donaciones" - Usar el page-header h1 */
+.donations-view-container .page-header h1 {
+  display: block;
+  position: absolute;
+  top: 102px; /* Bajar un poco más el título (antes 75px) */
+  left: 87px; /* Separado del botón de volver */
+  margin: 0;
+  padding: 0;
+  font-size: 0; /* Ocultar texto original */
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+}
+
+/* Crear "Ver" en naranja */
+.donations-view-container .page-header h1::before {
+  content: 'Ver';
+  display: inline;
+  font-size: 28px;
+  font-weight: 700;
+  color: #ff6b35; /* Naranja */
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+  line-height: 1.2;
+  margin-right: 4px;
+}
+
+/* Crear "Donaciones" en negro */
+.donations-view-container .page-header h1::after {
+  content: 'Donaciones';
+  display: inline;
+  font-size: 28px;
+  font-weight: 700;
+  color: #000000;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+  line-height: 1.2;
+}
+
+/* Título - Ocultar el original y crear nuevo */
+.donations-view-container .dogs-section .section-header {
+  display: none; /* Ocultar completamente el section-header de dogs-section */
+}
+
+/* Ocultar count-badge */
+.donations-view-container .dogs-section .section-header .count-badge {
+  display: none;
+}
+
+/* Sección de búsqueda */
+.donations-view-container .search-section {
+  width: 100%;
+  padding: 0 20px 16px;
+  background-color: #f5f5f5;
+  margin-top: 75px; /* Bajar un poco más el input (antes 60px) */
+}
+
+.donations-view-container .search-container {
+  position: relative;
+  width: 100%;
+}
+
+.donations-view-container .search-input {
+  width: 100%;
+  padding: 14px 16px 14px 45px;
+  border: none;
+  border-radius: 25px;
+  font-size: 15px;
+  background-color: #ffffff;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+  color: #333333;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+  box-sizing: border-box;
+  transition: all 0.2s ease;
+  background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="%23ff6b35"><path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z"/></svg>');
+  background-repeat: no-repeat;
+  background-position: 12px center;
+  background-size: 22px 22px;
+}
+
+.donations-view-container .search-input::placeholder {
+  color: #999999;
+  opacity: 1;
+  font-size: 15px;
+  content: 'Busca un perrito'; /* Forzar placeholder */
+}
+
+/* Cambiar placeholder mediante CSS si es posible */
+.donations-view-container .search-input[placeholder="Buscar perros por nombre..."]::placeholder {
+  color: #999999;
+  opacity: 1;
+}
+
+.donations-view-container .search-input:focus {
+  outline: none;
+  box-shadow: 0 4px 12px rgba(255, 107, 53, 0.2);
+  border: 2px solid #ff6b35;
+  padding: 12px 14px 12px 43px;
+}
+
+.donations-view-container .clear-search-btn {
+  position: absolute;
+  right: 10px;
+  top: 50%;
+  transform: translateY(-50%);
+  background-color: transparent;
+  border: none;
+  color: #999999;
+  font-size: 14px;
+  cursor: pointer;
+  padding: 5px;
+  transition: color 0.2s ease;
+}
+
+.donations-view-container .clear-search-btn:hover {
+  color: #666666;
+}
+
+/* Sección de filtros */
+.donations-view-container .filters-section {
+  width: 100%;
+  padding: 0 20px 12px; /* Reducir padding-bottom (antes 20px) para acortar espacio con cards */
+  background-color: #f5f5f5;
+}
+
+.donations-view-container .filters-section h3 {
+  display: none; /* Ocultar el título "Filtros:" */
+}
+
+.donations-view-container .filter-buttons {
+  display: flex;
+  flex-wrap: nowrap; /* Evitar que los botones se envuelvan a otra línea */
+  gap: 10px;
+  overflow-x: auto;
+  padding-bottom: 5px;
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: none; /* Firefox */
+  -ms-overflow-style: none; /* IE/Edge */
+}
+
+.donations-view-container .filter-buttons::-webkit-scrollbar {
+  display: none; /* Chrome/Safari */
+}
+
+.donations-view-container .filter-btn {
+  padding: 10px 16px;
+  border: none;
+  border-radius: 50px; /* Pill-shaped */
+  font-size: 14px;
+  font-weight: 600;
+  color: #000000;
+  background-color: #ffeb3b; /* Amarillo */
+  cursor: pointer;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+  transition: all 0.2s ease;
+  box-shadow: 0 2px 4px rgba(255, 235, 59, 0.3);
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+
+.donations-view-container .filter-btn:hover {
+  background-color: #ffd700;
+  transform: translateY(-1px);
+  box-shadow: 0 4px 8px rgba(255, 235, 59, 0.4);
+}
+
+.donations-view-container .filter-btn.active {
+  background-color: #ffd700; /* Amarillo más intenso cuando está activo */
+  box-shadow: 0 4px 8px rgba(255, 235, 59, 0.5);
+}
+
+.donations-view-container .filter-btn:active {
+  transform: translateY(0);
+}
+
+/* Ocultar texto original de los botones y crear nuevos textos */
+.donations-view-container .filter-btn {
+  font-size: 0 !important;
+  position: relative;
+}
+
+.donations-view-container .filter-btn::after {
+  content: '';
+  font-size: 14px;
+  display: block;
+}
+
+/* Ajustar texto de los botones según la imagen */
+.donations-view-container .filter-btn#filterAll::after {
+  content: 'Todos';
+  font-size: 14px;
+  font-weight: 600;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+}
+
+.donations-view-container .filter-btn#filterPuppies::after {
+  content: 'Cachorros';
+  font-size: 14px;
+  font-weight: 600;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+}
+
+.donations-view-container .filter-btn#filterLessSponsored::after {
+  content: 'Menos apadrinados';
+  font-size: 14px;
+  font-weight: 600;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+}
+
+/* Sección de perros */
+.donations-view-container .dogs-section {
+  width: 100%;
+  padding: 0 20px 20px; /* Mantener padding normal */
+  padding-top: 0; /* Eliminar padding superior para acortar espacio con filtros */
+  background-color: #f5f5f5;
+  flex: 1;
+}
+
+/* Lista de perros */
+.donations-view-container .dogs-list {
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  width: 100%;
+  max-width: 100%;
+  margin: 0 auto;
+}
+
+/* Card de perro - Layout: Imagen izquierda, contenido derecho en columna */
+.donations-view-container .dog-card {
+  background-color: #ffffff;
+  border-radius: 16px;
+  padding: 16px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  display: flex;
+  flex-direction: row;
+  gap: 16px;
+  align-items: center; /* Centrar verticalmente todo el contenido */
+  overflow: visible;
+  position: relative;
+  min-height: 140px;
+}
+
+/* Header de la card - Solo contiene la imagen */
+.donations-view-container .dog-card .card-header {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center; /* Centrar verticalmente la imagen */
+  gap: 0;
+  flex-shrink: 0;
+  align-self: center; /* Alinear al centro verticalmente */
+}
+
+/* La info dentro del header se extrae visualmente y va a la derecha */
+.donations-view-container .dog-card .card-header .dog-info {
+  position: absolute;
+  left: calc(80px + 30px); /* Ancho imagen + gap más grande */
+  top: 32%; /* Subir un poco el texto (antes 50%) */
+  transform: translateY(-50%); /* Centrar verticalmente */
+  width: calc(100% - 80px - 0px);
+  display: flex !important;
+  flex-direction: column;
+  gap: 2px; /* Reducir espacio entre elementos */
+  min-width: 0;
+}
+
+/* Contenedor del contenido derecho (info + botón en columna) */
+.donations-view-container .dog-card .right-content {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+  min-width: 0;
+  position: relative;
+}
+
+/* Eliminar - no necesario */
+
+/* Imagen del perro - CÍRCULO PERFECTO - Fuera del header, directamente en la card */
+.donations-view-container .dog-card .card-header .dog-image,
+.donations-view-container .dog-card .dog-image {
+  width: 80px;
+  height: 80px;
+  min-width: 80px;
+  min-height: 80px;
+  border-radius: 50%;
+  overflow: hidden;
+  flex-shrink: 0;
+  background-color: #f5f5f5;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.donations-view-container .dog-card .card-header .dog-image img,
+.donations-view-container .dog-card .dog-image img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  aspect-ratio: 1 / 1;
+  border-radius: 50%;
+}
+
+.donations-view-container .dog-card .card-header .dog-image .no-image,
+.donations-view-container .dog-card .dog-image .no-image {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 40px;
+  background-color: #f5f5f5;
+  border-radius: 50%;
+}
+
+/* Eliminar duplicados - La info ya está definida arriba */
+
+/* Texto "Mi nombre es" - Negrita y más grande */
+.donations-view-container .dog-card .dog-info::before {
+  content: 'Mi nombre es';
+  font-size: 16px;
+  color: #000000;
+  font-weight: 700; /* Negrita/Bold */
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+  line-height: 1.2; /* Reducir line-height para menos espacio */
+  display: block;
+  margin-bottom: 0; /* Eliminar margen inferior */
+}
+
+/* Nombre del perro */
+.donations-view-container .dog-card .dog-info h3 {
+  font-size: 20px;
+  font-weight: 700;
+  color: #ff6b35; /* Naranja */
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+  margin: 0; /* Eliminar márgenes */
+  line-height: 1.2;
+  text-transform: uppercase;
+  display: block;
+}
+
+/* Edad del perro */
+.donations-view-container .dog-card .dog-info .dog-age {
+  font-size: 14px;
+  color: #000000;
+  font-weight: 400;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+  margin: 0;
+  line-height: 1.2; /* Reducir line-height para menos espacio */
+  display: block;
+}
+
+/* Botones de acción - Debajo de la edad del perro, más cerca del texto */
+.donations-view-container .dog-card .card-actions {
+  position: absolute;
+  left: calc(80px + 30px); /* Misma posición X que la info (gap más grande) */
+  top: 50%; /* Centrar verticalmente con la info */
+  transform: translateY(calc(-50% + 35px)); /* Centrar y mover abajo de la edad */
+  width: calc(100% - 80px - 40px);
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  flex-shrink: 0;
+}
+
+/* Botón "Ver donaciones" - Más largo */
+.donations-view-container .dog-card .view-donations-btn {
+  padding: 10px 20px;
+  border: none;
+  border-radius: 50px; /* Pill-shaped */
+  font-size: 14px;
+  font-weight: 600;
+  color: #ffffff;
+  background-color: #ff6b35; /* Naranja */
+  cursor: pointer;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+  transition: all 0.2s ease;
+  box-shadow: 0 2px 4px rgba(255, 107, 53, 0.3);
+  white-space: nowrap;
+  width: 100%; /* Ancho completo del contenedor */
+  max-width: 250px; /* Ancho máximo más grande */
+}
+
+.donations-view-container .dog-card .view-donations-btn:hover {
+  background-color: #e55a2b;
+  transform: translateY(-1px);
+  box-shadow: 0 4px 8px rgba(255, 107, 53, 0.4);
+}
+
+.donations-view-container .dog-card .view-donations-btn:active {
+  transform: translateY(0);
+}
+
+/* Mensajes */
+.donations-view-container .loading-message,
+.donations-view-container .no-dogs {
+  padding: 20px;
+  text-align: center;
+  color: #666666;
+  font-size: 16px;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+}
+
+.donations-view-container .success-message,
+.donations-view-container .error-message {
+  padding: 12px 16px;
+  border-radius: 8px;
+  margin: 16px 20px;
+  font-size: 14px;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+}
+
+.donations-view-container .success-message {
+  background-color: #d4edda;
+  color: #155724;
+  border: 1px solid #c3e6cb;
+}
+
+.donations-view-container .error-message {
+  background-color: #f8d7da;
+  color: #721c24;
+  border: 1px solid #f5c6cb;
+}
+
+/* Responsive Donations View */
+@media (min-width: 481px) {
+  .donations-view-container .page-header .back-btn {
+    top: 85px;
+    left: 30px;
+  }
+
+  .donations-view-container .dogs-section .section-header {
+    padding: 0 30px 12px;
+  }
+
+  .donations-view-container .dogs-section .section-header::before,
+  .donations-view-container .dogs-section .section-header::after {
+    font-size: 32px;
+  }
+
+  .donations-view-container .search-section {
+    padding: 0 30px 20px;
+  }
+
+  .donations-view-container .filters-section {
+    padding: 0 30px 24px;
+  }
+
+  .donations-view-container .dogs-section {
+    padding: 0 30px 30px;
+  }
+
+  .donations-view-container .dogs-list {
+    max-width: 600px;
+    gap: 20px;
+  }
+
+  .donations-view-container .dog-card {
+    padding: 20px;
+    min-height: 140px;
+  }
+
+  .donations-view-container .dog-card .dog-image {
+    width: 90px;
+    height: 90px;
+    min-width: 90px;
+    min-height: 90px;
+  }
+}
+
+@media (min-width: 769px) {
+  .donations-view-container .page-header .back-btn {
+    top: 95px;
+    left: 40px;
+  }
+
+  .donations-view-container .dogs-section .section-header {
+    padding: 0 40px 15px;
+  }
+
+  .donations-view-container .dogs-section .section-header::before,
+  .donations-view-container .dogs-section .section-header::after {
+    font-size: 36px;
+  }
+
+  .donations-view-container .search-section {
+    padding: 0 40px 24px;
+  }
+
+  .donations-view-container .filters-section {
+    padding: 0 40px 28px;
+  }
+
+  .donations-view-container .dogs-section {
+    padding: 0 40px 40px;
+  }
+
+  .donations-view-container .dogs-list {
+    max-width: 700px;
+    gap: 24px;
+  }
+
+  .donations-view-container .dog-card {
+    padding: 24px;
+    min-height: 160px;
+  }
+
+  .donations-view-container .dog-card .dog-image {
+    width: 100px;
+    height: 100px;
+    min-width: 100px;
+    min-height: 100px;
+  }
+
+  .donations-view-container .dog-card .dog-info h3 {
+    font-size: 22px;
+  }
+
+  .donations-view-container .dog-card .view-donations-btn {
+    padding: 12px 24px;
+    font-size: 15px;
+  }
+}
+
+@media (min-width: 1024px) {
+  .donations-view-container .page-header .back-btn {
+    top: 105px;
+    left: 50px;
+  }
+
+  .donations-view-container .dogs-section .section-header {
+    padding: 0 50px 18px;
+  }
+
+  .donations-view-container .dogs-section .section-header::before,
+  .donations-view-container .dogs-section .section-header::after {
+    font-size: 40px;
+  }
+
+  .donations-view-container .search-section {
+    padding: 0 50px 28px;
+  }
+
+  .donations-view-container .filters-section {
+    padding: 0 50px 32px;
+  }
+
+  .donations-view-container .dogs-section {
+    padding: 0 50px 50px;
+  }
+
+  .donations-view-container .dogs-list {
+    max-width: 800px;
+    gap: 28px;
+  }
+
+  .donations-view-container .dog-card {
+    padding: 28px;
+    min-height: 180px;
+  }
+
+  .donations-view-container .dog-card .dog-image {
+    width: 110px;
+    height: 110px;
+    min-width: 110px;
+    min-height: 110px;
+  }
+
+  .donations-view-container .dog-card .dog-info h3 {
+    font-size: 24px;
+  }
+
+  .donations-view-container .dog-card .view-donations-btn {
+    padding: 14px 28px;
+    font-size: 16px;
+  }
+}
+
+/* Botones de acción - Siempre dentro de la card con más espacio */
+.appointments-manage-container .appointment-card .card-body .card-actions {
+  margin-top: 8px; /* Espacio normal entre texto y botones */
+  margin-bottom: 0;
+  padding: 0;
+  padding-bottom: 10px; /* Pequeño padding inferior para separar del borde */
+  padding-right: 10px; /* Pequeño padding derecho para separar del borde */
+  display: flex;
+  gap: 8px; /* Gap cómodo entre botones */
+  width: 100%;
+  max-width: 100%; /* No exceder el ancho del contenedor */
+  flex-shrink: 0;
+  flex: 0 0 auto; /* No crecer, solo el tamaño necesario */
+  box-sizing: border-box;
+}
+
+/* Botón Aceptar - Morado - Siempre dentro de la card */
+.appointments-manage-container .appointment-card .card-body .card-actions .accept-btn {
+  flex: 1;
+  padding: 7px 7px; /* Padding cómodo pero que quepa */
+  border: none;
+  border-radius: 50px; /* Pill-shaped */
+  font-size: 13px; /* Tamaño de fuente ligeramente reducido para que quepa */
+  font-weight: 600;
+  color: #ffffff;
+  background-color: #9370db; /* Morado */
+  cursor: pointer;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+  transition: all 0.2s ease;
+  box-shadow: 0 2px 4px rgba(147, 112, 219, 0.3);
+  white-space: nowrap;
+  box-sizing: border-box;
+  min-width: 0;
+  max-width: 100%;
+  overflow: hidden;
+}
+
+.appointments-manage-container .appointment-card .card-body .card-actions .accept-btn:hover {
+  background-color: #8360d3;
+  transform: translateY(-1px);
+  box-shadow: 0 4px 8px rgba(147, 112, 219, 0.4);
+}
+
+.appointments-manage-container .appointment-card .card-body .card-actions .accept-btn:active {
+  transform: translateY(0);
+}
+
+/* Botón Rechazar - Coral - Siempre dentro de la card */
+.appointments-manage-container .appointment-card .card-body .card-actions .reject-btn {
+  flex: 1;
+  padding: 7px 7px; /* Padding cómodo pero que quepa */
+  border: none;
+  border-radius: 50px; /* Pill-shaped */
+  font-size: 13px; /* Tamaño de fuente ligeramente reducido para que quepa */
+  font-weight: 600;
+  color: #ffffff;
+  background-color: #ff7f7f; /* Coral */
+  cursor: pointer;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+  transition: all 0.2s ease;
+  box-shadow: 0 2px 4px rgba(255, 127, 127, 0.3);
+  white-space: nowrap;
+  box-sizing: border-box;
+  min-width: 0;
+  max-width: 100%;
+  overflow: hidden;
+}
+
+.appointments-manage-container .appointment-card .card-body .card-actions .reject-btn:hover {
+  background-color: #ff6b6b;
+  transform: translateY(-1px);
+  box-shadow: 0 4px 8px rgba(255, 127, 127, 0.4);
+}
+
+.appointments-manage-container .appointment-card .card-body .card-actions .reject-btn:active {
+  transform: translateY(0);
+}
+
+/* Mensajes */
+.appointments-manage-container .loading-message,
+.appointments-manage-container .no-appointments {
+  text-align: center;
+  padding: 40px 20px;
+  color: #666666;
+  font-size: 16px;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+}
+
+.appointments-manage-container .messages-section {
+  padding: 0 20px 20px;
+}
+
+.appointments-manage-container .success-message,
+.appointments-manage-container .error-message {
+  padding: 12px 16px;
+  border-radius: 8px;
+  margin-bottom: 16px;
+  font-size: 14px;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+}
+
+.appointments-manage-container .success-message {
+  background-color: #d4edda;
+  color: #155724;
+  border: 1px solid #c3e6cb;
+}
+
+.appointments-manage-container .error-message {
+  background-color: #f8d7da;
+  color: #721c24;
+  border: 1px solid #f5c6cb;
+}
+
+/* Responsive Appointments Manage */
+@media (min-width: 481px) {
+  .appointments-manage-container .appointment-card {
+    min-height: 180px;
+  }
+
+  .appointments-manage-container .appointment-card .card-header {
+    width: 130px;
+    min-width: 130px;
+    max-width: 130px;
+  }
+
+  .appointments-manage-container .appointment-card .card-header .dog-info .dog-image {
+    width: 100px;
+    height: 100px;
+  }
+
+  .appointments-manage-container .appointments-list {
+    max-width: 600px;
+  }
+}
+
+@media (min-width: 769px) {
+  .appointments-manage-container .appointments-list {
+    max-width: 700px;
+  }
+}
+
+@media (min-width: 1024px) {
+  .appointments-manage-container .appointments-list {
+    max-width: 800px;
+  }
+
+  .appointments-manage-container .appointment-card {
+    min-height: 200px;
+  }
+
+  .appointments-manage-container .appointment-card .card-header {
+    width: 140px;
+    min-width: 140px;
+    max-width: 140px;
+  }
+
+  .appointments-manage-container .appointment-card .card-header .dog-info .dog-image {
+    width: 110px;
+    height: 110px;
+  }
+}
+
+/* =============================================
+   DONATIONS PROFILE DOG SCREEN - Diseño según imagen
+   Pantalla: donations-profile-dog.js (Administrador)
+   ============================================= */
+
+/* Contenedor principal - Encapsulado para no afectar otras pantallas */
+.donations-profile-container {
+  min-height: 100vh;
+  width: 100%;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  position: relative;
+  background-color: #f5f5f5;
+}
+
+/* Header - Fondo amarillo con decoraciones */
+/* Ocultar solo el fondo amarillo del header, mantener el botón de volver visible */
+.donations-profile-container .page-header {
+  background-color: transparent !important; /* Quitar el fondo amarillo */
+  padding: 0 !important;
+  margin: 0 !important;
+  min-height: auto !important;
+  position: relative !important;
+  z-index: 10 !important;
+  overflow: visible !important;
+}
+
+/* Mantener el botón de volver visible y posicionado */
+.donations-profile-container .page-header .back-btn {
+  display: block !important;
+  position: fixed !important;
+  top: 20px !important;
+  left: 20px !important;
+  width: 40px !important;
+  height: 40px !important;
+  background-color: #ffffff !important;
+  border: none !important;
+  border-radius: 50% !important;
+  z-index: 1000 !important;
+  cursor: pointer !important;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1) !important;
+}
+
+/* Eliminar decoraciones de huellas */
+.donations-profile-container .page-header::before {
+  display: none;
+}
+
+.donations-profile-container .page-header::after {
+  display: none;
+}
+
+/* Ocultar h1 original del header */
+.donations-profile-container .page-header h1 {
+  display: none;
+}
+
+/* Botón back - Circular blanco */
+.donations-profile-container .page-header .back-btn {
+  position: absolute;
+  top: 20px;
+  left: 20px;
+  width: 40px;
+  height: 40px;
+  background-color: #ffffff;
+  border: none;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 20px;
+  color: #333333;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  z-index: 20;
+  cursor: pointer;
+  line-height: 1;
+  padding: 0;
+  margin: 0;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+  transition: all 0.2s ease;
+}
+
+.donations-profile-container .page-header .back-btn:hover {
+  transform: scale(1.05);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+.donations-profile-container .page-header .back-btn:active {
+  transform: scale(0.95);
+}
+
+/* Ocultar texto del botón, solo mostrar flecha */
+.donations-profile-container .page-header .back-btn {
+  text-indent: -9999px;
+  overflow: hidden;
+}
+
+.donations-profile-container .page-header .back-btn::before {
+  content: '←';
+  text-indent: 0;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  font-size: 20px;
+  color: #333333;
+}
+
+/* Contenido principal */
+.donations-profile-container .profile-content {
+  width: 100%;
+  padding: 0;
+  margin: 0;
+  position: relative;
+  z-index: 1;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  background-color: #f5f5f5;
+}
+
+/* Sección del perfil del perro - Fondo amarillo */
+.donations-profile-container .dog-profile-section {
+  width: 100%;
+  padding: 0;
+  margin: 0;
+  position: relative;
+  background-color: #bc1111; /* Amarillo */
+  min-height: 350px; /* Aumentado para dar más espacio a la imagen */
+  display: block;
+  overflow: visible !important; /* Permitir que la imagen se vea completamente */
+}
+
+/* Asegurar que la imagen esté por encima del fondo amarillo */
+.donations-profile-container .dog-profile-section .dog-header .dog-image {
+  z-index: 10 !important; /* Aumentar z-index para que esté por encima */
+}
+
+/* Contenedor del header del perro */
+.donations-profile-container .dog-profile-section .dog-header {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 0;
+  width: 100%;
+  height: 100%;
+  min-height: 350px; /* Aumentado para dar más espacio a la imagen */
+  position: relative;
+  padding: 60px 20px 20px;
+  z-index: 2;
+  background-color: transparent !important; /* Sin fondo amarillo que tape la imagen */
+  overflow: visible !important; /* Permitir que la imagen se vea completamente */
+}
+
+/* Imagen del perro - FORMA NATURAL (RECTANGULAR) CENTRADA en la parte amarilla */
+.donations-profile-container .dog-profile-section .dog-header .dog-image {
+  position: absolute !important;
+  top: 40% !important; /* Subido más arriba (de 50% a 40%) para que se vea completa */
+  left: 50% !important;
+  transform: translate(-50%, -50%) !important; /* Centrar horizontalmente y verticalmente */
+  width: 400px !important;
+  height: 400px !important;
+  min-width: 400px !important;
+  min-height: 400px !important;
+  max-width: none !important;
+  max-height: none !important;
+  z-index: 10 !important; /* Aumentado para estar por encima del fondo amarillo */
+  margin: 0 !important;
+  padding: 0 !important;
+  overflow: visible !important; /* Cambiado a visible para que la imagen se vea completamente */
+  background-color: transparent !important; /* Sin fondo */
+  border-radius: 0 !important; /* Sin bordes redondeados - forma natural */
+  border: none !important; /* Sin borde */
+  box-shadow: none !important; /* Sin sombra */
+  box-sizing: border-box !important;
+}
+
+/* La imagen dentro - FORMA NATURAL - Sobrescribir estilos globales */
+.donations-profile-container .dog-profile-section .dog-header .dog-image img,
+.donations-profile-container .dog-profile-section .dog-header #dogImage img,
+.donations-profile-container .dog-profile-section .dog-header .dog-image > div > img {
+  width: 100% !important;
+  height: 100% !important;
+  min-width: 100% !important;
+  min-height: 100% !important;
+  max-width: none !important;
+  max-height: none !important;
+  object-fit: cover !important;
+  border-radius: 0 !important; /* Sin bordes redondeados - forma natural */
+  background-color: transparent !important; /* Sin fondo */
+  border: none !important;
+  display: block !important;
+}
+
+.donations-profile-container .dog-profile-section .dog-header .dog-image .dog-image-placeholder {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 100px;
+  background-color: transparent; /* Sin fondo */
+  border-radius: 0 !important; /* Sin bordes redondeados - forma natural */
+}
+
+/* Info del perro - Ocultar el overlay original, el nombre irá en la sección gris */
+.donations-profile-container .dog-profile-section .dog-header .dog-info {
+  display: none; /* Ocultar el overlay original */
+}
+
+/* Ocultar edad y tamaño */
+.donations-profile-container .dog-profile-section .dog-header .dog-info p {
+  display: none;
+}
+
+/* Sección de donaciones - Parte inferior gris/blanca - SUBIDA con bordes redondeados */
+.donations-profile-container .donations-section {
+  width: 100%;
+  padding: 20px 20px 40px 20px; /* Reducido significativamente de 90px a 60px para subir mucho más */
+  margin: 0;
+  border-top-left-radius: 30px;
+  border-top-right-radius: 30px;
+  background-color: #f5f5f5; /* Gris claro */
+  margin-top: -60px; /* Subir más la sección */
+  position: relative;
+  z-index: 2;
+  flex: 1;
+}
+
+/* Header de la sección de donaciones - Mostrar el nombre del perro en negrilla y grande */
+.donations-profile-container .donations-section .section-header {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 5px 0 8px 0; /* Reducido mucho más: de 10px a 5px para subirlo mucho más arriba */
+  margin-bottom: 8px; /* Reducido de 20px a 8px para menos espacio */
+  gap: 8px;
+}
+
+/* Nombre del perro - EN LA PARTE GRIS ARRIBA, CENTRADO, NEGRILLA Y GRANDE */
+.donations-profile-container .donations-section .section-header h3 {
+  font-size: 32px;
+  font-weight: 700;
+  color: #000000;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+  text-align: center;
+  margin: 0;
+  line-height: 1.2;
+}
+
+/* Ocultar el contador de donaciones del header (se mostrará después) */
+.donations-profile-container .donations-section .section-header .count-badge {
+  display: none;
+}
+
+/* Lista de donaciones */
+.donations-profile-container .donations-section .donations-list {
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  width: 100%;
+  max-width: 100%;
+  margin: 0 auto;
+}
+
+/* Card de donación */
+.donations-profile-container .donations-section .donations-list .donation-card {
+  background-color: #ffffff;
+  border-radius: 12px;
+  padding: 16px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  border: 1px solid #e0e0e0;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+/* Mensaje de donación */
+.donations-profile-container .donations-section .donations-list .donation-card .donation-message {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+/* Mensaje principal - Formato: "@username ha donado $amount en item" */
+.donations-profile-container .donations-section .donations-list .donation-card .donation-message p:not(.donation-date) {
+  font-size: 14px;
+  color: #000000;
+  font-weight: 400;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+  margin: 0;
+  line-height: 1.5;
+  order: 1; /* Aparecer primero */
+}
+
+/* Agregar @ antes del nombre del usuario usando pseudo-elemento */
+.donations-profile-container .donations-section .donations-list .donation-card .donation-message p:not(.donation-date) strong:first-child::before {
+  content: '@';
+  font-weight: 600;
+}
+
+.donations-profile-container .donations-section .donations-list .donation-card .donation-message p strong {
+  font-weight: 600;
+}
+
+/* Fecha de la donación - Abajo del mensaje */
+.donations-profile-container .donations-section .donations-list .donation-card .donation-message .donation-date {
+  font-size: 12px;
+  color: #666666;
+  font-weight: 400;
+  margin: 0;
+  order: 2; /* Aparecer después del mensaje */
+}
+
+/* Formato de donación: "@username ha donado $amount en item" */
+/* El formato ya viene del HTML, solo estilizamos */
+
+/* Mensaje sin donaciones */
+.donations-profile-container .donations-section .no-donations {
+  padding: 20px;
+  text-align: center;
+  color: #666666;
+  font-size: 16px;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+}
+
+/* Mensajes de éxito/error */
+.donations-profile-container .messages-section {
+  padding: 12px 20px;
+}
+
+.donations-profile-container .success-message,
+.donations-profile-container .error-message {
+  padding: 12px 16px;
+  border-radius: 8px;
+  margin: 8px 0;
+  font-size: 14px;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+}
+
+.donations-profile-container .success-message {
+  background-color: #d4edda;
+  color: #155724;
+  border: 1px solid #c3e6cb;
+}
+
+.donations-profile-container .error-message {
+  background-color: #f8d7da;
+  color: #721c24;
+  border: 1px solid #f5c6cb;
+}
+
+/* Loading section */
+.donations-profile-container .loading-section {
+  padding: 40px 20px;
+  text-align: center;
+  color: #666666;
+  font-size: 16px;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+}
+
+/* Responsive Donations Profile */
+@media (min-width: 481px) {
+  .donations-profile-container .page-header {
+    min-height: 240px;
+    padding: 20px 30px;
+  }
+
+  .donations-profile-container .page-header .back-btn {
+    top: 24px;
+    left: 30px;
+    width: 44px;
+    height: 44px;
+    font-size: 22px;
+  }
+
+  .donations-profile-container .dog-profile-section {
+    min-height: 240px;
+  }
+
+  .donations-profile-container .dog-profile-section .dog-header {
+    padding: 70px 30px 24px;
+  }
+
+  .donations-profile-container .dog-profile-section .dog-header::before {
+    width: 220px;
+    height: 220px;
+    top: 50px;
+  }
+
+  .donations-profile-container .dog-profile-section .dog-header .dog-image {
+    width: 200px;
+    height: 200px;
+  }
+
+  .donations-profile-container .dog-profile-section .dog-header .dog-info h2 {
+    font-size: 32px;
+  }
+
+  .donations-profile-container .donations-section {
+    padding: 24px 30px 50px;
+    border-radius: 35px 35px 0 0;
+  }
+}
+
+@media (min-width: 769px) {
+  .donations-profile-container .page-header {
+    min-height: 260px;
+    padding: 24px 40px;
+  }
+
+  .donations-profile-container .page-header .back-btn {
+    top: 28px;
+    left: 40px;
+    width: 48px;
+    height: 48px;
+    font-size: 24px;
+  }
+
+  .donations-profile-container .dog-profile-section {
+    min-height: 260px;
+  }
+
+  .donations-profile-container .dog-profile-section .dog-header {
+    padding: 80px 40px 28px;
+  }
+
+  .donations-profile-container .dog-profile-section .dog-header::before {
+    width: 240px;
+    height: 240px;
+    top: 60px;
+  }
+
+  .donations-profile-container .dog-profile-section .dog-header .dog-image {
+    width: 220px;
+    height: 220px;
+  }
+
+  .donations-profile-container .dog-profile-section .dog-header .dog-info h2 {
+    font-size: 36px;
+  }
+
+  .donations-profile-container .donations-section {
+    padding: 28px 40px 60px;
+    border-radius: 40px 40px 0 0;
+    max-width: 700px;
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  .donations-profile-container .donations-section .donations-list {
+    max-width: 700px;
+  }
+}
+
+@media (min-width: 1024px) {
+  .donations-profile-container .page-header {
+    min-height: 280px;
+    padding: 28px 50px;
+  }
+
+  .donations-profile-container .page-header .back-btn {
+    top: 32px;
+    left: 50px;
+    width: 52px;
+    height: 52px;
+    font-size: 26px;
+  }
+
+  .donations-profile-container .dog-profile-section {
+    min-height: 280px;
+  }
+
+  .donations-profile-container .dog-profile-section .dog-header {
+    padding: 90px 50px 32px;
+  }
+
+  .donations-profile-container .dog-profile-section .dog-header::before {
+    width: 260px;
+    height: 260px;
+    top: 70px;
+  }
+
+  .donations-profile-container .dog-profile-section .dog-header .dog-image {
+    width: 240px;
+    height: 240px;
+  }
+
+  .donations-profile-container .dog-profile-section .dog-header .dog-info h2 {
+    font-size: 40px;
+  }
+
+  .donations-profile-container .donations-section {
+    padding: 32px 50px 70px;
+    border-radius: 45px 45px 0 0;
+    max-width: 800px;
+  }
+
+  .donations-profile-container .donations-section .donations-list {
+    max-width: 800px;
+  }
+}
+
+/* =============================================
+   ADD DOG - AGREGAR NUEVA MASCOTA
+   ============================================= */
+
+.add-dog-container {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  background-color: #f5f5f5;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+}
+
+/* Header naranja con logo */
+.add-dog-container .page-header {
+  width: 100%;
+  background-color: #ff6b35; /* Naranja */
+  padding: 16px 20px;
+  margin: 0;
+  position: relative;
+  z-index: 10;
+  min-height: 80px;
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+}
+
+/* Logo blanco en el header - Solo logo sin fondo */
+.add-dog-container .page-header::before {
+  content: '';
+  display: block;
+  width: 56px;
+  height: 56px;
+  background-image: url('/images/logo.png');
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-position: center;
+  margin-right: 12px;
+  filter: brightness(0) invert(1); /* Convertir logo a blanco */
+  transition: all 0.3s ease;
+  flex-shrink: 0;
+}
+
+/* Hover effect en el logo */
+.add-dog-container .page-header:hover::before {
+  transform: scale(1.05);
+  opacity: 0.9;
+}
+
+/* Ocultar h1 original del header */
+.add-dog-container .page-header h1 {
+  display: none;
+}
+
+/* Botón back - Circular blanco debajo del header */
+.add-dog-container .page-header .back-btn {
+  position: absolute;
+  top: 110px; /* Debajo del header */
+  left: 20px;
+  width: 40px;
+  height: 40px;
+  background-color: #ffffff;
+  border: none;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 20px;
+  color: #333333;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  z-index: 20;
+  cursor: pointer;
+  line-height: 1;
+  padding: 0;
+  margin: 0;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+  transition: all 0.2s ease;
+}
+
+.add-dog-container .page-header .back-btn:hover {
+  transform: scale(1.05);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+.add-dog-container .page-header .back-btn:active {
+  transform: scale(0.95);
+}
+
+/* Ocultar texto del botón, solo mostrar flecha */
+.add-dog-container .page-header .back-btn {
+  text-indent: -9999px;
+  overflow: hidden;
+}
+
+.add-dog-container .page-header .back-btn::before {
+  content: '←';
+  text-indent: 0;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  font-size: 20px;
+  color: #333333;
+}
+
+/* Contenido principal */
+.add-dog-container .add-dog-content {
+  flex: 1;
+  padding: 20px;
+  padding-top: 70px; /* Espacio para el botón de volver */
+  position: relative;
+  z-index: 1;
+  background-color: #f5f5f5;
+}
+
+/* Título "Un nuevo integrante!" - Modificar el h2 existente */
+.add-dog-container .form-section:first-child h2 {
+  font-size: 0; /* Ocultar texto original "Información Básica" */
+  margin-bottom: 24px;
+  line-height: 1.3;
+  display: block;
+  position: relative;
+}
+
+.add-dog-container .form-section:first-child h2::before {
+  content: 'Un nuevo ';
+  font-size: 28px;
+  font-weight: 700;
+  color: #000000;
+  display: inline;
+}
+
+.add-dog-container .form-section:first-child h2::after {
+  content: 'integrante!';
+  font-size: 28px;
+  font-weight: 700;
+  color: #ff6b35; /* Naranja */
+  display: inline;
+}
+
+/* Formulario */
+.add-dog-container form {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+}
+
+/* Grupos de formulario */
+.add-dog-container .form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin-bottom: 20px;
+}
+
+/* Labels */
+.add-dog-container .form-group label {
+  font-size: 14px;
+  font-weight: 500;
+  color: #000000;
+  margin: 0;
+}
+
+/* Inputs y selects */
+.add-dog-container .form-group input[type="text"],
+.add-dog-container .form-group input[type="number"],
+.add-dog-container .form-group select,
+.add-dog-container .form-group textarea {
+  width: 100%;
+  padding: 12px 16px;
+  background-color: #ffffff;
+  border: 1px solid #e0e0e0;
+  border-radius: 12px;
+  font-size: 15px;
+  color: #000000;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+  outline: none;
+  transition: border-color 0.2s ease;
+}
+
+/* Flecha del select más a la izquierda */
+.add-dog-container .form-group select {
+  appearance: none;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%23333' d='M6 8L1 3h10z'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 20px center;
+  padding-right: 45px;
+}
+
+.add-dog-container .form-group input[type="text"]:focus,
+.add-dog-container .form-group input[type="number"]:focus,
+.add-dog-container .form-group select:focus,
+.add-dog-container .form-group textarea:focus {
+  border-color: #ff6b35;
+}
+
+.add-dog-container .form-group textarea {
+  resize: vertical;
+  min-height: 100px;
+}
+
+/* Ocultar el label de "Imagen del perro:" */
+.add-dog-container .form-group label[for="image"] {
+  display: none !important;
+}
+
+/* Crear botón "Agregar imagen" personalizado */
+.add-dog-container .form-group:has(input[type="file"]) {
+  position: relative;
+  cursor: pointer;
+  margin-top: 8px;
+}
+
+/* Ocultar el input de imagen original pero mantenerlo funcional */
+.add-dog-container .form-group input[type="file"] {
+  position: absolute;
+  opacity: 0;
+  width: 100%;
+  height: 100%;
+  top: 0;
+  left: 0;
+  cursor: pointer;
+  z-index: 10;
+  margin: 0;
+  padding: 0;
+}
+
+/* Botón personalizado "Agregar imagen" */
+.add-dog-container .form-group:has(input[type="file"])::after {
+  content: 'Agregar imagen';
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  padding: 14px 48px 14px 20px;
+  background-color: #f5f5f5;
+  border: 2px dashed #cccccc;
+  border-radius: 12px;
+  font-size: 15px;
+  font-weight: 500;
+  color: #666666;
+  margin-top: 0;
+  cursor: pointer;
+  box-sizing: border-box;
+  position: relative;
+  transition: all 0.3s ease;
+  pointer-events: none;
+}
+
+/* Hover effect en el botón */
+.add-dog-container .form-group:has(input[type="file"]):hover::after {
+  background-color: #ffebee;
+  border-color: #ff6b35;
+  color: #ff6b35;
+}
+
+/* Icono + en círculo naranja a la derecha del botón - Más pequeño y centrado */
+.add-dog-container .form-group:has(input[type="file"])::before {
+  content: '+';
+  position: absolute;
+  right: 20px;
+  top: 60%;
+  transform: translateY(-50%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 28px;
+  height: 28px;
+  background-color: #ff6b35;
+  color: #ffffff;
+  border-radius: 50%;
+  font-size: 18px;
+  font-weight: 300;
+  line-height: 1;
+  z-index: 1;
+  pointer-events: none;
+  transition: all 0.3s ease;
+  box-shadow: 0 2px 4px rgba(255, 107, 53, 0.3);
+}
+
+/* Hover effect en el icono */
+.add-dog-container .form-group:has(input[type="file"]):hover::before {
+  background-color: #ff5722;
+  transform: translateY(-50%) scale(1.1);
+  box-shadow: 0 4px 8px rgba(255, 107, 53, 0.4);
+}
+
+/* Sección de Estadísticas */
+.add-dog-container .form-section:last-of-type h2 {
+  font-size: 20px;
+  font-weight: 700;
+  color: #000000;
+  margin-bottom: 16px;
+  margin-top: 24px;
+}
+
+.add-dog-container .form-section:last-of-type .section-description {
+  display: none; /* Ocultar descripción */
+}
+
+/* Mostrar todas las 4 estadísticas */
+.add-dog-container .stats-grid {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.add-dog-container .stat-item {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.add-dog-container .stat-item label {
+  font-size: 14px;
+  font-weight: 500;
+  color: #000000;
+  margin: 0;
+}
+
+/* Estilos para los sliders */
+.add-dog-container .stat-item .stat-control {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.add-dog-container .stat-item .stat-slider {
+  flex: 1;
+  height: 8px;
+  border-radius: 4px;
+  background: #e0e0e0;
+  outline: none;
+  -webkit-appearance: none;
+  appearance: none;
+}
+
+.add-dog-container .stat-item .stat-slider::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  background: #ff6b35;
+  cursor: pointer;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+.add-dog-container .stat-item .stat-slider::-moz-range-thumb {
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  background: #ff6b35;
+  cursor: pointer;
+  border: none;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+.add-dog-container .stat-item .stat-value {
+  font-size: 16px;
+  font-weight: 600;
+  color: #000000;
+  min-width: 30px;
+  text-align: center;
+}
+
+/* Botones de acción */
+.add-dog-container .form-actions {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  margin-top: 32px;
+  margin-bottom: 20px;
+}
+
+/* Botón "Confirmar y seguir" - Morado oscuro */
+.add-dog-container .submit-btn {
+  width: 100%;
+  padding: 16px 24px;
+  background-color: #6a1b9a; /* Morado oscuro */
+  color: #ffffff;
+  border: none;
+  border-radius: 25px;
+  font-size: 16px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+}
+
+.add-dog-container .submit-btn:hover {
+  background-color: #5a1588;
+}
+
+.add-dog-container .submit-btn:active {
+  transform: scale(0.98);
+}
+
+/* Ocultar botón "Limpiar Formulario" */
+.add-dog-container .clear-btn {
+  display: none;
+}
+
+/* Mensajes */
+.add-dog-container .messages-section {
+  margin-top: 20px;
+}
+
+.add-dog-container .success-message,
+.add-dog-container .error-message {
+  padding: 12px 16px;
+  border-radius: 8px;
+  margin-bottom: 12px;
+  font-size: 14px;
+}
+
+.add-dog-container .success-message {
+  background-color: #e6ffe6;
+  color: #008000;
+  border: 1px solid #008000;
+}
+
+.add-dog-container .error-message {
+  background-color: #ffe6e6;
+  color: #ff0000;
+  border: 1px solid #ff0000;
+}
+
+/* Media Queries - Mobile First */
+/* Tablet (min-width: 481px) */
+@media (min-width: 481px) {
+  .add-dog-container .add-dog-content {
+    padding: 24px;
+  }
+
+  .add-dog-container .form-section:first-child::before {
+    font-size: 32px;
+  }
+
+  .add-dog-container .form-group label {
+    font-size: 15px;
+  }
+
+  .add-dog-container .form-group input[type="text"],
+  .add-dog-container .form-group input[type="number"],
+  .add-dog-container .form-group select,
+  .add-dog-container .form-group textarea {
+    padding: 14px 18px;
+    font-size: 16px;
+  }
+
+  .add-dog-container .page-header .back-btn {
+    width: 44px;
+    height: 44px;
+    font-size: 22px;
+    top: 100px;
+  }
+}
+
+/* Desktop (min-width: 769px) */
+@media (min-width: 769px) {
+  .add-dog-container {
+    max-width: 600px;
+    margin: 0 auto;
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+  }
+
+  .add-dog-container .add-dog-content {
+    padding: 30px;
+  }
+
+  .add-dog-container .form-section:first-child::before {
+    font-size: 36px;
+  }
+
+  .add-dog-container .page-header .back-btn {
+    width: 48px;
+    height: 48px;
+    font-size: 24px;
+    top: 105px;
+    left: 30px;
+  }
+}
+
+/* Desktop Large (min-width: 1024px) */
+@media (min-width: 1024px) {
+  .add-dog-container {
+    max-width: 700px;
+  }
+}
+
+/* =============================================
+   ESTILOS GLOBALES PARA BOTONES DE VOLVER
+   Unifican todos los botones de volver en admin-app
+   ============================================= */
+
+.btn-back,
+.back-btn,
+[class*="-container"] .btn-back,
+[class*="-container"] .back-btn,
+[class*="-container"] .page-header .back-btn,
+[class*="-container"] .page-header .btn-back {
+  width: 48px !important;
+  height: 48px !important;
+  min-width: 48px !important;
+  min-height: 48px !important;
+  border-radius: 50% !important;
+  background-color: #ffffff !important;
+  border: none !important;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1) !important;
+  cursor: pointer !important;
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  padding: 0 !important;
+  text-indent: -9999px !important;
+  overflow: hidden !important;
+  transition: box-shadow 0.2s ease, transform 0.2s ease !important;
+  font-size: 0 !important;
+}
+
+.btn-back::before,
+.back-btn::before,
+[class*="-container"] .btn-back::before,
+[class*="-container"] .back-btn::before,
+[class*="-container"] .page-header .back-btn::before,
+[class*="-container"] .page-header .btn-back::before {
+  content: '‹' !important;
+  font-size: 28px !important;
+  font-weight: 300 !important;
+  color: #333333 !important;
+  line-height: 1 !important;
+  text-indent: 0 !important;
+  position: static !important;
+  transform: none !important;
+}
+
+.btn-back:hover,
+.back-btn:hover,
+[class*="-container"] .btn-back:hover,
+[class*="-container"] .back-btn:hover {
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15) !important;
+  transform: scale(1.05) !important;
+}
+
+.btn-back:active,
+.back-btn:active,
+[class*="-container"] .btn-back:active,
+[class*="-container"] .back-btn:active {
+  transform: scale(0.95) !important;
+}
+
+/* Ocultar cualquier contenido interno del botón */
+.btn-back *,
+.back-btn *,
+[class*="-container"] .btn-back *,
+[class*="-container"] .back-btn * {
+  display: none !important;
+}
+
+/* =============================================
+   DOG-MANAGEMENT: Botón de volver DEBAJO del header
+   ============================================= */
+
+/* Mostrar el botón del header pero posicionarlo debajo del header naranja */
+.dog-management-container .page-header .back-btn {
+  display: inline-flex !important;
+  position: absolute !important;
+  top: 100px !important;
+  left: 20px !important;
+  z-index: 100 !important;
+}
+
+/* Texto "Editar mascotas" al lado del botón de volver - usando el header */
+.dog-management-container .page-header::after {
+  content: 'Editar mascotas';
+  position: absolute;
+  top: 112px;
+  left: 85px;
+  font-size: 24px;
+  font-weight: 700;
+  white-space: nowrap;
+  z-index: 101;
+  background: linear-gradient(90deg, #ff6b35 0%, #ff6b35 42%, #000000 42%, #000000 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+/* Agregar espacio en el contenido para el botón */
+.dog-management-container .management-content {
+  padding-top: 50px !important;
+}
+
+/* Ocultar textos de "Perros", "26 perros" y "Filtros:" */
+.dog-management-container .filters-section h3,
+.dog-management-container .dogs-section .section-header,
+.dog-management-container .section-header h2,
+.dog-management-container .count-badge {
+  display: none !important;
 }

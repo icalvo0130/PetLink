@@ -2,6 +2,7 @@
 
 import { getAllDogs, searchDogsByName } from '../services/api.js';
 import router from '../utils/router.js';
+import { logout } from '../utils/auth.js';
 
 // Renderizar (mostrar) el HOME
 export function renderHome() {
@@ -11,12 +12,28 @@ export function renderHome() {
     <div class="home-container">
       <!-- Header -->
       <header class="header">
-        <div class="logo">P</div>
-        <input type="text" id="search-input" class="search-bar" placeholder="Busca un perrito">
+        <img src="/images/logo.png" alt="PetLink" class="logo-img" />
+        <button id="logout-btn" class="logout-btn">Cerrar sesión</button>
       </header>
 
+      <!-- Barra de búsqueda -->
+      <div class="search-section">
+        <button class="menu-btn">☰</button>
+        <div class="search-wrapper">
+          <span class="search-icon">🔍</span>
+          <input type="text" id="search-input" class="search-bar" placeholder="Busca un perrito">
+        </div>
+      </div>
+
       <!-- Titulo -->
-      <h1 class="title">Elige tu media naranja</h1>
+      <h1 class="title">Elije tu media <span class="highlight">naranja</span></h1>
+
+      <!-- Filtros -->
+      <div class="filters">
+        <button class="filter-btn active" data-filter="all">Todos</button>
+        <button class="filter-btn" data-filter="puppies">Cachorros</button>
+        <button class="filter-btn" data-filter="less-sponsored">Menos apadrinados</button>
+      </div>
 
       <!-- Lista de perros -->
       <div id="dogs-list" class="dogs-list">
@@ -33,6 +50,12 @@ export function renderHome() {
 
   // Agregar eventos de filtros
   setupFilters();
+
+  // Agregar evento de cerrar sesión
+  document.getElementById('logout-btn').addEventListener('click', async () => {
+    await logout();
+    router.navigateTo('/');
+  });
 }
 
 // Cargar todos los perros
@@ -55,15 +78,15 @@ function displayDogs(dogs) {
     return;
   }
 
-  dogsList.innerHTML = dogs.map(dog => `
-    <div class="dog-card" data-id="${dog.id}">
-      <div class="dog-image-container">
+  dogsList.innerHTML = dogs.map((dog, index) => `
+    <div class="dog-card ${index % 2 === 0 ? 'card-left' : 'card-right'}" data-id="${dog.id}">
+      <div class="dog-image-container color-${(index % 4) + 1}">
         <img src="${dog.image}" alt="${dog.name}" class="dog-image">
       </div>
       <div class="dog-info">
         <p class="dog-label">Mi nombre es</p>
         <p class="dog-name">${dog.name}</p>
-        <p class="dog-location">${dog.location || 'Sin ubicacion'}</p>
+        <p class="dog-age">${dog.age || '0'} años</p>
         <button class="btn-ver-mas">Ver mas</button>
       </div>
     </div>
@@ -113,13 +136,30 @@ function setupFilters() {
       
       const filter = btn.dataset.filter;
       
-      // Por ahora solo funciona "Todos"
-      // Los otros filtros los implementaremos despues
-      if (filter === 'all') {
-        loadDogs();
-      } else {
-        console.log('Filtro:', filter, '- Por implementar');
-        // TODO: Implementar filtros de cachorros y menos apadrinados
+      try {
+        const allDogs = await getAllDogs();
+        
+        if (filter === 'all') {
+          // Mostrar todos los perros
+          displayDogs(allDogs);
+        } else if (filter === 'puppies') {
+          // Filtrar cachorros (edad <= 2 años)
+          const puppies = allDogs.filter(dog => {
+            const age = parseInt(dog.age) || 0;
+            return age <= 2;
+          });
+          displayDogs(puppies);
+        } else if (filter === 'less-sponsored') {
+          // Ordenar por menos apadrinados (menos donaciones primero)
+          const sorted = [...allDogs].sort((a, b) => {
+            const donationsA = a.total_donations || a.donations || 0;
+            const donationsB = b.total_donations || b.donations || 0;
+            return donationsA - donationsB;
+          });
+          displayDogs(sorted);
+        }
+      } catch (error) {
+        console.error('Error al filtrar:', error);
       }
     });
   });

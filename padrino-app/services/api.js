@@ -1,6 +1,6 @@
 // Este archivo se comunica con el BACKEND (trae y envía datos)
 
-const API_URL = 'http://localhost:5050/api';
+const API_URL = 'https://petlink-production.up.railway.app/api';
 
 // Función helper para hacer peticiones
 async function fetchAPI(endpoint, options = {}) {

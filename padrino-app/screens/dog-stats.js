@@ -34,7 +34,7 @@ function connectToSocket(dogId) {
   }
   
   // Conectar al servidor WebSocket
-  socket = io('http://localhost:5050');
+  socket = io('https://petlink-production.up.railway.app');
   
   socket.on('connect', () => {
     console.log('WebSocket conectado. ID:', socket.id);
@@ -76,55 +76,73 @@ async function loadStatistics(dogId) {
 function displayStatistics(stats, dogId) {
   const app = document.getElementById('app');
   
+  // Datos del perro
+  const dogName = stats.name || 'Sin nombre';
+  const foundationName = stats.foundation_name || 'Pazanimal';
+  const weight = stats.weight || '0';
+  const age = stats.age || '0';
+  const availability = stats.availability ? 'Disponible' : 'No disponible';
+  const size = stats.size || '0cm';
+  
   app.innerHTML = `
     <div class="statistics-container">
-      <button class="btn-back" id="btn-back">← Volver</button>
-      
-      <h1 class="statistics-title">Estadisticas de ${stats.name}</h1>
-      
-      <div class="realtime-indicator">
-        <span class="realtime-dot"></span>
-        <span class="realtime-text">Actualizacion en tiempo real</span>
+      <!-- Header amarillo -->
+      <div class="stats-header">
+        <button class="btn-back" id="btn-back">‹</button>
       </div>
       
-      <div class="statistics-bars">
-        <div class="stat-item" data-stat="food">
-          <div class="stat-header">
-            <span class="stat-label">Comida</span>
-            <span class="stat-value" id="food-value">${stats.food_level}/10</span>
-          </div>
-          <div class="stat-bar-container">
-            <div class="stat-bar stat-bar-food" id="food-bar" style="width: ${stats.food_level * 10}%"></div>
-          </div>
-        </div>
+      <!-- Card de info -->
+      <div class="stats-info-card">
+        <h1 class="dog-name">${dogName}</h1>
         
-        <div class="stat-item" data-stat="health">
-          <div class="stat-header">
-            <span class="stat-label">Salud</span>
-            <span class="stat-value" id="health-value">${stats.health_level}/10</span>
+        <!-- Barras de estadisticas -->
+        <div class="statistics-bars">
+          <div class="stat-item" data-stat="food">
+            <div class="stat-bar-container">
+              <div class="stat-bar stat-bar-food" id="food-bar" style="width: ${stats.food_level * 10}%; background-color: #9c27b0;">
+                <img src="/images/Pata4.png" class="paw-icon" alt="">
+              </div>
+            </div>
+            <div class="stat-footer">
+              <span class="stat-value" id="food-value">${stats.food_level}/10</span>
+              <span class="stat-label">Comida</span>
+            </div>
           </div>
-          <div class="stat-bar-container">
-            <div class="stat-bar stat-bar-health" id="health-bar" style="width: ${stats.health_level * 10}%"></div>
+          
+          <div class="stat-item" data-stat="health">
+            <div class="stat-bar-container">
+              <div class="stat-bar stat-bar-health" id="health-bar" style="width: ${stats.health_level * 10}%; background-color: #26c6da;">
+                <img src="/images/Pata3.png" class="paw-icon" alt="">
+              </div>
+            </div>
+            <div class="stat-footer">
+              <span class="stat-value" id="health-value">${stats.health_level}/10</span>
+              <span class="stat-label">Salud</span>
+            </div>
           </div>
-        </div>
-        
-        <div class="stat-item" data-stat="wellbeing">
-          <div class="stat-header">
-            <span class="stat-label">Bienestar / Accesorios</span>
-            <span class="stat-value" id="wellbeing-value">${stats.wellbeing_level}/10</span>
+          
+          <div class="stat-item" data-stat="wellbeing">
+            <div class="stat-bar-container">
+              <div class="stat-bar stat-bar-wellbeing" id="wellbeing-bar" style="width: ${stats.wellbeing_level * 10}%; background-color: #f48fb1;">
+                <img src="/images/Pata1.png" class="paw-icon" alt="">
+              </div>
+            </div>
+            <div class="stat-footer">
+              <span class="stat-value" id="wellbeing-value">${stats.wellbeing_level}/10</span>
+              <span class="stat-label">Bienestar/Accesorios</span>
+            </div>
           </div>
-          <div class="stat-bar-container">
-            <div class="stat-bar stat-bar-wellbeing" id="wellbeing-bar" style="width: ${stats.wellbeing_level * 10}%"></div>
-          </div>
-        </div>
-        
-        <div class="stat-item" data-stat="affection">
-          <div class="stat-header">
-            <span class="stat-label">Carino / Atencion</span>
-            <span class="stat-value" id="affection-value">${stats.affection_level}/10</span>
-          </div>
-          <div class="stat-bar-container">
-            <div class="stat-bar stat-bar-affection" id="affection-bar" style="width: ${stats.affection_level * 10}%"></div>
+          
+          <div class="stat-item" data-stat="affection">
+            <div class="stat-bar-container">
+              <div class="stat-bar stat-bar-affection" id="affection-bar" style="width: ${stats.affection_level * 10}%; background-color: #ff7043;">
+                <img src="/images/Pata2.png" class="paw-icon" alt="">
+              </div>
+            </div>
+            <div class="stat-footer">
+              <span class="stat-value" id="affection-value">${stats.affection_level}/10</span>
+              <span class="stat-label">Cariño / Atención</span>
+            </div>
           </div>
         </div>
       </div>

@@ -145,9 +145,8 @@ export default async function renderProductsManage(params = {}) {
             
             <div class="form-group">
               <label for="estado">Estado de la necesidad:</label>
-              <select id="estado" name="estado" required>
-                <option value="">Selecciona un estado</option>
-                <option value="pending">Pendiente</option>
+              <select id="estado" name="estado">
+                <option value="pending" selected>Pendiente</option>
                 <option value="urgent">Urgente</option>
                 <option value="fulfilled">Cumplida</option>
               </select>
@@ -225,10 +224,13 @@ async function handleSubmit(event) {
   const state = document.getElementById('estado').value;
   const imageFile = document.getElementById('image').files[0];
   
-  if (!name || !description || !price || !dogId || !state) {
+  if (!name || !description || !price || !dogId) {
     showError('Por favor completa todos los campos obligatorios');
     return;
   }
+  
+  // Si no hay estado seleccionado, usar "pending" por defecto
+  const finalState = state || 'pending';
   
   if (price < 0) {
     showError('El precio no puede ser negativo');
@@ -270,7 +272,7 @@ async function handleSubmit(event) {
       description: description,
       price: price,
       id_dog: dogId,
-      estado: state
+      estado: finalState
     };
     
     // Agregar la URL de la imagen si existe

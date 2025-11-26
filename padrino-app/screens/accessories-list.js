@@ -9,12 +9,16 @@ export function renderAccessoriesList(dogId) {
   
   app.innerHTML = `
     <div class="accessories-container">
-      <!-- Botón de volver -->
-      <button class="btn-back" id="btn-back">← Volver</button>
+      <!-- Header con botón volver y título -->
+      <div class="accessories-header">
+        <button class="accessories-btn-back" id="btn-back">
+          <span>‹</span>
+        </button>
+        <h1 class="accessories-title">Accesorios</h1>
+      </div>
       
-      <!-- Título -->
-      <h1 class="accessories-title">Tienda de Accesorios</h1>
-      <p class="accessories-subtitle">Dale un regalo especial a tu perrito</p>
+      <!-- Descripción -->
+      <p class="accessories-description">Con la compra de uno de estos accesorio podrías ver una imagen del perro usándolo gracias a nuestra generación de imagen con inteligencia artificial.</p>
       
       <!-- Lista de accesorios -->
       <div id="accessories-list" class="accessories-list">
@@ -72,10 +76,8 @@ function displayAccessories(accessories, dogId) {
         >
       </div>
       <div class="accessory-info">
-        <p class="accessory-category">${accessory.category?.toUpperCase() || 'ACCESORIO'}</p>
         <p class="accessory-name">${accessory.name}</p>
-        <p class="accessory-price">$${accessory.price?.toLocaleString('es-CO') || '0'}</p>
-        <button class="btn-view-accessory">Ver detalles</button>
+        <p class="accessory-price">$ ${accessory.price?.toLocaleString('es-CO') || '0'}</p>
       </div>
     </div>
   `).join('');

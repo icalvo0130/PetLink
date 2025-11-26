@@ -1,7 +1,7 @@
 // Servicio API para comunicarse con el backend
 // Todas las peticiones al servidor se centralizan aquí
 
-const API_URL = 'http://localhost:5050/api';
+const API_URL = 'https://petlink-production.up.railway.app/api';
 
 // Función helper para obtener el token de autenticación
 function getAuthToken() {
