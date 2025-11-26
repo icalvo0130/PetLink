@@ -221,7 +221,7 @@ function renderDonationsList() {
 
 /*
 async function makeRequestWithAuth(url, method, body, token) {
-  const BASE_URL = "http://localhost:5050";
+  const BASE_URL = "https://petlink-production.up.railway.app";
   
   const response = await fetch(`${BASE_URL}${url}`, {
     method: method,

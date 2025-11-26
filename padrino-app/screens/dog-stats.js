@@ -34,7 +34,7 @@ function connectToSocket(dogId) {
   }
   
   // Conectar al servidor WebSocket
-  socket = io('http://localhost:5050');
+  socket = io('https://petlink-production.up.railway.app');
   
   socket.on('connect', () => {
     console.log('WebSocket conectado. ID:', socket.id);
