@@ -513,15 +513,17 @@ textarea {
 
 /* Icono de lupa naranja */
 .dog-management-container .search-container::before {
-  content: '🔍';
+  content: '';
   position: absolute;
   left: 16px;
   top: 50%;
   transform: translateY(-50%);
-  font-size: 18px;
+  width: 20px;
+  height: 20px;
   z-index: 1;
-  filter: hue-rotate(-10deg) saturate(2) brightness(0.8);
-  line-height: 1;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='%23ff6b35' viewBox='0 0 24 24'%3E%3Cpath d='M15.5 14h-.79l-.28-.27A6.471 6.471 0 0 0 16 9.5 6.5 6.5 0 1 0 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z'/%3E%3C/svg%3E");
+  background-size: contain;
+  background-repeat: no-repeat;
 }
 
 /* Botón Limpiar */
@@ -824,21 +826,41 @@ textarea {
 
 .btn-back,
 .back-btn {
-  background-color: transparent;
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  background-color: #ffffff;
   border: none;
-  font-size: 16px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
   cursor: pointer;
-  margin-bottom: 20px;
-  color: #666;
-  padding: 0;
   display: inline-flex;
   align-items: center;
-  gap: 5px;
+  justify-content: center;
+  padding: 0;
+  margin-bottom: 20px;
+  transition: box-shadow 0.2s ease;
+}
+
+.btn-back::before,
+.back-btn::before {
+  content: '‹';
+  font-size: 28px;
+  font-weight: 300;
+  color: #333;
+  line-height: 1;
 }
 
 .btn-back:hover,
 .back-btn:hover {
-  color: #333;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+/* Ocultar el texto dentro del botón, solo mostrar el ícono */
+.btn-back span,
+.back-btn span,
+.btn-back svg,
+.back-btn svg {
+  display: none;
 }
 
 .page-header h1 {
@@ -2510,18 +2532,8 @@ textarea {
 }
 
 .statistics-container .btn-back {
-  width: 40px;
-  height: 40px;
-  border-radius: 50%;
-  background-color: #ffffff;
-  border: none;
-  font-size: 24px;
-  color: #333333;
-  cursor: pointer;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  width: 48px;
+  height: 48px;
 }
 
 /* Info del perro */
@@ -7181,4 +7193,115 @@ img[class*="dog"],
   .add-dog-container {
     max-width: 700px;
   }
+}
+
+/* =============================================
+   ESTILOS GLOBALES PARA BOTONES DE VOLVER
+   Unifican todos los botones de volver en admin-app
+   ============================================= */
+
+.btn-back,
+.back-btn,
+[class*="-container"] .btn-back,
+[class*="-container"] .back-btn,
+[class*="-container"] .page-header .back-btn,
+[class*="-container"] .page-header .btn-back {
+  width: 48px !important;
+  height: 48px !important;
+  min-width: 48px !important;
+  min-height: 48px !important;
+  border-radius: 50% !important;
+  background-color: #ffffff !important;
+  border: none !important;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1) !important;
+  cursor: pointer !important;
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  padding: 0 !important;
+  text-indent: -9999px !important;
+  overflow: hidden !important;
+  transition: box-shadow 0.2s ease, transform 0.2s ease !important;
+  font-size: 0 !important;
+}
+
+.btn-back::before,
+.back-btn::before,
+[class*="-container"] .btn-back::before,
+[class*="-container"] .back-btn::before,
+[class*="-container"] .page-header .back-btn::before,
+[class*="-container"] .page-header .btn-back::before {
+  content: '‹' !important;
+  font-size: 28px !important;
+  font-weight: 300 !important;
+  color: #333333 !important;
+  line-height: 1 !important;
+  text-indent: 0 !important;
+  position: static !important;
+  transform: none !important;
+}
+
+.btn-back:hover,
+.back-btn:hover,
+[class*="-container"] .btn-back:hover,
+[class*="-container"] .back-btn:hover {
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15) !important;
+  transform: scale(1.05) !important;
+}
+
+.btn-back:active,
+.back-btn:active,
+[class*="-container"] .btn-back:active,
+[class*="-container"] .back-btn:active {
+  transform: scale(0.95) !important;
+}
+
+/* Ocultar cualquier contenido interno del botón */
+.btn-back *,
+.back-btn *,
+[class*="-container"] .btn-back *,
+[class*="-container"] .back-btn * {
+  display: none !important;
+}
+
+/* =============================================
+   DOG-MANAGEMENT: Botón de volver DEBAJO del header
+   ============================================= */
+
+/* Mostrar el botón del header pero posicionarlo debajo del header naranja */
+.dog-management-container .page-header .back-btn {
+  display: inline-flex !important;
+  position: absolute !important;
+  top: 100px !important;
+  left: 20px !important;
+  z-index: 100 !important;
+}
+
+/* Texto "Editar mascotas" al lado del botón de volver - usando el header */
+.dog-management-container .page-header::after {
+  content: 'Editar mascotas';
+  position: absolute;
+  top: 112px;
+  left: 85px;
+  font-size: 24px;
+  font-weight: 700;
+  white-space: nowrap;
+  z-index: 101;
+  background: linear-gradient(90deg, #ff6b35 0%, #ff6b35 42%, #000000 42%, #000000 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+/* Agregar espacio en el contenido para el botón */
+.dog-management-container .management-content {
+  padding-top: 50px !important;
+}
+
+/* Ocultar textos de "Perros", "26 perros" y "Filtros:" */
+.dog-management-container .filters-section h3,
+.dog-management-container .dogs-section .section-header,
+.dog-management-container .section-header h2,
+.dog-management-container .count-badge {
+  display: none !important;
 }
