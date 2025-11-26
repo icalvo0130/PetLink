@@ -379,28 +379,23 @@ function showNeedSuccessMessage(donation) {
       </div>
       
       <!-- Contenido -->
-      <div class="payment-success-content">
+      <div class="payment-success-content payment-success-donation">
         <!-- Ilustración del perrito -->
         <div class="payment-success-illustration">
           <img src="/images/Tigre.png" alt="Tigre" class="payment-success-mascot-img">
         </div>
         
         <!-- Título -->
-        <h1 class="payment-success-title">¡Donación <span class="highlight">exitosa!</span></h1>
+        <h1 class="payment-success-title">¡Gracias por tu <span class="highlight">donación!</span></h1>
         
         <!-- Subtítulo -->
-        <p class="payment-success-subtitle">recibirá tu accesorio<br>gracias a ti.</p>
-        
-        <!-- Botón -->
-        <button class="payment-success-btn" id="btn-gallery">
-          ir a galeria de imagenes
-        </button>
+        <p class="payment-success-subtitle">Tu apoyo hace la diferencia<br>en la vida de muchos perritos.</p>
       </div>
     </div>
   `;
   
-  // Evento del botón
-  document.getElementById('btn-gallery').addEventListener('click', () => {
-    router.navigateTo(`/gallery/${dogId}`);
-  });
+  // Redirigir al perfil del perro después de 4 segundos
+  setTimeout(() => {
+    router.navigateTo(`/dog/${dogId}`);
+  }, 4000);
 }

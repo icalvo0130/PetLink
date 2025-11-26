@@ -1306,6 +1306,19 @@ hr {
   margin: 0 0 auto 0;
 }
 
+/* Contenido centrado para donaciones (sin botón) */
+.payment-success-container .payment-success-donation {
+  justify-content: center;
+}
+
+.payment-success-container .payment-success-donation .payment-success-illustration {
+  margin-top: 0;
+}
+
+.payment-success-container .payment-success-donation .payment-success-subtitle {
+  margin-bottom: 60px;
+}
+
 /* Botón */
 .payment-success-container .payment-success-btn {
   width: 100%;
