@@ -192,18 +192,23 @@ async function processAccessoryPayment(params, userId) {
     
     console.log('Generando imagen IA:', { dogData, accessoryData });
     
-    const imageResult = await generateAIImage(dogData, accessoryData);
+    let imageUrl = '/images/Tigre.png'; // Imagen por defecto
     
-    if (!imageResult.success) {
-      throw new Error('No se pudo generar la imagen: ' + imageResult.error);
+    try {
+      const imageResult = await generateAIImage(dogData, accessoryData);
+      
+      if (imageResult.success) {
+        imageUrl = imageResult.storageUrl || imageResult.imageUrl;
+        console.log('Imagen generada:', imageUrl);
+      } else {
+        console.warn('No se pudo generar imagen IA, usando imagen por defecto');
+      }
+    } catch (aiError) {
+      console.warn('Error en IA, continuando con imagen por defecto:', aiError.message);
     }
-    
-    console.log('Imagen generada:', imageResult.imageUrl);
     
     // Paso 2: Insertar DIRECTAMENTE con Supabase (sin usar API)
     btnPay.textContent = 'Guardando compra...';
-    
-    const imageUrl = imageResult.storageUrl || imageResult.imageUrl;
     
     console.log('Creando registro de compra:', {
       id_dog: parseInt(dogId),
@@ -325,41 +330,77 @@ function showAccessorySuccessMessage(purchase, imageUrl, dogId) {
   const app = document.getElementById('app');
   
   app.innerHTML = `
-    <div class="payment-success">
-      <div class="success-icon">✓</div>
-      <h1>Compra Exitosa</h1>
-      <p>Tu accesorio ha sido comprado</p>
-      
-      <!-- Mostrar la imagen generada -->
-      <div class="success-image-preview">
-        <img src="${imageUrl}" alt="Foto generada" class="generated-image">
+    <div class="payment-success-container">
+      <!-- Header naranja con logo -->
+      <div class="payment-success-header">
+        <img src="/images/logo.png" alt="PetLink" class="payment-success-logo">
       </div>
       
-      <div class="success-details">
-        <p>Accesorio: ${purchase.category}</p>
-        <p>Monto: $${purchase.price}</p>
+      <!-- Contenido -->
+      <div class="payment-success-content">
+        <!-- Ilustración del perrito -->
+        <div class="payment-success-illustration">
+          <img src="${imageUrl}" alt="Foto generada" class="payment-success-image">
+        </div>
+        
+        <!-- Título -->
+        <h1 class="payment-success-title">¡Donación <span class="highlight">exitosa!</span></h1>
+        
+        <!-- Subtítulo -->
+        <p class="payment-success-subtitle">recibirá tu accesorio<br>gracias a ti.</p>
+        
+        <!-- Botón -->
+        <button class="payment-success-btn" id="btn-gallery">
+          ir a galeria de imagenes
+        </button>
       </div>
-      
-      <p class="redirect-message">Generamos una foto especial para ti</p>
-      <p class="redirect-message">Redirigiendo a la galería...</p>
     </div>
   `;
+  
+  // Evento del botón
+  document.getElementById('btn-gallery').addEventListener('click', () => {
+    router.navigateTo(`/gallery/${dogId}`);
+  });
 }
 
 // Mostrar mensaje de éxito para NECESIDAD
 function showNeedSuccessMessage(donation) {
   const app = document.getElementById('app');
   
+  // Obtener dogId de los parámetros
+  const params = new URLSearchParams(window.location.search);
+  const dogId = params.get('dogId');
+  
   app.innerHTML = `
-    <div class="payment-success">
-      <div class="success-icon">✓</div>
-      <h1>Donación Exitosa</h1>
-      <p>Gracias por tu generosidad</p>
-      <div class="success-details">
-        <p>Transacción: ${donation.transaction_id}</p>
-        <p>Monto: $${donation.price}</p>
+    <div class="payment-success-container">
+      <!-- Header naranja con logo -->
+      <div class="payment-success-header">
+        <img src="/images/logo.png" alt="PetLink" class="payment-success-logo">
       </div>
-      <p class="redirect-message">Redirigiendo al perfil...</p>
+      
+      <!-- Contenido -->
+      <div class="payment-success-content">
+        <!-- Ilustración del perrito -->
+        <div class="payment-success-illustration">
+          <img src="/images/Tigre.png" alt="Tigre" class="payment-success-mascot-img">
+        </div>
+        
+        <!-- Título -->
+        <h1 class="payment-success-title">¡Donación <span class="highlight">exitosa!</span></h1>
+        
+        <!-- Subtítulo -->
+        <p class="payment-success-subtitle">recibirá tu accesorio<br>gracias a ti.</p>
+        
+        <!-- Botón -->
+        <button class="payment-success-btn" id="btn-gallery">
+          ir a galeria de imagenes
+        </button>
+      </div>
     </div>
   `;
+  
+  // Evento del botón
+  document.getElementById('btn-gallery').addEventListener('click', () => {
+    router.navigateTo(`/gallery/${dogId}`);
+  });
 }
