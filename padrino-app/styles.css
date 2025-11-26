@@ -41,13 +41,32 @@ hr {
   padding: 20px;
   display: flex;
   align-items: center;
-  justify-content: flex-start;
+  justify-content: space-between;
 }
 
 .home-container .logo-img {
   height: 50px;
   width: auto;
   filter: brightness(0) invert(1);
+}
+
+/* Botón cerrar sesión */
+.home-container .logout-btn {
+  background-color: #ffffff;
+  color: #ff6b35;
+  border: none;
+  padding: 8px 16px;
+  border-radius: 20px;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.home-container .logout-btn:hover {
+  background-color: #f5f5f5;
+  transform: scale(1.05);
 }
 
 /* Sección de búsqueda */
@@ -60,17 +79,7 @@ hr {
 }
 
 .home-container .menu-btn {
-  width: 40px;
-  height: 40px;
-  background-color: #ffffff;
-  border: 1px solid #e0e0e0;
-  border-radius: 8px;
-  font-size: 18px;
-  color: #333333;
-  cursor: pointer;
-  display: flex;
-  align-items: center;
-  justify-content: center;
+  display: none;
 }
 
 .home-container .search-wrapper {
@@ -83,8 +92,12 @@ hr {
 .home-container .search-icon {
   position: absolute;
   left: 12px;
-  font-size: 16px;
-  color: #999999;
+  font-size: 0;
+  width: 20px;
+  height: 20px;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='%23ff6b35' viewBox='0 0 24 24'%3E%3Cpath d='M15.5 14h-.79l-.28-.27A6.471 6.471 0 0 0 16 9.5 6.5 6.5 0 1 0 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z'/%3E%3C/svg%3E");
+  background-size: contain;
+  background-repeat: no-repeat;
 }
 
 .home-container .search-bar {
@@ -277,6 +290,7 @@ hr {
   font-size: 14px;
   color: #333333;
   margin: 0 0 4px 0;
+  font-weight: 700;
 }
 
 .home-container .dog-name {
@@ -3760,6 +3774,11 @@ hr {
   border-radius: 50%;
   background-color: #ffffff;
   border: none;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  font-size: 0;
+  text-indent: -9999px;
+  overflow: hidden;
+  position: relative;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -3771,6 +3790,19 @@ hr {
   margin: 0;
   transition: all 0.2s ease;
   flex-shrink: 0;
+}
+
+.login-signup-container:has(#loginForm) .back-btn::before {
+  content: '‹';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  font-size: 28px;
+  font-weight: 300;
+  color: #333333;
+  text-indent: 0;
+  line-height: 1;
 }
 
 .login-signup-container:has(#loginForm) .back-btn:hover {
@@ -4212,11 +4244,16 @@ hr {
 
 /* Botón back - Circular blanco con flecha negra - Solo cuando hay #signupForm (signup) */
 .login-signup-container:has(#signupForm) .back-btn {
-  width: 40px;
-  height: 40px;
+  width: 48px;
+  height: 48px;
   border-radius: 50%;
   background-color: #ffffff;
   border: none;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  font-size: 0;
+  text-indent: -9999px;
+  overflow: hidden;
+  position: relative;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -4228,6 +4265,19 @@ hr {
   margin: 0;
   transition: all 0.2s ease;
   flex-shrink: 0;
+}
+
+.login-signup-container:has(#signupForm) .back-btn::before {
+  content: '‹';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  font-size: 28px;
+  font-weight: 300;
+  color: #333333;
+  text-indent: 0;
+  line-height: 1;
 }
 
 .login-signup-container:has(#signupForm) .back-btn:hover {

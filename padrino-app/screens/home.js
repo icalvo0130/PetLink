@@ -2,6 +2,7 @@
 
 import { getAllDogs, searchDogsByName } from '../services/api.js';
 import router from '../utils/router.js';
+import { logout } from '../utils/auth.js';
 
 // Renderizar (mostrar) el HOME
 export function renderHome() {
@@ -12,6 +13,7 @@ export function renderHome() {
       <!-- Header -->
       <header class="header">
         <img src="/images/logo.png" alt="PetLink" class="logo-img" />
+        <button id="logout-btn" class="logout-btn">Cerrar sesión</button>
       </header>
 
       <!-- Barra de búsqueda -->
@@ -48,6 +50,12 @@ export function renderHome() {
 
   // Agregar eventos de filtros
   setupFilters();
+
+  // Agregar evento de cerrar sesión
+  document.getElementById('logout-btn').addEventListener('click', async () => {
+    await logout();
+    router.navigateTo('/');
+  });
 }
 
 // Cargar todos los perros
@@ -78,7 +86,7 @@ function displayDogs(dogs) {
       <div class="dog-info">
         <p class="dog-label">Mi nombre es</p>
         <p class="dog-name">${dog.name}</p>
-        <p class="dog-age">${dog.age || '0'}años</p>
+        <p class="dog-age">${dog.age || '0'} años</p>
         <button class="btn-ver-mas">Ver mas</button>
       </div>
     </div>
@@ -128,13 +136,30 @@ function setupFilters() {
       
       const filter = btn.dataset.filter;
       
-      // Por ahora solo funciona "Todos"
-      // Los otros filtros los implementaremos despues
-      if (filter === 'all') {
-        loadDogs();
-      } else {
-        console.log('Filtro:', filter, '- Por implementar');
-        // TODO: Implementar filtros de cachorros y menos apadrinados
+      try {
+        const allDogs = await getAllDogs();
+        
+        if (filter === 'all') {
+          // Mostrar todos los perros
+          displayDogs(allDogs);
+        } else if (filter === 'puppies') {
+          // Filtrar cachorros (edad <= 2 años)
+          const puppies = allDogs.filter(dog => {
+            const age = parseInt(dog.age) || 0;
+            return age <= 2;
+          });
+          displayDogs(puppies);
+        } else if (filter === 'less-sponsored') {
+          // Ordenar por menos apadrinados (menos donaciones primero)
+          const sorted = [...allDogs].sort((a, b) => {
+            const donationsA = a.total_donations || a.donations || 0;
+            const donationsB = b.total_donations || b.donations || 0;
+            return donationsA - donationsB;
+          });
+          displayDogs(sorted);
+        }
+      } catch (error) {
+        console.error('Error al filtrar:', error);
       }
     });
   });

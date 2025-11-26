@@ -28,12 +28,6 @@ export function renderScheduleAppointment(dogId) {
     router.navigateTo('/home');
     return;
   }
-  // Si no hay usuario, crear uno simulado para pruebas
-  if (!userId) {
-    console.warn('No hay usuario loggeado, creando usuario simulado...');
-    const mockUser = createMockUser();
-    userId = mockUser.id;
-  }
   
   // Mostrar loading mientras se carga el perro
   app.innerHTML = `
