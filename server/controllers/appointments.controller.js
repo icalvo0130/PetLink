@@ -141,12 +141,16 @@ const handleAppointmentDecision = async (req, res) => {
     }
     
     // Formatear fecha y hora para que se vean mejor en WhatsApp
-    const formattedDate = new Date(date).toLocaleDateString('es-CO', {
-      weekday: 'long',
-      year: 'numeric',
-      month: 'long',
-      day: 'numeric'
-    });
+    // Parseamos la fecha manualmente para evitar problemas de zona horaria
+    const [year, month, day] = date.split('-').map(Number);
+    const monthNames = [
+      'enero', 'febrero', 'marzo', 'abril', 'mayo', 'junio',
+      'julio', 'agosto', 'septiembre', 'octubre', 'noviembre', 'diciembre'
+    ];
+    const dayNames = ['domingo', 'lunes', 'martes', 'miércoles', 'jueves', 'viernes', 'sábado'];
+    const dateObj = new Date(year, month - 1, day, 12, 0, 0); // Mediodía para evitar problemas de zona horaria
+    const dayOfWeek = dayNames[dateObj.getDay()];
+    const formattedDate = `${dayOfWeek}, ${day} de ${monthNames[month - 1]} de ${year}`;
     
     // 1. Actualizar el estado de la cita en la base de datos
     const updateData = {
