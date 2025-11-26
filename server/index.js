@@ -246,8 +246,10 @@ console.log('Socket.IO configurado');
 // ============================================
 
 const PORT = process.env.PORT || 5050;
-httpServer.listen(PORT, () => {
-  console.log(`Servidor corriendo en http://localhost:${PORT}`);
+const HOST = '0.0.0.0'; // Necesario para Railway/producción
+
+httpServer.listen(PORT, HOST, () => {
+  console.log(`Servidor corriendo en http://${HOST}:${PORT}`);
   console.log('Rutas disponibles:');
   console.log(`Servidor corriendo en http://localhost:${PORT}`);
   console.log('Rutas disponibles:');
