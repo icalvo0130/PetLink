@@ -2,7 +2,7 @@
 // Va al backend y trae la informacion que necesitamos
 
 // La direccion base de nuestra API
-const API_BASE_URL = 'https://petlink-production.up.railway.app/api';
+const API_BASE_URL = 'http://localhost:5050/api';
 
 // Clase que maneja todas las peticiones al backend
 class ApiService {
