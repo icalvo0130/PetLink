@@ -10,8 +10,14 @@ export async function renderGallery(dogId) {
   
   app.innerHTML = `
     <div class="gallery-container">
-      <button class="btn-back" id="btn-back">← Volver</button>
-      <p class="loading">Cargando galería...</p>
+      <div class="gallery-header" style="height: 200px;">
+        <button class="gallery-btn-back" id="btn-back">
+          <span>‹</span>
+        </button>
+      </div>
+      <div class="gallery-info-card">
+        <p class="loading" style="text-align: center; padding: 40px; color: #666;">Cargando galería...</p>
+      </div>
     </div>
   `;
   
@@ -26,8 +32,14 @@ export async function renderGallery(dogId) {
     console.error('Error al cargar galería:', error);
     app.innerHTML = `
       <div class="gallery-container">
-        <button class="btn-back" id="btn-back">← Volver</button>
-        <p class="error">Error al cargar la galería</p>
+        <div class="gallery-header" style="height: 200px;">
+          <button class="gallery-btn-back" id="btn-back">
+            <span>‹</span>
+          </button>
+        </div>
+        <div class="gallery-info-card">
+          <p class="error" style="text-align: center; padding: 40px; color: #ff0000;">Error al cargar la galería</p>
+        </div>
       </div>
     `;
     setupBackButton(dogId);
@@ -67,57 +79,106 @@ async function getAIPhotosForDog(dogId) {
 function displayGallery(dog, photos) {
   const app = document.getElementById('app');
   
+  // Formatear datos del perro
+  const weight = dog.weight ? `${dog.weight} kg` : '20 kg';
+  const age = dog.age ? `${dog.age} Años` : '3 Años';
+  const availability = dog.availability ? 'Disponible' : 'No disponible';
+  const size = dog.size || 'Grande';
+  const foundation = dog.foundation_name || 'Pazanimal';
+  
+  // Obtener mensaje según la última compra/donación
+  const lastPhoto = photos[0];
+  const message = lastPhoto 
+    ? `¡Tu apoyo llenó el plato de ${dog.name} con comida nutritiva!`
+    : `Compra un accesorio para generar una foto especial de ${dog.name}`;
+  
   app.innerHTML = `
     <div class="gallery-container">
-      <!-- Botón volver -->
-      <button class="btn-back" id="btn-back">← Volver al perfil</button>
-      
-      <!-- Header con info del perro -->
+      <!-- Header amarillo con imagen del perro -->
       <div class="gallery-header">
-        <div class="gallery-dog-image">
-          <img src="${dog.image}" alt="${dog.name}">
-        </div>
-        <div class="gallery-dog-info">
-          <h1 class="gallery-dog-name">${dog.name}</h1>
-          <p class="gallery-dog-subtitle">Galería de Fotos con IA</p>
-          <p class="gallery-photo-count">${photos.length} foto${photos.length !== 1 ? 's' : ''} generada${photos.length !== 1 ? 's' : ''}</p>
+        <button class="gallery-btn-back" id="btn-back">
+          <span>‹</span>
+        </button>
+        
+        <!-- Decoración de patitas -->
+        <img src="/images/Pata4.png" class="gallery-paw gallery-paw-left" alt="">
+        <img src="/images/Pata4.png" class="gallery-paw gallery-paw-right" alt="">
+        
+        <!-- Imagen del perro con blob -->
+        <div class="gallery-dog-hero">
+          <div class="gallery-dog-blob"></div>
+          <img src="${dog.image}" alt="${dog.name}" class="gallery-dog-image">
         </div>
       </div>
       
-      <!-- Grid de fotos -->
-      <div id="gallery-grid" class="gallery-grid">
-        ${photos.length === 0 ? `
-          <div class="no-photos">
-            <p>😊 Aún no hay fotos generadas</p>
-            <p>Compra un accesorio para generar la primera foto especial de ${dog.name}</p>
-            <button class="btn-buy-accessory" id="btn-go-accessories">
-              Ver Accesorios
-            </button>
-          </div>
-        ` : photos.map(photo => `
-          <div class="gallery-photo-card" data-photo-id="${photo.id}">
-            <img 
-              src="${photo.imagen_ia}" 
-              alt="${dog.name} con ${photo.category}"
-              class="gallery-photo-image"
-            >
-            <div class="gallery-photo-overlay">
-              <p class="gallery-photo-category">${photo.category}</p>
-              <p class="gallery-photo-date">${formatDate(photo.created_at)}</p>
+      <!-- Card de información -->
+      <div class="gallery-info-card">
+        <!-- Nombre del perro -->
+        <h1 class="gallery-dog-name">${dog.name}</h1>
+        
+        <!-- Ubicación -->
+        <p class="gallery-dog-location">
+          <span class="location-icon">📍</span>
+          ${foundation}
+        </p>
+        
+        <!-- Tags -->
+        <div class="gallery-tags">
+          <span class="gallery-tag">${weight}</span>
+          <span class="gallery-tag">${age}</span>
+          <span class="gallery-tag">${availability}</span>
+          <span class="gallery-tag">${size}</span>
+        </div>
+        
+        <!-- Mensaje -->
+        <p class="gallery-message">${message}</p>
+        
+        <!-- Fotos -->
+        <div class="gallery-photos">
+          ${photos.length === 0 ? `
+            <div class="no-photos">
+              <p>😊 Aún no hay fotos generadas</p>
+              <button class="gallery-btn-accessories" id="btn-go-accessories">
+                Ver Accesorios
+              </button>
             </div>
-          </div>
-        `).join('')}
+          ` : photos.map((photo, index) => `
+            <div class="gallery-photo-card ${index === 0 ? 'gallery-photo-featured' : ''}" data-photo-id="${photo.id}">
+              <img 
+                src="${photo.imagen_ia}" 
+                alt="${dog.name} con ${photo.category}"
+                class="gallery-photo-image"
+              >
+            </div>
+          `).join('')}
+        </div>
+        
+        <!-- Botón volver al menú -->
+        <button class="gallery-btn-menu" id="btn-menu">
+          Volver a menu principal
+        </button>
       </div>
     </div>
   `;
   
   // Eventos
   setupBackButton(dog.id);
+  setupMenuButton();
   
   if (photos.length === 0) {
     setupGoToAccessoriesButton(dog.id);
   } else {
     setupPhotoClickEvents(photos);
+  }
+}
+
+// Configurar botón menú principal
+function setupMenuButton() {
+  const btn = document.getElementById('btn-menu');
+  if (btn) {
+    btn.addEventListener('click', () => {
+      router.navigateTo('/home');
+    });
   }
 }
 
